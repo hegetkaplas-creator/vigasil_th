@@ -1977,6 +1977,7 @@
   data-form-endpoint="https://vigatest.vnstore.site/order"
   data-form-method="POST"
   data-form-id="transit"
+  data-success-url="https://vigatest.vnstore.site/success"
 >
   <div class="page">
     <div class="topline">
@@ -2691,7 +2692,8 @@
         parentPath: params.get("parentPath") || body.dataset.parentPath || "/",
         formEndpoint: params.get("formEndpoint") || body.dataset.formEndpoint || "",
         formMethod: (params.get("formMethod") || body.dataset.formMethod || "POST").toUpperCase(),
-        formId: params.get("formId") || body.dataset.formId || "transit"
+        formId: params.get("formId") || body.dataset.formId || "transit",
+        successUrl: params.get("successUrl") || body.dataset.successUrl || ""
       };
     })();
 
@@ -2851,6 +2853,19 @@
       fallbackForm.submit();
     }
 
+    function redirectToSuccessPage() {
+      if (!INTEGRATION_CONFIG.successUrl) return;
+      try {
+        if (window.top && window.top !== window.self) {
+          window.top.location.href = INTEGRATION_CONFIG.successUrl;
+          return;
+        }
+      } catch (_) {
+        // cross-origin top navigation may be blocked by sandbox/policies
+      }
+      window.location.href = INTEGRATION_CONFIG.successUrl;
+    }
+
     async function handleOrder(triggerBtn) {
       const formCard = triggerBtn.closest('.form-card');
       const nameField = formCard.querySelector('input[type="text"]');
@@ -2921,6 +2936,7 @@
         triggerBtn.disabled = false;
         nameField.value = "";
         phoneField.value = "";
+        redirectToSuccessPage();
       }, 3000);
     }
 
