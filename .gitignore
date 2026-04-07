@@ -1,0 +1,35 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor / AI agent configs (local only)
+.cursor/
+.clinerules
+.roo/
+.cline/
+.windsurf/
+
+# Cloudflare / Wrangler
+.wrangler/
+wrangler.toml
+
+# Node
+node_modules/
+package-lock.json
+
+# Raw source design assets (not deployed)
+assets/Feedback/
+assets/Feedback via message/
+assets/Images/
+assets/Packaging/
+assets/Video/
+
+# Product docs (internal, not deployed)
+docs/
+
+# Draft / raw pages
+vig_raw.html
+
+# CI / Worker files (managed per-project manually)
+src/
+.github/
