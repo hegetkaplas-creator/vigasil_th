@@ -1793,6 +1793,8 @@
       line-height: 1.6;
     }
 
+    /* В iframe с «высотой под контент» fixed привязывается к низу документа внутри iframe, а не к окну родителя.
+       Чтобы полоса была у нижнего края экрана, родительский iframe лучше ограничить по высоте (например 100vh) со скроллом внутри. */
     .sticky-bar {
       position: fixed;
       left: 14px;
@@ -1817,6 +1819,23 @@
         inset 0 2px 4px rgba(255,255,255,.95),
         inset 0 -2px 4px rgba(52,211,153,.08);
       animation: slideUp 0.5s ease-out;
+    }
+
+    body.embed-iframe .sticky-bar {
+      position: fixed !important;
+      left: 14px !important;
+      right: 14px !important;
+      bottom: max(14px, env(safe-area-inset-bottom, 0px)) !important;
+      top: auto !important;
+      z-index: 2147483646 !important;
+    }
+
+    @media (max-width: 720px) {
+      body.embed-iframe .sticky-bar {
+        left: 8px !important;
+        right: 8px !important;
+        bottom: max(8px, env(safe-area-inset-bottom, 0px)) !important;
+      }
     }
 
     @keyframes slideUp {
@@ -2745,6 +2764,21 @@
       }
     }
 
+    function applyEmbeddedStickyLayout() {
+      document.body.classList.add("embed-iframe");
+      if (window.parentIFrame && typeof window.parentIFrame.size === "function") {
+        try {
+          window.parentIFrame.size();
+        } catch (_) {}
+      }
+    }
+
+    function scheduleEmbeddedStickyLayout() {
+      applyEmbeddedStickyLayout();
+      requestAnimationFrame(applyEmbeddedStickyLayout);
+      [0, 100, 400, 1000].forEach((ms) => setTimeout(applyEmbeddedStickyLayout, ms));
+    }
+
     function scrollToForm() {
       const sectionId = "order-form";
       scrollToAllowedSection(sectionId);
@@ -2787,6 +2821,12 @@
       const anchorFromQuery = new URLSearchParams(window.location.search).get("anchor");
       const initialAnchor = anchorFromHash || (anchorFromQuery || "").trim();
       if (initialAnchor) scrollToAllowedSection(initialAnchor);
+
+      if (window !== window.parent) {
+        scheduleEmbeddedStickyLayout();
+        window.addEventListener("resize", applyEmbeddedStickyLayout);
+        window.addEventListener("orientationchange", applyEmbeddedStickyLayout);
+      }
 
       if (window !== window.parent && INTEGRATION_CONFIG.parentOrigin) {
         window.addEventListener("message", (event) => {
