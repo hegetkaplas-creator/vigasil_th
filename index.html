@@ -1821,12 +1821,22 @@
       animation: slideUp 0.5s ease-out;
     }
 
+    /* По умолчанию во iframe скрыто: при height:auto + resizer скролл идёт у родителя — «липкая» панель не у нижнего края экрана.
+       Если родитель задаёт iframe ~100vh и скролл внутри — добавьте класс embed-sticky-on (?embedSticky=1). */
     body.embed-iframe .sticky-bar {
       display: none !important;
     }
 
+    body.embed-iframe.embed-sticky-on .sticky-bar {
+      display: flex !important;
+    }
+
     body.embed-iframe {
       padding-bottom: 24px;
+    }
+
+    body.embed-iframe.embed-sticky-on {
+      padding-bottom: 88px;
     }
 
     @keyframes slideUp {
@@ -1955,6 +1965,7 @@
     @media (max-width: 720px) {
       body { padding-bottom: 94px; }
       body.embed-iframe { padding-bottom: 18px; }
+      body.embed-iframe.embed-sticky-on { padding-bottom: 94px; }
       .container { width: min(var(--container), calc(100% - 18px)); }
       .section-card,
       .hero-shell,
@@ -1989,6 +2000,7 @@
   data-form-method="POST"
   data-form-id="transit"
   data-success-url="https://sabai.wrldtops.site/success"
+  data-embed-sticky="false"
 >
   <div class="page">
     <div class="topline">
@@ -2705,7 +2717,10 @@
         formEndpoint: params.get("formEndpoint") || body.dataset.formEndpoint || "",
         formMethod: (params.get("formMethod") || body.dataset.formMethod || "POST").toUpperCase(),
         formId: params.get("formId") || body.dataset.formId || "transit",
-        successUrl: params.get("successUrl") || body.dataset.successUrl || ""
+        successUrl: params.get("successUrl") || body.dataset.successUrl || "",
+        embedSticky:
+          params.get("embedSticky") === "1" ||
+          /^(true|1|yes)$/i.test(String(body.dataset.embedSticky || "").trim())
       };
     })();
 
@@ -2766,6 +2781,9 @@
 
     function initEmbeddedPage() {
       document.body.classList.add("embed-iframe");
+      if (INTEGRATION_CONFIG.embedSticky) {
+        document.body.classList.add("embed-sticky-on");
+      }
       notifyParentIframeResize();
       requestAnimationFrame(notifyParentIframeResize);
       [100, 400, 1000].forEach((ms) => setTimeout(notifyParentIframeResize, ms));
