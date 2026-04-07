@@ -1,35 +1,46 @@
-# OS
+# ── OS ────────────────────────────────────────────────────────────────
 .DS_Store
 Thumbs.db
 
-# Editor / AI agent configs (local only)
+# ── Editor / AI agent configs (local only, never deploy) ──────────────
 .cursor/
 .clinerules
 .roo/
 .cline/
 .windsurf/
 
-# Cloudflare / Wrangler
+# ── Cloudflare / Wrangler (managed manually per project) ──────────────
 .wrangler/
 wrangler.toml
+src/
+.github/
 
-# Node
+# ── Node ──────────────────────────────────────────────────────────────
 node_modules/
 package-lock.json
 
-# Raw source design assets (not deployed)
-assets/Feedback/
-assets/Feedback via message/
-assets/Images/
+# ── Design source files (for dev context only, not deployed) ──────────
+# Photoshop, Illustrator, Sketch, Figma exports, XD
+**/*.psd
+**/*.ai
+**/*.sketch
+**/*.fig
+**/*.xd
+# Raw video from phone / footage (not the optimised web video)
+**/*.mov
+**/*.MOV
+**/*.avi
+# Packaging fonts (not web fonts — web fonts go in assets/fonts/)
 assets/Packaging/
-assets/Video/
 
-# Product docs (internal, not deployed)
+# ── Product / internal docs (for dev context only, not deployed) ───────
 docs/
+_source/
+design/
+source/
+reference/
 
-# Draft / raw pages
-vig_raw.html
-
-# CI / Worker files (managed per-project manually)
-src/
-.github/
+# ── Draft / scratch pages ─────────────────────────────────────────────
+*_raw.html
+*_draft.html
+*_old.html
