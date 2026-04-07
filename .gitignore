@@ -44,3 +44,8 @@ reference/
 *_raw.html
 *_draft.html
 *_old.html
+
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
