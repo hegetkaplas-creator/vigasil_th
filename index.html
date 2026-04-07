@@ -1971,7 +1971,13 @@
     }
   </style>
 </head>
-<body>
+<body
+  data-parent-origin="http://sabai.wrldtops.site"
+  data-parent-path="/"
+  data-form-endpoint="https://vigatest.vnstore.site/order"
+  data-form-method="POST"
+  data-form-id="transit"
+>
   <div class="page">
     <div class="topline">
       <div class="container">
@@ -2598,6 +2604,12 @@
             </div>
 
             <div class="form-note">ข้อมูลของคุณจะได้รับการปกป้องอย่างปลอดภัย การกดปุ่มแสดงว่าคุณยินยอมให้เจ้าหน้าที่ติดต่อกลับเพื่อปรึกษาฟรี ชำระเงินปลายทางเท่านั้นเมื่อได้รับสินค้า</div>
+            <iframe name="constructor-submit-frame" style="display:none;" aria-hidden="true"></iframe>
+            <form id="constructor-fallback-form" style="display:none;" method="POST" target="constructor-submit-frame">
+              <input type="hidden" name="name" value="">
+              <input type="hidden" name="phone" value="">
+              <input type="hidden" name="form_id" value="transit">
+            </form>
           </div>
         </div>
       </div>
@@ -2671,14 +2683,75 @@
   </div>
 
   <script>
+    const INTEGRATION_CONFIG = (() => {
+      const params = new URLSearchParams(window.location.search);
+      const body = document.body;
+      return {
+        parentOrigin: params.get("parentOrigin") || body.dataset.parentOrigin || "",
+        parentPath: params.get("parentPath") || body.dataset.parentPath || "/",
+        formEndpoint: params.get("formEndpoint") || body.dataset.formEndpoint || "",
+        formMethod: (params.get("formMethod") || body.dataset.formMethod || "POST").toUpperCase(),
+        formId: params.get("formId") || body.dataset.formId || "transit"
+      };
+    })();
+
+    const SECTION_ALLOWLIST = new Set(["mechanism", "order-form"]);
+    const MESSAGE_TYPES = {
+      scrollTo: "vigasil:scroll-to",
+      notifyScroll: "vigasil:scroll",
+      absoluteLink: "vigasil:absolute-link"
+    };
+
+    function getDigitsOnly(value) {
+      return (value || "").replace(/\D/g, "");
+    }
+
+    function isAllowedSection(id) {
+      return SECTION_ALLOWLIST.has(id);
+    }
+
+    function scrollToAllowedSection(id) {
+      if (!isAllowedSection(id)) return false;
+      const el = document.getElementById(id);
+      if (!el) return false;
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+      return true;
+    }
+
+    function buildAbsoluteParentUrl(sectionId) {
+      if (!INTEGRATION_CONFIG.parentOrigin) return "";
+      return `${INTEGRATION_CONFIG.parentOrigin}${INTEGRATION_CONFIG.parentPath}#${sectionId}`;
+    }
+
+    function notifyParentAboutSection(sectionId) {
+      if (window === window.parent || !INTEGRATION_CONFIG.parentOrigin) return;
+      try {
+        window.parent.postMessage(
+          { type: MESSAGE_TYPES.notifyScroll, sectionId: sectionId },
+          INTEGRATION_CONFIG.parentOrigin
+        );
+        const absoluteUrl = buildAbsoluteParentUrl(sectionId);
+        if (absoluteUrl) {
+          window.parent.postMessage(
+            { type: MESSAGE_TYPES.absoluteLink, sectionId: sectionId, url: absoluteUrl },
+            INTEGRATION_CONFIG.parentOrigin
+          );
+        }
+      } catch (_) {
+        // ignore cross-window messaging failures; local scroll still works
+      }
+    }
+
     function scrollToForm() {
-      const form = document.getElementById('order-form');
-      if (form) form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const sectionId = "order-form";
+      scrollToAllowedSection(sectionId);
+      notifyParentAboutSection(sectionId);
     }
 
     function scrollToSection(id) {
-      const el = document.getElementById(id);
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (!id || !isAllowedSection(id)) return;
+      scrollToAllowedSection(id);
+      notifyParentAboutSection(id);
     }
 
     function toggleFaq(btn) {
@@ -2698,8 +2771,31 @@
       }
     }
 
-    // Intersection Observer for scroll animations
     document.addEventListener("DOMContentLoaded", () => {
+      const fallbackForm = document.getElementById("constructor-fallback-form");
+      if (fallbackForm) {
+        fallbackForm.action = INTEGRATION_CONFIG.formEndpoint || "";
+        fallbackForm.method = INTEGRATION_CONFIG.formMethod;
+        const formIdInput = fallbackForm.querySelector('input[name="form_id"]');
+        if (formIdInput) formIdInput.value = INTEGRATION_CONFIG.formId;
+      }
+
+      const anchorFromHash = (window.location.hash || "").replace("#", "").trim();
+      const anchorFromQuery = new URLSearchParams(window.location.search).get("anchor");
+      const initialAnchor = anchorFromHash || (anchorFromQuery || "").trim();
+      if (initialAnchor) scrollToAllowedSection(initialAnchor);
+
+      if (window !== window.parent && INTEGRATION_CONFIG.parentOrigin) {
+        window.addEventListener("message", (event) => {
+          if (event.origin !== INTEGRATION_CONFIG.parentOrigin) return;
+          const payload = event.data || {};
+          if (payload.type !== MESSAGE_TYPES.scrollTo) return;
+          if (typeof payload.sectionId !== "string") return;
+          scrollToAllowedSection(payload.sectionId);
+        });
+      }
+
+      // Intersection Observer for scroll animations
       const foldH = window.innerHeight;
 
       const observer = new IntersectionObserver((entries) => {
@@ -2721,12 +2817,47 @@
       });
     });
 
-    function handleOrder(triggerBtn) {
+    async function submitWithFetch(payload) {
+      if (!INTEGRATION_CONFIG.formEndpoint) {
+        throw new Error("no-endpoint");
+      }
+      const response = await fetch(INTEGRATION_CONFIG.formEndpoint, {
+        method: INTEGRATION_CONFIG.formMethod,
+        headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+        body: payload.toString(),
+        mode: "cors",
+        credentials: "omit"
+      });
+      if (!response.ok) {
+        throw new Error(`submit-failed-${response.status}`);
+      }
+    }
+
+    function submitWithHiddenForm(name, phoneDigits) {
+      const fallbackForm = document.getElementById("constructor-fallback-form");
+      if (!fallbackForm || !INTEGRATION_CONFIG.formEndpoint) {
+        throw new Error("fallback-unavailable");
+      }
+      fallbackForm.action = INTEGRATION_CONFIG.formEndpoint;
+      const nameInput = fallbackForm.querySelector('input[name="name"]');
+      const phoneInput = fallbackForm.querySelector('input[name="phone"]');
+      const formIdInput = fallbackForm.querySelector('input[name="form_id"]');
+      if (!nameInput || !phoneInput || !formIdInput) {
+        throw new Error("fallback-fields-missing");
+      }
+      nameInput.value = name;
+      phoneInput.value = phoneDigits;
+      formIdInput.value = INTEGRATION_CONFIG.formId;
+      fallbackForm.submit();
+    }
+
+    async function handleOrder(triggerBtn) {
       const formCard = triggerBtn.closest('.form-card');
       const nameField = formCard.querySelector('input[type="text"]');
       const phoneField = formCard.querySelector('input[type="tel"]');
       const name = nameField.value.trim();
       const phone = phoneField.value.trim();
+      const phoneDigits = getDigitsOnly(phone);
       let hasError = false;
 
       if (!name) {
@@ -2738,7 +2869,7 @@
         nameField.style.backgroundColor = "";
       }
 
-      if (!phone || phone.length < 12) {
+      if (!phoneDigits || phoneDigits.length < 9 || phoneDigits.length > 15) {
         phoneField.style.borderColor = "var(--danger)";
         phoneField.style.backgroundColor = "rgba(220,38,38,.05)";
         hasError = true;
@@ -2758,31 +2889,47 @@
       const originalText = triggerBtn.textContent;
       triggerBtn.textContent = "กำลังส่ง...";
       triggerBtn.style.opacity = "0.8";
+      triggerBtn.disabled = true;
 
+      const payload = new URLSearchParams();
+      payload.set("name", name);
+      payload.set("phone", phoneDigits);
+      payload.set("form_id", INTEGRATION_CONFIG.formId);
+
+      try {
+        await submitWithFetch(payload);
+      } catch (_) {
+        try {
+          submitWithHiddenForm(name, phoneDigits);
+        } catch (__fallbackError) {
+          triggerBtn.textContent = "ส่งไม่สำเร็จ ลองใหม่อีกครั้ง";
+          triggerBtn.style.opacity = "1";
+          triggerBtn.disabled = false;
+          setTimeout(() => {
+            triggerBtn.textContent = originalText;
+          }, 2000);
+          return;
+        }
+      }
+
+      triggerBtn.textContent = "สั่งซื้อสำเร็จ ✓";
+      triggerBtn.style.background = "linear-gradient(135deg, var(--ok) 0%, var(--tropical-green) 100%)";
+      triggerBtn.style.opacity = "1";
       setTimeout(() => {
-        triggerBtn.textContent = "สั่งซื้อสำเร็จ ✓";
-        triggerBtn.style.background = "linear-gradient(135deg, var(--ok) 0%, var(--tropical-green) 100%)";
-        triggerBtn.style.opacity = "1";
-        setTimeout(() => {
-          triggerBtn.textContent = originalText;
-          triggerBtn.style.background = "";
-          nameField.value = "";
-          phoneField.value = "";
-        }, 3000);
-      }, 800);
+        triggerBtn.textContent = originalText;
+        triggerBtn.style.background = "";
+        triggerBtn.disabled = false;
+        nameField.value = "";
+        phoneField.value = "";
+      }, 3000);
     }
 
     document.querySelectorAll('input[type="tel"]').forEach(function(phoneInput) {
       phoneInput.addEventListener('input', function() {
+        const hasPlus = this.value.startsWith("+");
         let val = this.value.replace(/\D/g, '');
-        if (val.length > 10) val = val.slice(0, 10);
-        let formatted = '';
-        if (val.length > 0) {
-          formatted = val.slice(0, 3);
-          if (val.length > 3) formatted += '-' + val.slice(3, 6);
-          if (val.length > 6) formatted += '-' + val.slice(6, 10);
-        }
-        this.value = formatted;
+        if (val.length > 15) val = val.slice(0, 15);
+        this.value = hasPlus ? `+${val}` : val;
       });
     });
   </script>
