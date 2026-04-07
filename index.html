@@ -1640,6 +1640,58 @@
       margin-top: 18px;
     }
 
+    .form-price-box {
+      margin-top: 14px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      border: 1.5px solid rgba(245,158,11,.26);
+      background: linear-gradient(135deg,
+        rgba(255,255,255,.86) 0%,
+        rgba(255,251,235,.82) 100%);
+      box-shadow:
+        0 10px 24px rgba(245,158,11,.12),
+        inset 0 1px 1px rgba(255,255,255,.8);
+      display: grid;
+      gap: 8px;
+    }
+
+    .form-price-head {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--warning);
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .form-price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .form-price-current {
+      font-size: clamp(28px, 5vw, 38px);
+      line-height: 1;
+      font-weight: 900;
+      color: var(--text);
+    }
+
+    .form-price-old {
+      font-size: 17px;
+      color: var(--text-dim);
+      text-decoration: line-through;
+      font-weight: 700;
+    }
+
+    .form-urgency {
+      display: grid;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-soft);
+      line-height: 1.45;
+    }
+
     .field {
       display: grid;
       gap: 8px;
@@ -2521,6 +2573,17 @@
             <div class="form-top-note">สินค้าล็อตจำกัด · โปรโมชั่นเฉพาะวันนี้เท่านั้น</div>
             <h2 class="section-title" style="font-size:clamp(28px,4vw,42px); margin-top:0;">ยืนยันคำสั่งซื้อ</h2>
             <p class="section-desc" style="font-size:16px; max-width:none;">กรอกแบบฟอร์มด้านล่างเพื่อจองสิทธิ์รับ CBD Vigasil ในราคาพิเศษ</p>
+            <div class="form-price-box">
+              <div class="form-price-head">ราคาพิเศษสำหรับลูกค้าใหม่</div>
+              <div class="form-price-row">
+                <div class="form-price-current">990 ฿</div>
+                <div class="form-price-old">1,990 ฿</div>
+              </div>
+              <div class="form-urgency">
+                <div>ส่วนลดนี้สงวนสิทธิ์ตามจำนวนสต็อกของวันนี้เท่านั้น</div>
+                <div>หากเลื่อนการสั่งซื้อ ราคาอาจกลับสู่เรทราคาปกติทันทีในล็อตถัดไป</div>
+              </div>
+            </div>
 
             <div class="form-grid">
               <div class="field">
@@ -2585,44 +2648,6 @@
               <button class="faq-q" onclick="toggleFaq(this)">CBD ช่วยเรื่องการแข็งตัวได้อย่างไร?<span class="faq-arrow">+</span></button>
               <div class="faq-a">อุปสรรคทางจิตใจ (ความกังวลว่าจะทำได้ไม่ดี) จะกระตุ้นการหลั่งอะดรีนาลีนซึ่งทำให้หลอดเลือดหดตัวทันที สาร CBD จะช่วยลดระดับคอร์ติซอลและบล็อกความกังวลในสมอง ทำให้คุณผ่อนคลายและมีความมั่นใจ ส่งผลให้การแข็งตัวไม่ "อ่อนตัว" ลงเพราะความคิดฟุ้งซ่าน</div>
             </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="order-form-final">
-      <div class="container">
-        <div class="form-wrap">
-          <div class="summary-card glass-strong">
-            <span class="eyebrow">ลงทะเบียนรับคำปรึกษา</span>
-            <h2 class="section-title" style="font-size:clamp(28px,4vw,42px); margin-top:14px;">พร้อมคืนความมั่นใจ 100% บนเตียงหรือยัง?</h2>
-            <p class="section-desc" style="margin-top:10px;">กรอกเบอร์โทรศัพท์ของคุณ แล้วผู้เชี่ยวชาญของเราจะติดต่อกลับเพื่อดูแลและจัดส่งสินค้าอย่างเป็นส่วนตัว ชำระเงินเมื่อได้รับของเท่านั้น</p>
-
-            <div class="summary-list">
-              <div class="summary-item"><div class="dot">1</div><div><strong>กรอกข้อมูลการติดต่อ</strong><span>แจ้งชื่อและเบอร์โทรศัพท์ ข้อมูลของคุณจะถูกเก็บเป็นความลับสูงสุด</span></div></div>
-              <div class="summary-item"><div class="dot">2</div><div><strong>รอรับสายจากเรา</strong><span>เจ้าหน้าที่จะโทรหาคุณเพื่อยืนยันออเดอร์และที่อยู่จัดส่งอย่างสุภาพ</span></div></div>
-              <div class="summary-item"><div class="dot">3</div><div><strong>รับพัสดุและชำระเงิน</strong><span>ชำระเงินสดตอนรับสินค้าหน้าบ้าน บรรจุในกล่องมิดชิดไม่ระบุชื่อสินค้า</span></div></div>
-            </div>
-          </div>
-
-          <div class="form-card glass-strong">
-            <div class="form-top-note">สินค้าล็อตจำกัด · โปรโมชั่นเฉพาะวันนี้เท่านั้น</div>
-            <h2 class="section-title" style="font-size:clamp(28px,4vw,42px); margin-top:0;">ยืนยันคำสั่งซื้อ</h2>
-            <p class="section-desc" style="font-size:16px; max-width:none;">กรอกแบบฟอร์มด้านล่างเพื่อจองสิทธิ์รับ CBD Vigasil ในราคาพิเศษ</p>
-
-            <div class="form-grid">
-              <div class="field">
-                <label for="name">ชื่อของคุณ</label>
-                <input id="name" type="text" placeholder="ตัวอย่าง: คุณสมชาย">
-              </div>
-              <div class="field">
-                <label for="phone">เบอร์โทรศัพท์</label>
-                <input id="phone" type="tel" placeholder="0XX-XXX-XXXX">
-              </div>
-              <button class="form-submit" onclick="handleOrder(this)">รับสิทธิ์ส่วนลดตอนนี้ →</button>
-            </div>
-
-            <div class="form-note">ข้อมูลของคุณจะได้รับการปกป้องอย่างปลอดภัย การกดปุ่มแสดงว่าคุณยินยอมให้เจ้าหน้าที่ติดต่อกลับเพื่อปรึกษาฟรี ชำระเงินปลายทางเท่านั้นเมื่อได้รับสินค้า</div>
           </div>
         </div>
       </div>
