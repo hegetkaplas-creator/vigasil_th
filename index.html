@@ -1793,7 +1793,8 @@
       line-height: 1.6;
     }
 
-    /* На обычной странице: fixed снизу окна — остаётся над контентом при скролле. */
+    /* На обычной странице: fixed снизу окна — остаётся над контентом при скролле.
+       Во встроенном iframe с height:auto скролл часто у родителя — нижнюю панель по умолчанию скрываем; включите ?embedSticky=1 если iframe ~100vh со скроллом внутри. */
     .sticky-bar {
       position: fixed;
       left: 14px;
@@ -1818,6 +1819,22 @@
         inset 0 2px 4px rgba(255,255,255,.95),
         inset 0 -2px 4px rgba(52,211,153,.08);
       animation: slideUp 0.5s ease-out;
+    }
+
+    body.embed-iframe .sticky-bar {
+      display: none !important;
+    }
+
+    body.embed-iframe.embed-sticky-on .sticky-bar {
+      display: flex !important;
+    }
+
+    body.embed-iframe {
+      padding-bottom: 24px;
+    }
+
+    body.embed-iframe.embed-sticky-on {
+      padding-bottom: 88px;
     }
 
     @keyframes slideUp {
@@ -1945,6 +1962,8 @@
 
     @media (max-width: 720px) {
       body { padding-bottom: 94px; }
+      body.embed-iframe { padding-bottom: 18px; }
+      body.embed-iframe.embed-sticky-on { padding-bottom: 94px; }
       .container { width: min(var(--container), calc(100% - 18px)); }
       .section-card,
       .hero-shell,
@@ -1979,6 +1998,7 @@
   data-form-method="POST"
   data-form-id="transit"
   data-success-url="https://sabai.wrldtops.site/success"
+  data-embed-sticky="false"
 >
   <div class="page">
     <div class="topline">
@@ -2684,6 +2704,7 @@
     <button class="sticky-btn" onclick="scrollToForm()">สั่งซื้อเลย</button>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@iframe-resizer/child@5.5.5"></script>
   <script>
     const INTEGRATION_CONFIG = (() => {
       const params = new URLSearchParams(window.location.search);
@@ -2694,7 +2715,10 @@
         formEndpoint: params.get("formEndpoint") || body.dataset.formEndpoint || "",
         formMethod: (params.get("formMethod") || body.dataset.formMethod || "POST").toUpperCase(),
         formId: params.get("formId") || body.dataset.formId || "transit",
-        successUrl: params.get("successUrl") || body.dataset.successUrl || ""
+        successUrl: params.get("successUrl") || body.dataset.successUrl || "",
+        embedSticky:
+          params.get("embedSticky") === "1" ||
+          /^(true|1|yes)$/i.test(String(body.dataset.embedSticky || "").trim())
       };
     })();
 
@@ -2717,6 +2741,17 @@
       if (!isAllowedSection(id)) return false;
       const el = document.getElementById(id);
       if (!el) return false;
+      if (window === window.parent) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+        return true;
+      }
+      if (window.parentIFrame && typeof window.parentIFrame.scrollToOffset === "function") {
+        const yOffset = Math.max(0, Math.round(el.getBoundingClientRect().top) - 12);
+        try {
+          window.parentIFrame.scrollToOffset(0, yOffset);
+          return true;
+        } catch (_) {}
+      }
       el.scrollIntoView({ behavior: "smooth", block: "start" });
       return true;
     }
@@ -2724,6 +2759,38 @@
     function buildAbsoluteParentUrl(sectionId) {
       if (!INTEGRATION_CONFIG.parentOrigin) return "";
       return `${INTEGRATION_CONFIG.parentOrigin}${INTEGRATION_CONFIG.parentPath}#${sectionId}`;
+    }
+
+    function notifyParentIframeResize() {
+      if (window.parentIFrame && typeof window.parentIFrame.size === "function") {
+        try {
+          window.parentIFrame.size();
+        } catch (_) {}
+      }
+    }
+
+    function initEmbeddedPage() {
+      document.body.classList.add("embed-iframe");
+      if (INTEGRATION_CONFIG.embedSticky) {
+        document.body.classList.add("embed-sticky-on");
+      }
+      notifyParentIframeResize();
+      requestAnimationFrame(notifyParentIframeResize);
+      [100, 400, 1000].forEach((ms) => setTimeout(notifyParentIframeResize, ms));
+
+      window.addEventListener("load", notifyParentIframeResize);
+      document.querySelectorAll("img, video").forEach((mediaEl) => {
+        mediaEl.addEventListener("load", notifyParentIframeResize);
+        mediaEl.addEventListener("loadedmetadata", notifyParentIframeResize);
+        mediaEl.addEventListener("error", notifyParentIframeResize);
+      });
+
+      let resizeTimer = null;
+      const domObserver = new MutationObserver(() => {
+        if (resizeTimer) clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(notifyParentIframeResize, 120);
+      });
+      domObserver.observe(document.body, { childList: true, subtree: true, attributes: true });
     }
 
     function notifyParentAboutSection(sectionId) {
@@ -2787,6 +2854,12 @@
       const anchorFromQuery = new URLSearchParams(window.location.search).get("anchor");
       const initialAnchor = anchorFromHash || (anchorFromQuery || "").trim();
       if (initialAnchor) scrollToAllowedSection(initialAnchor);
+
+      if (window !== window.parent) {
+        initEmbeddedPage();
+        window.addEventListener("resize", notifyParentIframeResize);
+        window.addEventListener("orientationchange", notifyParentIframeResize);
+      }
 
       if (window !== window.parent && INTEGRATION_CONFIG.parentOrigin) {
         window.addEventListener("message", (event) => {
