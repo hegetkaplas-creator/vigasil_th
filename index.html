@@ -1793,8 +1793,8 @@
       line-height: 1.6;
     }
 
-    /* В iframe с «высотой под контент» fixed привязывается к низу документа внутри iframe, а не к окну родителя.
-       Чтобы полоса была у нижнего края экрана, родительский iframe лучше ограничить по высоте (например 100vh) со скроллом внутри. */
+    /* На обычной странице: fixed снизу окна — остаётся над контентом при скролле.
+       Во встроенном iframe с высотой «на весь контент» такой эффект у нижнего края экрана пользователя не гарантируется, поэтому панель скрываем (см. body.embed-iframe). */
     .sticky-bar {
       position: fixed;
       left: 14px;
@@ -1822,20 +1822,11 @@
     }
 
     body.embed-iframe .sticky-bar {
-      position: fixed !important;
-      left: 14px !important;
-      right: 14px !important;
-      bottom: max(14px, env(safe-area-inset-bottom, 0px)) !important;
-      top: auto !important;
-      z-index: 2147483646 !important;
+      display: none !important;
     }
 
-    @media (max-width: 720px) {
-      body.embed-iframe .sticky-bar {
-        left: 8px !important;
-        right: 8px !important;
-        bottom: max(8px, env(safe-area-inset-bottom, 0px)) !important;
-      }
+    body.embed-iframe {
+      padding-bottom: 24px;
     }
 
     @keyframes slideUp {
@@ -1963,6 +1954,7 @@
 
     @media (max-width: 720px) {
       body { padding-bottom: 94px; }
+      body.embed-iframe { padding-bottom: 18px; }
       .container { width: min(var(--container), calc(100% - 18px)); }
       .section-card,
       .hero-shell,
@@ -2764,8 +2756,7 @@
       }
     }
 
-    function applyEmbeddedStickyLayout() {
-      document.body.classList.add("embed-iframe");
+    function notifyParentIframeResize() {
       if (window.parentIFrame && typeof window.parentIFrame.size === "function") {
         try {
           window.parentIFrame.size();
@@ -2773,10 +2764,11 @@
       }
     }
 
-    function scheduleEmbeddedStickyLayout() {
-      applyEmbeddedStickyLayout();
-      requestAnimationFrame(applyEmbeddedStickyLayout);
-      [0, 100, 400, 1000].forEach((ms) => setTimeout(applyEmbeddedStickyLayout, ms));
+    function initEmbeddedPage() {
+      document.body.classList.add("embed-iframe");
+      notifyParentIframeResize();
+      requestAnimationFrame(notifyParentIframeResize);
+      [100, 400, 1000].forEach((ms) => setTimeout(notifyParentIframeResize, ms));
     }
 
     function scrollToForm() {
@@ -2823,9 +2815,9 @@
       if (initialAnchor) scrollToAllowedSection(initialAnchor);
 
       if (window !== window.parent) {
-        scheduleEmbeddedStickyLayout();
-        window.addEventListener("resize", applyEmbeddedStickyLayout);
-        window.addEventListener("orientationchange", applyEmbeddedStickyLayout);
+        initEmbeddedPage();
+        window.addEventListener("resize", notifyParentIframeResize);
+        window.addEventListener("orientationchange", notifyParentIframeResize);
       }
 
       if (window !== window.parent && INTEGRATION_CONFIG.parentOrigin) {
