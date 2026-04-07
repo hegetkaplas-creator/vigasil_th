@@ -1819,20 +1819,6 @@
       animation: slideUp 0.5s ease-out;
     }
 
-    body.embed-mode {
-      padding-bottom: 24px;
-    }
-
-    body.embed-mode .sticky-bar {
-      position: sticky;
-      top: 10px;
-      bottom: auto;
-      left: auto;
-      right: auto;
-      margin: 10px 14px 14px;
-      z-index: 45;
-    }
-
     @keyframes slideUp {
       from {
         transform: translateY(100px);
@@ -2697,6 +2683,7 @@
     <button class="sticky-btn" onclick="scrollToForm()">สั่งซื้อเลย</button>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@iframe-resizer/child@5.5.5"></script>
   <script>
     const INTEGRATION_CONFIG = (() => {
       const params = new URLSearchParams(window.location.search);
@@ -2802,15 +2789,6 @@
       if (initialAnchor) scrollToAllowedSection(initialAnchor);
 
       if (window !== window.parent && INTEGRATION_CONFIG.parentOrigin) {
-        document.body.classList.add("embed-mode");
-        const stickyBar = document.querySelector(".sticky-bar");
-        const topline = document.querySelector(".topline");
-        if (stickyBar && topline) {
-          // In auto-height iframes, fixed-bottom bars can end up off-screen.
-          // Move it near the top and use sticky positioning for better visibility.
-          topline.insertAdjacentElement("afterend", stickyBar);
-        }
-
         window.addEventListener("message", (event) => {
           if (event.origin !== INTEGRATION_CONFIG.parentOrigin) return;
           const payload = event.data || {};
