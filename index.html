@@ -1544,6 +1544,17 @@
     }
     .faq-item.open .faq-arrow { transform: rotate(45deg); }
 
+    /* Scroll reveal — CSS-driven, no JS flash */
+    .will-reveal {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.55s ease-out, transform 0.55s ease-out;
+    }
+    .will-reveal.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     .form-wrap {
       display: grid;
       grid-template-columns: .95fr 1.05fr;
@@ -2665,23 +2676,24 @@
 
     // Intersection Observer for scroll animations
     document.addEventListener("DOMContentLoaded", () => {
+      const foldH = window.innerHeight;
+
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            entry.target.style.opacity = 1;
-            entry.target.style.transform = 'translateY(0)';
+            entry.target.classList.add('revealed');
             observer.unobserve(entry.target);
           }
         });
-      }, { threshold: 0.1 });
+      }, { threshold: 0, rootMargin: "0px 0px 80px 0px" });
 
       document.querySelectorAll(".glass, .glass-strong").forEach(el => {
-        if(!el.closest(".topline") && !el.closest(".hero-shell") && !el.classList.contains('faq-item')) {
-           el.style.opacity = 0;
-           el.style.transform = 'translateY(20px)';
-           el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out, box-shadow 0.4s ease';
-           observer.observe(el);
-        }
+        if (el.closest(".topline") || el.closest(".hero-shell") || el.classList.contains('faq-item')) return;
+        // skip elements already fully above the fold on load
+        const rect = el.getBoundingClientRect();
+        if (rect.bottom < foldH) { el.classList.add('revealed'); return; }
+        el.classList.add('will-reveal');
+        observer.observe(el);
       });
     });
 
