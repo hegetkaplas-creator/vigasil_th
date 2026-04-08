@@ -38,11 +38,16 @@ PROJECT_NOTES.md        ← operational notes for developers
 - Form submission: `fetch()` POST to endpoint, hidden `<form>` iframe fallback, then redirect to `successUrl`.
 - Do not change `data-form-endpoint`, `data-form-method`, `data-form-id`, `data-success-url` values without explicit instruction.
 
-# Iframe Embedding
-- The page loads `@iframe-resizer/child@5.5.9` for automatic height sync with the parent iframe.
-- No custom JS scroll or resize logic — the child script handles resizing autonomously.
-- CTA buttons are plain `<a href="#section">` anchors — they work natively in standalone mode.
-- Do not add `scrollIntoView`, `postMessage` scroll commands, or modal overlays to work around iframe scroll issues.
+# Iframe Embedding (non-standard architecture)
+This is NOT a standalone page — it runs inside an iframe on a parent domain.
+Understanding this is critical for any UI/scroll/CTA work.
+
+- **Parent site:** `sabai.wrldtops.site` (Vite SPA). Loads `@iframe-resizer/parent` with `inPageLinks: false`.
+- **This page (child):** loads `@iframe-resizer/child@5.5.9` for automatic height sync.
+- iframe-resizer stretches the iframe to full content height → **no scrollbar inside the iframe**. All scrolling happens on the parent page.
+- **Known limitation:** `<a href="#order-form">` and `scrollIntoView()` do NOT visually scroll the page when viewed inside the iframe, because the iframe document has no overflow. The parent page owns the scrollbar but is unaware of anchor clicks inside the child.
+- CTA buttons currently use plain `<a href="#section">` anchors. They work in standalone mode but **do not scroll in iframe mode** until the parent enables `inPageLinks: true` in its iframe-resizer config.
+- Do not attempt to fix iframe scrolling purely from the child side — it requires parent-side changes (`inPageLinks: true` or a `postMessage` listener).
 
 # Deploy
 - Static deploy via Cloudflare Workers: `wrangler.jsonc` serves the repo root as assets.
