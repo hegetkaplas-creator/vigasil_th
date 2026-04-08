@@ -2748,13 +2748,19 @@
       if (window.parentIframe && typeof window.parentIframe.moveToAnchor === "function") {
         try {
           window.parentIframe.moveToAnchor(id);
-          return true;
         } catch (_) {}
       }
       if (window.parentIframe && typeof window.parentIframe.scrollToOffset === "function") {
         const yOffset = Math.max(0, Math.round(el.offsetTop) - 12);
         try {
           window.parentIframe.scrollToOffset(0, yOffset);
+          return true;
+        } catch (_) {}
+      }
+      if (window.parentIframe && typeof window.parentIframe.scrollTo === "function") {
+        const yAbsolute = Math.max(0, Math.round(el.offsetTop) - 12);
+        try {
+          window.parentIframe.scrollTo(0, yAbsolute);
           return true;
         } catch (_) {}
       }
