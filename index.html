@@ -2587,7 +2587,10 @@
               }, 100);
               setTimeout(addRandomComment, Math.floor(Math.random() * 15000) + 10000);
             }
-            setTimeout(addRandomComment, 5000);
+            // Keep embedded layout stable: avoid runtime comment growth inside iframe.
+            if (window === window.parent) {
+              setTimeout(addRandomComment, 5000);
+            }
           </script>
 
     <section class="section" id="order-form">
