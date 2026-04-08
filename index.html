@@ -2020,6 +2020,66 @@
       .sticky-copy .mini { font-size: 10px; }
       .comments-scroll { max-height: min(54vh, 360px); }
     }
+
+    /* ── Floating form overlay (iframe-safe CTA) ── */
+    .form-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 14px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .3s ease, visibility .3s ease;
+    }
+    .form-overlay.active { opacity: 1; visibility: visible; }
+
+    .form-overlay-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,.45);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+
+    .form-overlay-panel {
+      position: relative;
+      width: min(420px, 100%);
+      max-height: calc(100vh - 28px);
+      max-height: calc(100dvh - 28px);
+      overflow-y: auto;
+      border-radius: 28px;
+      padding: 22px;
+      transform: translateY(24px);
+      transition: transform .35s cubic-bezier(.4,0,.2,1);
+    }
+    .form-overlay.active .form-overlay-panel { transform: translateY(0); }
+
+    .form-overlay-close {
+      position: sticky;
+      top: 0;
+      float: right;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(0,0,0,.08);
+      background: rgba(255,255,255,.85);
+      font-size: 20px;
+      line-height: 1;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      color: var(--text-soft);
+      z-index: 1;
+      transition: all .2s;
+    }
+    .form-overlay-close:active { background: #fff; color: var(--text); }
+
+    @media (min-width: 641px) {
+      .form-overlay { align-items: center; }
+    }
   </style>
 </head>
 <body
@@ -2755,6 +2815,35 @@
     </footer>
   </div>
 
+  <div class="form-overlay" id="form-overlay">
+    <div class="form-overlay-backdrop" onclick="hideFormOverlay()"></div>
+    <div class="form-overlay-panel glass-strong form-card">
+      <button class="form-overlay-close" type="button" onclick="hideFormOverlay()" aria-label="ปิด">✕</button>
+      <div class="form-top-note">สินค้าล็อตจำกัด · โปรโมชั่นเฉพาะวันนี้เท่านั้น</div>
+      <h2 class="section-title" style="font-size:clamp(24px,4vw,36px); margin-top:0;">ยืนยันคำสั่งซื้อ</h2>
+      <p class="section-desc" style="font-size:15px; max-width:none; margin-top:8px;">กรอกข้อมูลด้านล่าง ผู้เชี่ยวชาญจะติดต่อกลับเพื่อดูแลและจัดส่งอย่างเป็นส่วนตัว</p>
+      <div class="form-price-box">
+        <div class="form-price-head">ราคาพิเศษสำหรับลูกค้าใหม่</div>
+        <div class="form-price-row">
+          <div class="form-price-current">990 ฿</div>
+          <div class="form-price-old">1,990 ฿</div>
+        </div>
+      </div>
+      <div class="form-grid">
+        <div class="field">
+          <label for="overlay-name">ชื่อของคุณ</label>
+          <input id="overlay-name" type="text" placeholder="ตัวอย่าง: คุณสมชาย">
+        </div>
+        <div class="field">
+          <label for="overlay-phone">เบอร์โทรศัพท์</label>
+          <input id="overlay-phone" type="tel" placeholder="0XX-XXX-XXXX">
+        </div>
+        <button class="form-submit" onclick="handleOrder(this)">รับสิทธิ์ส่วนลดตอนนี้ →</button>
+      </div>
+      <div class="form-note">ข้อมูลของคุณจะได้รับการปกป้องอย่างปลอดภัย ชำระเงินปลายทางเท่านั้นเมื่อได้รับสินค้า</div>
+    </div>
+  </div>
+
   <div class="sticky-bar">
     <div class="sticky-copy">
       <div class="mini">เป็นส่วนตัวสูงสุด · เก็บเงินปลายทาง</div>
@@ -2933,10 +3022,20 @@
       }
     }
 
+    function showFormOverlay() {
+      const overlay = document.getElementById("form-overlay");
+      if (!overlay) return;
+      overlay.classList.add("active");
+    }
+
+    function hideFormOverlay() {
+      const overlay = document.getElementById("form-overlay");
+      if (!overlay) return;
+      overlay.classList.remove("active");
+    }
+
     function scrollToForm() {
-      const sectionId = "order-form";
-      scrollToAllowedSection(sectionId);
-      notifyParentAboutSection(sectionId);
+      showFormOverlay();
     }
 
     function scrollToSection(id) {
@@ -3005,7 +3104,7 @@
       }, { threshold: 0, rootMargin: "0px 0px 80px 0px" });
 
       document.querySelectorAll(".glass, .glass-strong").forEach(el => {
-        if (el.closest(".topline") || el.closest(".hero-shell") || el.classList.contains('faq-item')) return;
+        if (el.closest(".topline") || el.closest(".hero-shell") || el.closest(".form-overlay") || el.classList.contains('faq-item')) return;
         // skip elements already fully above the fold on load
         const rect = el.getBoundingClientRect();
         if (rect.bottom < foldH) { el.classList.add('revealed'); return; }
@@ -3142,6 +3241,10 @@
         if (val.length > 15) val = val.slice(0, 15);
         this.value = hasPlus ? `+${val}` : val;
       });
+    });
+
+    document.addEventListener("keydown", function(e) {
+      if (e.key === "Escape") hideFormOverlay();
     });
   </script>
 </body>
