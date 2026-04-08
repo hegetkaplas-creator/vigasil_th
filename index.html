@@ -2779,29 +2779,24 @@
         return true;
       }
 
-      // Embedded mode: navigate the top frame to the parent URL with the anchor hash.
-      // The parent SPA handles hashchange and scrolls its own container to the matching section.
-      let origin = INTEGRATION_CONFIG.parentOrigin;
-      if (!origin) {
-        try { origin = new URL(document.referrer).origin; } catch (_) {}
-      }
-      const path = INTEGRATION_CONFIG.parentPath || "/";
-      if (origin) {
-        try {
-          window.top.location.href = `${origin}${path}#${id}`;
-          return true;
-        } catch (_) {}
+      // Embedded mode — primary: focus a focusable element inside the target section.
+      // When a cross-origin iframe element receives focus, the browser natively scrolls
+      // the parent scroll container (div.page) to make it visible — no parent JS needed.
+      const focusTarget = el.querySelector("input, button, textarea, [tabindex]") || el;
+      if (focusTarget) {
+        if (!focusTarget.hasAttribute("tabindex")) focusTarget.setAttribute("tabindex", "-1");
+        focusTarget.focus({ preventScroll: false });
+        // Also try scrollIntoView for browsers that support cross-frame scrollIntoView
+        try { focusTarget.scrollIntoView({ behavior: "smooth", block: "start" }); } catch (_) {}
       }
 
-      // Fallback: iframe-resizer native scroll API.
+      // Embedded mode — secondary: iframe-resizer scroll APIs as additional signal.
       if (window.parentIframe) {
         const yTarget = Math.max(0, Math.round(el.offsetTop) - 12);
         try { window.parentIframe.moveToAnchor(id); } catch (_) {}
         try { window.parentIframe.scrollToOffset(0, yTarget); } catch (_) {}
       }
 
-      // Last resort: scroll within the iframe itself.
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
       return true;
     }
 
