@@ -2768,37 +2768,39 @@
       return SECTION_ALLOWLIST.has(id);
     }
 
-    function tryParentScrollToElement(el, id) {
-      if (window === window.parent) return false;
-      const yTarget = Math.max(0, Math.round(el.offsetTop) - 12);
-      const parentOrigin = INTEGRATION_CONFIG.parentOrigin || "*";
-
-      // Primary: custom postMessage for parents with a non-window scroll container (e.g. div.page).
-      // Parent must handle: window.addEventListener('message', e => { if(e.data?.type==='vigasil:scroll') document.querySelector('.page')?.scrollTo({top:e.data.y,behavior:'smooth'}); });
-      try {
-        window.parent.postMessage({ type: "vigasil:scroll", y: yTarget, anchor: id }, parentOrigin);
-      } catch (_) {}
-
-      // Secondary: iframe-resizer child API (works when window is the scroll container on the parent).
-      if (window.parentIframe) {
-        try { window.parentIframe.sendMessage({ type: "vigasil:scroll", y: yTarget, anchor: id }); } catch (_) {}
-        try { window.parentIframe.scrollToOffset(0, yTarget); } catch (_) {}
-        try { window.parentIframe.scrollTo(0, yTarget); } catch (_) {}
-        try { window.parentIframe.moveToAnchor(id); } catch (_) {}
-      }
-
-      return true;
-    }
-
     function scrollToAllowedSection(id) {
       if (!isAllowedSection(id)) return false;
       const el = document.getElementById(id);
       if (!el) return false;
+
+      // Standalone mode: scroll normally within the page.
       if (window === window.parent) {
         el.scrollIntoView({ behavior: "smooth", block: "start" });
         return true;
       }
-      if (tryParentScrollToElement(el, id)) return true;
+
+      // Embedded mode: navigate the top frame to the parent URL with the anchor hash.
+      // The parent SPA handles hashchange and scrolls its own container to the matching section.
+      let origin = INTEGRATION_CONFIG.parentOrigin;
+      if (!origin) {
+        try { origin = new URL(document.referrer).origin; } catch (_) {}
+      }
+      const path = INTEGRATION_CONFIG.parentPath || "/";
+      if (origin) {
+        try {
+          window.top.location.href = `${origin}${path}#${id}`;
+          return true;
+        } catch (_) {}
+      }
+
+      // Fallback: iframe-resizer native scroll API.
+      if (window.parentIframe) {
+        const yTarget = Math.max(0, Math.round(el.offsetTop) - 12);
+        try { window.parentIframe.moveToAnchor(id); } catch (_) {}
+        try { window.parentIframe.scrollToOffset(0, yTarget); } catch (_) {}
+      }
+
+      // Last resort: scroll within the iframe itself.
       el.scrollIntoView({ behavior: "smooth", block: "start" });
       return true;
     }
