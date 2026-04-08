@@ -21,6 +21,7 @@ package-lock.json
 
 # ── QA artifacts ──────────────────────────────────────────────────────
 .playwright-mcp/
+*-smoke-*.png
 
 # ── Design source files (for dev context only, not deployed) ──────────
 # Photoshop, Illustrator, Sketch, Figma exports, XD
