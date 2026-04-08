@@ -2704,13 +2704,36 @@
     <button class="sticky-btn" onclick="scrollToForm()">สั่งซื้อเลย</button>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@iframe-resizer/child@5.5.5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@iframe-resizer/child@5.5.9"></script>
   <script>
+    function getNormalizedParentOrigin(rawOrigin) {
+      const value = String(rawOrigin || "").trim();
+      if (!value) return "";
+      try {
+        return new URL(value).origin;
+      } catch (_) {
+        return "";
+      }
+    }
+
     const INTEGRATION_CONFIG = (() => {
       const params = new URLSearchParams(window.location.search);
       const body = document.body;
+      const rawParentOrigin = params.get("parentOrigin") || body.dataset.parentOrigin || "";
+      const parentOriginFromConfig = getNormalizedParentOrigin(rawParentOrigin);
+      let parentOrigin = parentOriginFromConfig;
+
+      // If parentOrigin is missing/invalid or points to the iframe itself, infer it from referrer.
+      if (window !== window.parent && (!parentOrigin || parentOrigin === window.location.origin)) {
+        try {
+          parentOrigin = new URL(document.referrer).origin || "";
+        } catch (_) {
+          parentOrigin = "";
+        }
+      }
+
       return {
-        parentOrigin: params.get("parentOrigin") || body.dataset.parentOrigin || "",
+        parentOrigin,
         parentPath: params.get("parentPath") || body.dataset.parentPath || "/",
         formEndpoint: params.get("formEndpoint") || body.dataset.formEndpoint || "",
         formMethod: (params.get("formMethod") || body.dataset.formMethod || "POST").toUpperCase(),
