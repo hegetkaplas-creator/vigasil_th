@@ -2779,16 +2779,9 @@
         return true;
       }
 
-      // Embedded mode — primary: focus a focusable element inside the target section.
-      // When a cross-origin iframe element receives focus, the browser natively scrolls
-      // the parent scroll container (div.page) to make it visible — no parent JS needed.
-      const focusTarget = el.querySelector("input, button, textarea, [tabindex]") || el;
-      if (focusTarget) {
-        if (!focusTarget.hasAttribute("tabindex")) focusTarget.setAttribute("tabindex", "-1");
-        focusTarget.focus({ preventScroll: false });
-        // Also try scrollIntoView for browsers that support cross-frame scrollIntoView
-        try { focusTarget.scrollIntoView({ behavior: "smooth", block: "start" }); } catch (_) {}
-      }
+      // Embedded mode — scroll to section start to keep two-column layout aligned.
+      // Focusing the first input can jump to the middle of the form block on desktop.
+      try { el.scrollIntoView({ behavior: "smooth", block: "start" }); } catch (_) {}
 
       // Embedded mode — secondary: iframe-resizer scroll APIs as additional signal.
       if (window.parentIframe) {
