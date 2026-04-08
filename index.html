@@ -1819,8 +1819,6 @@
       line-height: 1.6;
     }
 
-    /* На обычной странице: fixed снизу окна — остаётся над контентом при скролле.
-       Во встроенном iframe с height:auto скролл часто у родителя — нижнюю панель по умолчанию скрываем; включите ?embedSticky=1 если iframe ~100vh со скроллом внутри. */
     .sticky-bar {
       position: fixed;
       left: 14px;
@@ -1845,22 +1843,6 @@
         inset 0 2px 4px rgba(255,255,255,.95),
         inset 0 -2px 4px rgba(52,211,153,.08);
       animation: slideUp 0.5s ease-out;
-    }
-
-    body.embed-iframe .sticky-bar {
-      display: none !important;
-    }
-
-    body.embed-iframe.embed-sticky-on .sticky-bar {
-      display: flex !important;
-    }
-
-    body.embed-iframe {
-      padding-bottom: 24px;
-    }
-
-    body.embed-iframe.embed-sticky-on {
-      padding-bottom: 88px;
     }
 
     @keyframes slideUp {
@@ -1992,8 +1974,6 @@
 
     @media (max-width: 720px) {
       body { padding-bottom: 94px; }
-      body.embed-iframe { padding-bottom: 18px; }
-      body.embed-iframe.embed-sticky-on { padding-bottom: 94px; }
       .container { width: min(var(--container), calc(100% - 18px)); }
       .section-card,
       .hero-shell,
@@ -2024,13 +2004,10 @@
   </style>
 </head>
 <body
-  data-parent-origin="https://sabai.wrldtops.site"
-  data-parent-path="/"
   data-form-endpoint="https://sabai.wrldtops.site/order"
   data-form-method="POST"
   data-form-id="transit"
   data-success-url="https://sabai.wrldtops.site/success"
-  data-embed-sticky="false"
 >
   <div class="page">
     <div class="topline">
@@ -2764,94 +2741,20 @@
     <a class="sticky-btn" href="#order-form">สั่งซื้อเลย</a>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@iframe-resizer/child@5.5.9"></script>
   <script>
-    function getNormalizedParentOrigin(rawOrigin) {
-      const value = String(rawOrigin || "").trim();
-      if (!value) return "";
-      try {
-        return new URL(value).origin;
-      } catch (_) {
-        return "";
-      }
-    }
-
-    const INTEGRATION_CONFIG = (() => {
+    const FORM_CONFIG = (() => {
       const params = new URLSearchParams(window.location.search);
       const body = document.body;
-      const rawParentOrigin = params.get("parentOrigin") || body.dataset.parentOrigin || "";
-      const parentOriginFromConfig = getNormalizedParentOrigin(rawParentOrigin);
-      let parentOrigin = parentOriginFromConfig;
-
-      // If parentOrigin is missing/invalid or points to the iframe itself, infer it from referrer.
-      if (window !== window.parent && (!parentOrigin || parentOrigin === window.location.origin)) {
-        try {
-          parentOrigin = new URL(document.referrer).origin || "";
-        } catch (_) {
-          parentOrigin = "";
-        }
-      }
-
       return {
-        parentOrigin,
-        parentPath: params.get("parentPath") || body.dataset.parentPath || "/",
         formEndpoint: params.get("formEndpoint") || body.dataset.formEndpoint || "",
         formMethod: (params.get("formMethod") || body.dataset.formMethod || "POST").toUpperCase(),
         formId: params.get("formId") || body.dataset.formId || "transit",
         successUrl: params.get("successUrl") || body.dataset.successUrl || "",
-        embedSticky:
-          params.get("embedSticky") === "1" ||
-          /^(true|1|yes)$/i.test(String(body.dataset.embedSticky || "").trim())
       };
     })();
 
     function getDigitsOnly(value) {
       return (value || "").replace(/\D/g, "");
-    }
-
-    function notifyParentIframeResize() {
-      if (window.parentIframe && typeof window.parentIframe.resize === "function") {
-        try {
-          window.parentIframe.resize();
-        } catch (_) {}
-      }
-    }
-
-    function initEmbeddedPage() {
-      document.body.classList.add("embed-iframe");
-      if (INTEGRATION_CONFIG.embedSticky) {
-        document.body.classList.add("embed-sticky-on");
-      }
-      notifyParentIframeResize();
-      requestAnimationFrame(notifyParentIframeResize);
-      [100, 400, 1000].forEach((ms) => setTimeout(notifyParentIframeResize, ms));
-
-      window.addEventListener("load", notifyParentIframeResize);
-      document.querySelectorAll("img, video").forEach((mediaEl) => {
-        mediaEl.addEventListener("load", notifyParentIframeResize);
-        mediaEl.addEventListener("loadedmetadata", notifyParentIframeResize);
-        mediaEl.addEventListener("error", notifyParentIframeResize);
-      });
-
-      let resizeTimer = null;
-      const domObserver = new MutationObserver((mutations) => {
-        const hasStructuralChangeOutsideComments = mutations.some((mutation) => {
-          const targets = [mutation.target, ...mutation.addedNodes, ...mutation.removedNodes];
-          return targets.some((node) => {
-            const el =
-              node && node.nodeType === 1
-                ? node
-                : node && node.parentElement
-                ? node.parentElement
-                : null;
-            return !(el && el.closest && el.closest("#comments-container"));
-          });
-        });
-        if (!hasStructuralChangeOutsideComments) return;
-        if (resizeTimer) clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(notifyParentIframeResize, 120);
-      });
-      domObserver.observe(document.body, { childList: true, subtree: true, attributes: true });
     }
 
     function toggleFaq(btn) {
@@ -2874,16 +2777,10 @@
     document.addEventListener("DOMContentLoaded", () => {
       const fallbackForm = document.getElementById("constructor-fallback-form");
       if (fallbackForm) {
-        fallbackForm.action = INTEGRATION_CONFIG.formEndpoint || "";
-        fallbackForm.method = INTEGRATION_CONFIG.formMethod;
+        fallbackForm.action = FORM_CONFIG.formEndpoint || "";
+        fallbackForm.method = FORM_CONFIG.formMethod;
         const formIdInput = fallbackForm.querySelector('input[name="form_id"]');
-        if (formIdInput) formIdInput.value = INTEGRATION_CONFIG.formId;
-      }
-
-      if (window !== window.parent) {
-        initEmbeddedPage();
-        window.addEventListener("resize", notifyParentIframeResize);
-        window.addEventListener("orientationchange", notifyParentIframeResize);
+        if (formIdInput) formIdInput.value = FORM_CONFIG.formId;
       }
 
       // Intersection Observer for scroll animations
@@ -2909,11 +2806,11 @@
     });
 
     async function submitWithFetch(payload) {
-      if (!INTEGRATION_CONFIG.formEndpoint) {
+      if (!FORM_CONFIG.formEndpoint) {
         throw new Error("no-endpoint");
       }
-      const response = await fetch(INTEGRATION_CONFIG.formEndpoint, {
-        method: INTEGRATION_CONFIG.formMethod,
+      const response = await fetch(FORM_CONFIG.formEndpoint, {
+        method: FORM_CONFIG.formMethod,
         headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
         body: payload.toString(),
         mode: "cors",
@@ -2926,10 +2823,10 @@
 
     function submitWithHiddenForm(name, phoneDigits) {
       const fallbackForm = document.getElementById("constructor-fallback-form");
-      if (!fallbackForm || !INTEGRATION_CONFIG.formEndpoint) {
+      if (!fallbackForm || !FORM_CONFIG.formEndpoint) {
         throw new Error("fallback-unavailable");
       }
-      fallbackForm.action = INTEGRATION_CONFIG.formEndpoint;
+      fallbackForm.action = FORM_CONFIG.formEndpoint;
       const nameInput = fallbackForm.querySelector('input[name="name"]');
       const phoneInput = fallbackForm.querySelector('input[name="phone"]');
       const formIdInput = fallbackForm.querySelector('input[name="form_id"]');
@@ -2938,21 +2835,21 @@
       }
       nameInput.value = name;
       phoneInput.value = phoneDigits;
-      formIdInput.value = INTEGRATION_CONFIG.formId;
+      formIdInput.value = FORM_CONFIG.formId;
       fallbackForm.submit();
     }
 
     function redirectToSuccessPage() {
-      if (!INTEGRATION_CONFIG.successUrl) return;
+      if (!FORM_CONFIG.successUrl) return;
       try {
         if (window.top && window.top !== window.self) {
-          window.top.location.href = INTEGRATION_CONFIG.successUrl;
+          window.top.location.href = FORM_CONFIG.successUrl;
           return;
         }
       } catch (_) {
         // cross-origin top navigation may be blocked by sandbox/policies
       }
-      window.location.href = INTEGRATION_CONFIG.successUrl;
+      window.location.href = FORM_CONFIG.successUrl;
     }
 
     async function handleOrder(triggerBtn) {
@@ -2998,7 +2895,7 @@
       const payload = new URLSearchParams();
       payload.set("name", name);
       payload.set("phone", phoneDigits);
-      payload.set("form_id", INTEGRATION_CONFIG.formId);
+      payload.set("form_id", FORM_CONFIG.formId);
 
       try {
         await submitWithFetch(payload);
