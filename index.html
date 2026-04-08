@@ -2760,6 +2760,34 @@
       return SECTION_ALLOWLIST.has(id);
     }
 
+    function tryParentScrollToElement(el, id) {
+      if (!window.parentIframe) return false;
+      const yTarget = Math.max(0, Math.round(el.offsetTop) - 12);
+      const attempts = [0, 120, 260, 520];
+
+      attempts.forEach((delay) => {
+        setTimeout(() => {
+          try {
+            if (typeof window.parentIframe.moveToAnchor === "function") {
+              window.parentIframe.moveToAnchor(id);
+            }
+          } catch (_) {}
+          try {
+            if (typeof window.parentIframe.scrollToOffset === "function") {
+              window.parentIframe.scrollToOffset(0, yTarget);
+            }
+          } catch (_) {}
+          try {
+            if (typeof window.parentIframe.scrollTo === "function") {
+              window.parentIframe.scrollTo(0, yTarget);
+            }
+          } catch (_) {}
+        }, delay);
+      });
+
+      return true;
+    }
+
     function scrollToAllowedSection(id) {
       if (!isAllowedSection(id)) return false;
       const el = document.getElementById(id);
@@ -2768,25 +2796,7 @@
         el.scrollIntoView({ behavior: "smooth", block: "start" });
         return true;
       }
-      if (window.parentIframe && typeof window.parentIframe.moveToAnchor === "function") {
-        try {
-          window.parentIframe.moveToAnchor(id);
-        } catch (_) {}
-      }
-      if (window.parentIframe && typeof window.parentIframe.scrollToOffset === "function") {
-        const yOffset = Math.max(0, Math.round(el.offsetTop) - 12);
-        try {
-          window.parentIframe.scrollToOffset(0, yOffset);
-          return true;
-        } catch (_) {}
-      }
-      if (window.parentIframe && typeof window.parentIframe.scrollTo === "function") {
-        const yAbsolute = Math.max(0, Math.round(el.offsetTop) - 12);
-        try {
-          window.parentIframe.scrollTo(0, yAbsolute);
-          return true;
-        } catch (_) {}
-      }
+      if (tryParentScrollToElement(el, id)) return true;
       el.scrollIntoView({ behavior: "smooth", block: "start" });
       return true;
     }
