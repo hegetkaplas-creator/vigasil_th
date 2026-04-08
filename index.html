@@ -2021,65 +2021,6 @@
       .comments-scroll { max-height: min(54vh, 360px); }
     }
 
-    /* ── Floating form overlay (iframe-safe CTA) ── */
-    .form-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      padding: 14px;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity .3s ease, visibility .3s ease;
-    }
-    .form-overlay.active { opacity: 1; visibility: visible; }
-
-    .form-overlay-backdrop {
-      position: absolute;
-      inset: 0;
-      background: rgba(0,0,0,.45);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-    }
-
-    .form-overlay-panel {
-      position: relative;
-      width: min(420px, 100%);
-      max-height: calc(100vh - 28px);
-      max-height: calc(100dvh - 28px);
-      overflow-y: auto;
-      border-radius: 28px;
-      padding: 22px;
-      transform: translateY(24px);
-      transition: transform .35s cubic-bezier(.4,0,.2,1);
-    }
-    .form-overlay.active .form-overlay-panel { transform: translateY(0); }
-
-    .form-overlay-close {
-      position: sticky;
-      top: 0;
-      float: right;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      border: 1.5px solid rgba(0,0,0,.08);
-      background: rgba(255,255,255,.85);
-      font-size: 20px;
-      line-height: 1;
-      cursor: pointer;
-      display: grid;
-      place-items: center;
-      color: var(--text-soft);
-      z-index: 1;
-      transition: all .2s;
-    }
-    .form-overlay-close:active { background: #fff; color: var(--text); }
-
-    @media (min-width: 641px) {
-      .form-overlay { align-items: center; }
-    }
   </style>
 </head>
 <body
@@ -2157,8 +2098,8 @@
               </div>
 
               <div class="hero-cta">
-                <button class="btn-primary" type="button" onclick="scrollToForm()">รับคำปรึกษาฟรี</button>
-                <button class="btn-secondary" type="button" onclick="scrollToSection('mechanism')">ดูวิธีการทำงาน</button>
+                <a class="btn-primary" href="#order-form">รับคำปรึกษาฟรี</a>
+                <a class="btn-secondary" href="#mechanism">ดูวิธีการทำงาน</a>
               </div>
 
               <div class="hero-micro">
@@ -2449,7 +2390,7 @@
                 <div class="offer-row"><span>การปรึกษา</span><span>โทรฟรีจากผู้เชี่ยวชาญ</span></div>
               </div>
               <div class="offer-note">ข้อมูลของคุณจะถูกเก็บเป็นความลับสูงสุด เราจะติดต่อกลับเพื่อยืนยันรายละเอียดการจัดส่งโดยไม่มีคำถามที่ไม่จำเป็น</div>
-              <button class="btn-primary" type="button" onclick="scrollToForm()">สั่งซื้อตอนนี้ในราคาส่วนลด</button>
+              <a class="btn-primary" href="#order-form">สั่งซื้อตอนนี้ในราคาส่วนลด</a>
             </div>
           </div>
         </div>
@@ -2815,41 +2756,12 @@
     </footer>
   </div>
 
-  <div class="form-overlay" id="form-overlay">
-    <div class="form-overlay-backdrop" onclick="hideFormOverlay()"></div>
-    <div class="form-overlay-panel glass-strong form-card">
-      <button class="form-overlay-close" type="button" onclick="hideFormOverlay()" aria-label="ปิด">✕</button>
-      <div class="form-top-note">สินค้าล็อตจำกัด · โปรโมชั่นเฉพาะวันนี้เท่านั้น</div>
-      <h2 class="section-title" style="font-size:clamp(24px,4vw,36px); margin-top:0;">ยืนยันคำสั่งซื้อ</h2>
-      <p class="section-desc" style="font-size:15px; max-width:none; margin-top:8px;">กรอกข้อมูลด้านล่าง ผู้เชี่ยวชาญจะติดต่อกลับเพื่อดูแลและจัดส่งอย่างเป็นส่วนตัว</p>
-      <div class="form-price-box">
-        <div class="form-price-head">ราคาพิเศษสำหรับลูกค้าใหม่</div>
-        <div class="form-price-row">
-          <div class="form-price-current">990 ฿</div>
-          <div class="form-price-old">1,990 ฿</div>
-        </div>
-      </div>
-      <div class="form-grid">
-        <div class="field">
-          <label for="overlay-name">ชื่อของคุณ</label>
-          <input id="overlay-name" type="text" placeholder="ตัวอย่าง: คุณสมชาย">
-        </div>
-        <div class="field">
-          <label for="overlay-phone">เบอร์โทรศัพท์</label>
-          <input id="overlay-phone" type="tel" placeholder="0XX-XXX-XXXX">
-        </div>
-        <button class="form-submit" onclick="handleOrder(this)">รับสิทธิ์ส่วนลดตอนนี้ →</button>
-      </div>
-      <div class="form-note">ข้อมูลของคุณจะได้รับการปกป้องอย่างปลอดภัย ชำระเงินปลายทางเท่านั้นเมื่อได้รับสินค้า</div>
-    </div>
-  </div>
-
   <div class="sticky-bar">
     <div class="sticky-copy">
       <div class="mini">เป็นส่วนตัวสูงสุด · เก็บเงินปลายทาง</div>
       <strong>โปรโมชั่นฟื้นฟูสมรรถภาพ CBD Vigasil</strong>
     </div>
-    <button class="sticky-btn" type="button" onclick="scrollToForm()">สั่งซื้อเลย</button>
+    <a class="sticky-btn" href="#order-form">สั่งซื้อเลย</a>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@iframe-resizer/child@5.5.9"></script>
@@ -2893,69 +2805,8 @@
       };
     })();
 
-    const SECTION_ALLOWLIST = new Set(["mechanism", "order-form"]);
-    const MESSAGE_TYPES = {
-      scrollTo: "vigasil:scroll-to",
-      notifyScroll: "vigasil:scroll",
-      absoluteLink: "vigasil:absolute-link"
-    };
-
     function getDigitsOnly(value) {
       return (value || "").replace(/\D/g, "");
-    }
-
-    function isAllowedSection(id) {
-      return SECTION_ALLOWLIST.has(id);
-    }
-
-    function scrollToAllowedSection(id) {
-      if (!isAllowedSection(id)) return false;
-      const el = document.getElementById(id);
-      if (!el) return false;
-
-      if (window === window.parent) {
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
-        return true;
-      }
-
-      // Embedded mode: delegate scroll entirely to the parent page via
-      // iframe-resizer v5 child API. Do NOT call scrollIntoView here —
-      // in a full-height iframe it has no visible effect and on iOS WebKit
-      // it consumes the user gesture, blocking the parent-delegated scroll.
-      const yInIframe = Math.max(0, Math.round(
-        el.getBoundingClientRect().top + window.pageYOffset
-      ) - 12);
-
-      const tryParentScroll = () => {
-        if (!window.parentIframe) return false;
-        if (typeof window.parentIframe.scrollToOffset === "function") {
-          window.parentIframe.scrollToOffset(0, yInIframe);
-          return true;
-        }
-        if (typeof window.parentIframe.scrollBy === "function") {
-          window.parentIframe.getParentProps((props) => {
-            const target = (props.iframe ? props.iframe.top : 0) + yInIframe;
-            const delta = target - (props.scroll ? props.scroll.top : 0);
-            window.parentIframe.scrollBy(0, Math.round(delta));
-          });
-          return true;
-        }
-        return false;
-      };
-
-      if (!tryParentScroll()) {
-        let remaining = 8;
-        const t = setInterval(() => {
-          if (tryParentScroll() || --remaining <= 0) clearInterval(t);
-        }, 150);
-      }
-
-      return true;
-    }
-
-    function buildAbsoluteParentUrl(sectionId) {
-      if (!INTEGRATION_CONFIG.parentOrigin) return "";
-      return `${INTEGRATION_CONFIG.parentOrigin}${INTEGRATION_CONFIG.parentPath}#${sectionId}`;
     }
 
     function notifyParentIframeResize() {
@@ -3003,47 +2854,6 @@
       domObserver.observe(document.body, { childList: true, subtree: true, attributes: true });
     }
 
-    function notifyParentAboutSection(sectionId) {
-      if (window === window.parent || !INTEGRATION_CONFIG.parentOrigin) return;
-      try {
-        window.parent.postMessage(
-          { type: MESSAGE_TYPES.notifyScroll, sectionId: sectionId },
-          INTEGRATION_CONFIG.parentOrigin
-        );
-        const absoluteUrl = buildAbsoluteParentUrl(sectionId);
-        if (absoluteUrl) {
-          window.parent.postMessage(
-            { type: MESSAGE_TYPES.absoluteLink, sectionId: sectionId, url: absoluteUrl },
-            INTEGRATION_CONFIG.parentOrigin
-          );
-        }
-      } catch (_) {
-        // ignore cross-window messaging failures; local scroll still works
-      }
-    }
-
-    function showFormOverlay() {
-      const overlay = document.getElementById("form-overlay");
-      if (!overlay) return;
-      overlay.classList.add("active");
-    }
-
-    function hideFormOverlay() {
-      const overlay = document.getElementById("form-overlay");
-      if (!overlay) return;
-      overlay.classList.remove("active");
-    }
-
-    function scrollToForm() {
-      showFormOverlay();
-    }
-
-    function scrollToSection(id) {
-      if (!id || !isAllowedSection(id)) return;
-      scrollToAllowedSection(id);
-      notifyParentAboutSection(id);
-    }
-
     function toggleFaq(btn) {
       const item = btn.closest(".faq-item");
       const isOpen = item.classList.contains("open");
@@ -3070,25 +2880,10 @@
         if (formIdInput) formIdInput.value = INTEGRATION_CONFIG.formId;
       }
 
-      const anchorFromHash = (window.location.hash || "").replace("#", "").trim();
-      const anchorFromQuery = new URLSearchParams(window.location.search).get("anchor");
-      const initialAnchor = anchorFromHash || (anchorFromQuery || "").trim();
-      if (initialAnchor) scrollToAllowedSection(initialAnchor);
-
       if (window !== window.parent) {
         initEmbeddedPage();
         window.addEventListener("resize", notifyParentIframeResize);
         window.addEventListener("orientationchange", notifyParentIframeResize);
-      }
-
-      if (window !== window.parent && INTEGRATION_CONFIG.parentOrigin) {
-        window.addEventListener("message", (event) => {
-          if (event.origin !== INTEGRATION_CONFIG.parentOrigin) return;
-          const payload = event.data || {};
-          if (payload.type !== MESSAGE_TYPES.scrollTo) return;
-          if (typeof payload.sectionId !== "string") return;
-          scrollToAllowedSection(payload.sectionId);
-        });
       }
 
       // Intersection Observer for scroll animations
@@ -3104,7 +2899,7 @@
       }, { threshold: 0, rootMargin: "0px 0px 80px 0px" });
 
       document.querySelectorAll(".glass, .glass-strong").forEach(el => {
-        if (el.closest(".topline") || el.closest(".hero-shell") || el.closest(".form-overlay") || el.classList.contains('faq-item')) return;
+        if (el.closest(".topline") || el.closest(".hero-shell") || el.classList.contains('faq-item')) return;
         // skip elements already fully above the fold on load
         const rect = el.getBoundingClientRect();
         if (rect.bottom < foldH) { el.classList.add('revealed'); return; }
@@ -3243,9 +3038,6 @@
       });
     });
 
-    document.addEventListener("keydown", function(e) {
-      if (e.key === "Escape") hideFormOverlay();
-    });
   </script>
 </body>
 </html>
