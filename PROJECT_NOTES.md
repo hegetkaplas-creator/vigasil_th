@@ -40,9 +40,12 @@
 
 ## Comments Block and Layout Stability
 - Comments area is in `#real-comments`.
-- Dynamic auto-append comments (`addRandomComment`) are now enabled only in standalone mode:
-  - active when `window === window.parent`
-  - disabled in embedded iframe mode to prevent runtime height growth and footer drift.
+- The block now uses a bounded viewport (`#comments-scroll`) with internal scrolling.
+- Runtime comments are still appended by `addRandomComment`, but layout growth is controlled:
+  - comments are appended inside the internal scroll area,
+  - top-level list size is capped (`MAX_VISIBLE_COMMENTS`),
+  - oldest top-level items are removed when over limit.
+- In embedded mode, iframe resize notifications ignore mutations happening only inside `#comments-container`, so dynamic comments do not inflate parent/iframe page height.
 
 ## Assets and Docs
 - Images: `assets/img/...`
@@ -58,3 +61,6 @@
   - dynamic DOM growth (comments/timers)
   - iframe resize notifications
   - section height changes after delayed scripts.
+- For CTA QA, check both hero buttons:
+  - `scrollToForm()` to `#order-form`
+  - `scrollToSection('mechanism')` to `#mechanism`

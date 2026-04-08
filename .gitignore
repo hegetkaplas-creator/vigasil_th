@@ -19,6 +19,9 @@ src/
 node_modules/
 package-lock.json
 
+# ── QA artifacts ──────────────────────────────────────────────────────
+.playwright-mcp/
+
 # ── Design source files (for dev context only, not deployed) ──────────
 # Photoshop, Illustrator, Sketch, Figma exports, XD
 **/*.psd
