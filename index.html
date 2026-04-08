@@ -2769,29 +2769,23 @@
     }
 
     function tryParentScrollToElement(el, id) {
-      if (!window.parentIframe) return false;
+      if (window === window.parent) return false;
       const yTarget = Math.max(0, Math.round(el.offsetTop) - 12);
-      const attempts = [0, 120, 260, 520];
+      const parentOrigin = INTEGRATION_CONFIG.parentOrigin || "*";
 
-      attempts.forEach((delay) => {
-        setTimeout(() => {
-          try {
-            if (typeof window.parentIframe.moveToAnchor === "function") {
-              window.parentIframe.moveToAnchor(id);
-            }
-          } catch (_) {}
-          try {
-            if (typeof window.parentIframe.scrollToOffset === "function") {
-              window.parentIframe.scrollToOffset(0, yTarget);
-            }
-          } catch (_) {}
-          try {
-            if (typeof window.parentIframe.scrollTo === "function") {
-              window.parentIframe.scrollTo(0, yTarget);
-            }
-          } catch (_) {}
-        }, delay);
-      });
+      // Primary: custom postMessage for parents with a non-window scroll container (e.g. div.page).
+      // Parent must handle: window.addEventListener('message', e => { if(e.data?.type==='vigasil:scroll') document.querySelector('.page')?.scrollTo({top:e.data.y,behavior:'smooth'}); });
+      try {
+        window.parent.postMessage({ type: "vigasil:scroll", y: yTarget, anchor: id }, parentOrigin);
+      } catch (_) {}
+
+      // Secondary: iframe-resizer child API (works when window is the scroll container on the parent).
+      if (window.parentIframe) {
+        try { window.parentIframe.sendMessage({ type: "vigasil:scroll", y: yTarget, anchor: id }); } catch (_) {}
+        try { window.parentIframe.scrollToOffset(0, yTarget); } catch (_) {}
+        try { window.parentIframe.scrollTo(0, yTarget); } catch (_) {}
+        try { window.parentIframe.moveToAnchor(id); } catch (_) {}
+      }
 
       return true;
     }
