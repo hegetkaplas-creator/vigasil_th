@@ -2745,16 +2745,16 @@
         el.scrollIntoView({ behavior: "smooth", block: "start" });
         return true;
       }
-      if (window.parentIFrame && typeof window.parentIFrame.moveToAnchor === "function") {
+      if (window.parentIframe && typeof window.parentIframe.moveToAnchor === "function") {
         try {
-          window.parentIFrame.moveToAnchor(id);
+          window.parentIframe.moveToAnchor(id);
           return true;
         } catch (_) {}
       }
-      if (window.parentIFrame && typeof window.parentIFrame.scrollToOffset === "function") {
+      if (window.parentIframe && typeof window.parentIframe.scrollToOffset === "function") {
         const yOffset = Math.max(0, Math.round(el.offsetTop) - 12);
         try {
-          window.parentIFrame.scrollToOffset(0, yOffset);
+          window.parentIframe.scrollToOffset(0, yOffset);
           return true;
         } catch (_) {}
       }
@@ -2768,9 +2768,9 @@
     }
 
     function notifyParentIframeResize() {
-      if (window.parentIFrame && typeof window.parentIFrame.size === "function") {
+      if (window.parentIframe && typeof window.parentIframe.resize === "function") {
         try {
-          window.parentIFrame.size();
+          window.parentIframe.resize();
         } catch (_) {}
       }
     }
