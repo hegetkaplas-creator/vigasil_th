@@ -485,6 +485,10 @@
     .btn-secondary {
       border: 0;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
       border-radius: 16px;
       min-height: 54px;
       padding: 0 22px;
@@ -1874,6 +1878,10 @@
     .sticky-btn {
       border: 0;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
       min-height: 48px;
       padding: 0 18px;
       border-radius: 16px;
@@ -2066,8 +2074,8 @@
               </div>
 
               <div class="hero-cta">
-                <a class="btn-primary" href="#order-form">รับคำปรึกษาฟรี</a>
-                <a class="btn-secondary" href="#mechanism">ดูวิธีการทำงาน</a>
+                <button class="btn-primary" type="button" onclick="scrollToForm()">รับคำปรึกษาฟรี</button>
+                <button class="btn-secondary" type="button" onclick="scrollToSection('mechanism')">ดูวิธีการทำงาน</button>
               </div>
 
               <div class="hero-micro">
@@ -2358,7 +2366,7 @@
                 <div class="offer-row"><span>การปรึกษา</span><span>โทรฟรีจากผู้เชี่ยวชาญ</span></div>
               </div>
               <div class="offer-note">ข้อมูลของคุณจะถูกเก็บเป็นความลับสูงสุด เราจะติดต่อกลับเพื่อยืนยันรายละเอียดการจัดส่งโดยไม่มีคำถามที่ไม่จำเป็น</div>
-              <a class="btn-primary" href="#order-form">สั่งซื้อตอนนี้ในราคาส่วนลด</a>
+              <button class="btn-primary" type="button" onclick="scrollToForm()">สั่งซื้อตอนนี้ในราคาส่วนลด</button>
             </div>
           </div>
         </div>
@@ -2701,7 +2709,7 @@
       <div class="mini">เป็นส่วนตัวสูงสุด · เก็บเงินปลายทาง</div>
       <strong>โปรโมชั่นฟื้นฟูสมรรถภาพ CBD Vigasil</strong>
     </div>
-    <a class="sticky-btn" href="#order-form">สั่งซื้อเลย</a>
+    <button class="sticky-btn" type="button" onclick="scrollToForm()">สั่งซื้อเลย</button>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@iframe-resizer/child@5.5.9"></script>
