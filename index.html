@@ -2745,8 +2745,14 @@
         el.scrollIntoView({ behavior: "smooth", block: "start" });
         return true;
       }
+      if (window.parentIFrame && typeof window.parentIFrame.moveToAnchor === "function") {
+        try {
+          window.parentIFrame.moveToAnchor(id);
+          return true;
+        } catch (_) {}
+      }
       if (window.parentIFrame && typeof window.parentIFrame.scrollToOffset === "function") {
-        const yOffset = Math.max(0, Math.round(el.getBoundingClientRect().top) - 12);
+        const yOffset = Math.max(0, Math.round(el.offsetTop) - 12);
         try {
           window.parentIFrame.scrollToOffset(0, yOffset);
           return true;
