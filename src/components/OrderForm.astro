@@ -63,9 +63,18 @@
 </section>
 
 <script is:inline>
+  function isFormDebug() {
+    try {
+      return new URLSearchParams(window.location.search).get("debugForm") === "1";
+    } catch (_) { return false; }
+  }
+
   async function submitWithFetch(payload) {
     if (!FORM_CONFIG.formEndpoint) {
       throw new Error("no-endpoint");
+    }
+    if (isFormDebug()) {
+      console.log("[order-form] fetch POST", FORM_CONFIG.formEndpoint, Object.fromEntries(payload));
     }
     const response = await fetch(FORM_CONFIG.formEndpoint, {
       method: FORM_CONFIG.formMethod,
@@ -74,6 +83,7 @@
       mode: "cors",
       credentials: "omit"
     });
+    if (isFormDebug()) console.log("[order-form] fetch response", response.status, response.ok);
     if (!response.ok) {
       throw new Error(`submit-failed-${response.status}`);
     }
@@ -144,9 +154,11 @@
 
     try {
       await submitWithFetch(payload);
-    } catch (_) {
+    } catch (e) {
+      if (isFormDebug()) console.warn("[order-form] fetch failed, iframe fallback", e && e.message);
       try {
         submitWithHiddenForm(name, phoneDigits);
+        if (isFormDebug()) console.log("[order-form] iframe fallback submitted");
       } catch (__fallbackError) {
         triggerBtn.textContent = "ส่งไม่สำเร็จ ลองใหม่อีกครั้ง";
         triggerBtn.style.opacity = "1";

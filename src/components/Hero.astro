@@ -217,6 +217,18 @@
     this.value = hasPlus ? "+" + val : val;
   });
 
+  function showModalThankYou() {
+    var card = document.querySelector(".modal-card");
+    var ty = document.getElementById("modalThankYou");
+    if (card && ty) {
+      Array.from(card.children).forEach(function (ch) {
+        if (ch.id !== "modalThankYou" && !ch.classList.contains("modal-close"))
+          ch.style.display = "none";
+      });
+      ty.style.display = "flex";
+    }
+  }
+
   submitBtn.addEventListener("click", function () {
     var name = nameF.value.trim();
     var phone = phoneF.value.trim();
@@ -232,8 +244,16 @@
     if (hasError) return;
 
     var cfg = window.FORM_CONFIG || {};
-    var endpoint = cfg.formEndpoint || cfg.endpoint || "/api/lead";
-    var formId = cfg.formId || cfg.offer_id || "transit";
+    var endpoint = cfg.formEndpoint || "";
+    var formId = cfg.formId || "transit";
+    var method = (cfg.formMethod || "POST").toUpperCase();
+    var debug = typeof URLSearchParams !== "undefined" && new URLSearchParams(window.location.search).get("debugForm") === "1";
+
+    if (!endpoint) {
+      console.error("[order-modal] FORM_CONFIG.formEndpoint is empty — check data-form-endpoint on <body>");
+      return;
+    }
+
     var original = submitBtn.textContent;
     submitBtn.textContent = "กำลังส่ง...";
     submitBtn.disabled = true;
@@ -243,34 +263,40 @@
     payload.set("phone", digits);
     payload.set("form_id", formId);
 
+    if (debug) console.log("[order-modal] POST", endpoint, { name: name, phone: digits, form_id: formId });
+
+    function onLeadSentOk() {
+      if (typeof fireSuccessPixel === "function") fireSuccessPixel();
+      showModalThankYou();
+    }
+
     fetch(endpoint, {
-      method: "POST",
+      method: method,
       headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
       body: payload.toString(),
       mode: "cors",
       credentials: "omit"
     })
-      .then(function (r) { if (!r.ok) throw new Error(r.status); })
-      .catch(function () {
+      .then(function (r) {
+        if (debug) console.log("[order-modal] fetch status", r.status, r.ok);
+        if (!r.ok) throw new Error("http-" + r.status);
+        onLeadSentOk();
+      })
+      .catch(function (err) {
+        if (debug) console.warn("[order-modal] fetch failed, trying iframe fallback", err && err.message);
         var fb = document.getElementById("modal-fallback-form");
         if (fb && endpoint) {
+          fb.method = method;
           fb.action = endpoint;
           fb.querySelector('[name="name"]').value = name;
           fb.querySelector('[name="phone"]').value = digits;
           fb.querySelector('[name="form_id"]').value = formId;
           fb.submit();
-        }
-      })
-      .finally(function () {
-        if (typeof fireSuccessPixel === "function") fireSuccessPixel();
-        var card = document.querySelector(".modal-card");
-        var ty = document.getElementById("modalThankYou");
-        if (card && ty) {
-          Array.from(card.children).forEach(function (ch) {
-            if (ch.id !== "modalThankYou" && !ch.classList.contains("modal-close"))
-              ch.style.display = "none";
-          });
-          ty.style.display = "flex";
+          onLeadSentOk();
+        } else {
+          submitBtn.textContent = "ส่งไม่สำเร็จ ลองใหม่อีกครั้ง";
+          submitBtn.disabled = false;
+          setTimeout(function () { submitBtn.textContent = original; }, 2500);
         }
       });
   });
