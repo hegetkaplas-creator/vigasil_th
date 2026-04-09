@@ -207,8 +207,13 @@
     if (e.target === overlay) closeModal();
   });
 
-  document.querySelectorAll('a[href="#order-form"], button[data-open-modal]').forEach(function (el) {
-    el.addEventListener("click", function (e) { e.preventDefault(); openModal(el); });
+  document.addEventListener("click", function (e) {
+    var trigger = e.target && e.target.closest
+      ? e.target.closest('a[data-open-modal], button[data-open-modal], a[href="#order-form"]')
+      : null;
+    if (!trigger) return;
+    e.preventDefault();
+    openModal(trigger);
   });
 
   var nameF = document.getElementById("modal-name");
