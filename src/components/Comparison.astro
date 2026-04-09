@@ -10,25 +10,29 @@
       <div class="compare-grid">
         <div class="compare-featured glass">
           <div class="compare-badge">✅ แนะนำ</div>
-          <div class="compare-icon">🧬</div>
-          <div class="compare-title">CBD Vigasil — สูตร Double Action</div>
-          <div class="compare-product-shot">
-            <img src="/assets/img/products/Vigasil-th-jar.png" alt="CBD Vigasil jar" class="compare-product-jar">
+          <div class="compare-featured-layout">
+            <div class="compare-featured-copy">
+              <div class="compare-icon">🧬</div>
+              <div class="compare-title">CBD Vigasil — สูตร Double Action</div>
+              <ul class="compare-list">
+                <li><span class="icon-mark">💰</span> <strong>ราคา:</strong> 990 ฿ ต่อคอร์ส · เก็บเงินปลายทาง</li>
+                <li><span class="icon-mark">✅</span> <strong>ผลลัพธ์:</strong> ร่างกาย (PDE5 + NO) + จิตใจ (CBD ลดกังวล) พร้อมกัน</li>
+                <li><span class="icon-mark">✅</span> <strong>ความเสี่ยง:</strong> สารสกัดธรรมชาติ 100% · ผ่าน อย. (11-1-13958-5-0571)</li>
+                <li><span class="icon-mark">✅</span> <strong>ความสะดวก:</strong> สั่งออนไลน์ ส่งมิดชิด ไม่ต้องไปคลินิก ไม่ต้องใบสั่งแพทย์</li>
+                <li><span class="icon-mark">✅</span> <strong>เหมาะกับ:</strong> ผู้ชายที่ต้องการก้าวแรกที่ปลอดภัยและเห็นผลจริงใน 10–14 วัน</li>
+              </ul>
+              <div class="compare-highlights">
+                <span>💊 สารสกัดธรรมชาติ 100%</span>
+                <span>🧠 CBD ลดเครียด</span>
+                <span>🏛 ผ่าน อย.</span>
+                <span>📦 ส่งมิดชิด COD</span>
+              </div>
+              <div class="compare-verdict">สมดุลที่สุดทั้งราคา ความปลอดภัย ผลลัพธ์ และความเป็นส่วนตัว</div>
+            </div>
+            <div class="compare-product-shot">
+              <img src="/assets/img/products/20260406_1045_Image Generation_remix_01kngzdv8reebth2kw24nd4a0d.png" alt="CBD Vigasil jar" class="compare-product-jar">
+            </div>
           </div>
-          <ul class="compare-list">
-            <li><span class="icon-mark">💰</span> <strong>ราคา:</strong> 990 ฿ ต่อคอร์ส · เก็บเงินปลายทาง</li>
-            <li><span class="icon-mark">✅</span> <strong>ผลลัพธ์:</strong> ร่างกาย (PDE5 + NO) + จิตใจ (CBD ลดกังวล) พร้อมกัน</li>
-            <li><span class="icon-mark">✅</span> <strong>ความเสี่ยง:</strong> สารสกัดธรรมชาติ 100% · ผ่าน อย. (11-1-13958-5-0571)</li>
-            <li><span class="icon-mark">✅</span> <strong>ความสะดวก:</strong> สั่งออนไลน์ ส่งมิดชิด ไม่ต้องไปคลินิก ไม่ต้องใบสั่งแพทย์</li>
-            <li><span class="icon-mark">✅</span> <strong>เหมาะกับ:</strong> ผู้ชายที่ต้องการก้าวแรกที่ปลอดภัยและเห็นผลจริงใน 10–14 วัน</li>
-          </ul>
-          <div class="compare-highlights">
-            <span>💊 สารสกัดธรรมชาติ 100%</span>
-            <span>🧠 CBD ลดเครียด</span>
-            <span>🏛 ผ่าน อย.</span>
-            <span>📦 ส่งมิดชิด COD</span>
-          </div>
-          <div class="compare-verdict">สมดุลที่สุดทั้งราคา ความปลอดภัย ผลลัพธ์ และความเป็นส่วนตัว</div>
         </div>
 
         <div class="compare-alts">
@@ -102,29 +106,44 @@
   .compare-card { border-radius: 22px; padding: 18px; display: flex; flex-direction: column; gap: 12px; }
   .compare-icon { font-size: 28px; line-height: 1; }
   .compare-title { font-size: 17px; font-weight: 800; letter-spacing: -.02em; }
+  .compare-featured-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.18fr) minmax(240px, .82fr);
+    gap: 22px;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+  .compare-featured-copy {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
   .compare-featured .compare-icon { font-size: 38px; margin-bottom: 4px; }
   .compare-featured .compare-title { font-size: clamp(32px, 4.2vw, 44px); line-height: .98; margin-bottom: 4px; }
   .compare-product-shot {
     display: flex;
-    justify-content: center;
-    margin: 10px 0 14px;
+    justify-content: flex-end;
+    align-items: center;
     position: relative;
-    z-index: 1;
+    min-width: 0;
   }
   .compare-product-shot::before {
     content: "";
     position: absolute;
-    inset: 12% 24%;
+    inset: 10% 6% 14%;
     border-radius: 999px;
     background: radial-gradient(circle, rgba(157,240,203,.28) 0%, rgba(157,240,203,0) 70%);
-    filter: blur(18px);
+    filter: blur(24px);
     pointer-events: none;
   }
   .compare-product-jar {
     position: relative;
-    width: min(100%, 190px);
+    width: min(100%, 360px);
     height: auto;
-    filter: drop-shadow(0 18px 36px rgba(0,0,0,.32)) drop-shadow(0 0 22px rgba(157,240,203,.16));
+    max-height: 520px;
+    object-fit: contain;
+    filter: drop-shadow(0 24px 44px rgba(0,0,0,.34)) drop-shadow(0 0 28px rgba(157,240,203,.18));
   }
   .compare-featured .compare-list { gap: 12px; }
   .compare-featured .compare-list li { font-size: 17px; line-height: 1.68; }
@@ -182,11 +201,17 @@
 
   .section-dark .compare-bottom strong { color: var(--text); }
 
-  @media (max-width: 960px) { .compare-alts { grid-template-columns: 1fr; } }
+  @media (max-width: 960px) {
+    .compare-featured-layout { grid-template-columns: minmax(0, 1fr) minmax(220px, .75fr); gap: 18px; }
+    .compare-product-jar { width: min(100%, 300px); }
+    .compare-alts { grid-template-columns: 1fr; }
+  }
   @media (max-width: 720px) {
     .compare-featured { padding: 20px; }
-    .compare-product-shot { margin: 8px 0 12px; }
-    .compare-product-jar { width: min(100%, 150px); }
+    .compare-featured-layout { grid-template-columns: 1fr; gap: 14px; }
+    .compare-product-shot { justify-content: center; margin-top: 2px; }
+    .compare-product-shot::before { inset: 10% 16% 14%; }
+    .compare-product-jar { width: min(100%, 240px); max-height: none; }
     .compare-featured .compare-list li { font-size: 15px; }
     .compare-featured .compare-list strong { font-size: 16px; }
     .compare-featured .compare-highlights span { font-size: 13px; padding: 8px 11px; }
