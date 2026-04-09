@@ -1158,6 +1158,292 @@
       margin-top: 1px;
     }
 
+    /* ── Hero promo badge ──────────────────────────────────── */
+    .hero-promo {
+      border-radius: 20px;
+      padding: 16px 18px;
+      background: linear-gradient(135deg,
+        rgba(13,148,136,.08) 0%,
+        rgba(52,211,153,.06) 50%,
+        rgba(245,158,11,.06) 100%);
+      border: 1.5px solid rgba(13,148,136,.18);
+      box-shadow:
+        0 8px 24px rgba(13,148,136,.10),
+        inset 0 1px 2px rgba(255,255,255,.9);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .hero-promo-price {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .hero-promo-price .now {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -.04em;
+      background: linear-gradient(135deg, var(--brand), var(--tropical-green));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-promo-price .was {
+      font-size: 16px;
+      color: var(--text-dim);
+      text-decoration: line-through;
+    }
+
+    .hero-promo-meta {
+      font-size: 13px;
+      color: var(--text-soft);
+      line-height: 1.4;
+    }
+
+    .hero-promo-meta strong {
+      display: block;
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    .btn-primary-lg {
+      min-height: 60px;
+      padding: 0 28px;
+      font-size: 17px;
+      border-radius: 18px;
+    }
+
+    /* ── Dark island sections ─────────────────────────────── */
+    .section-dark {
+      background:
+        radial-gradient(circle at 20% 30%, rgba(13,148,136,.18), transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(245,158,11,.12), transparent 50%),
+        linear-gradient(180deg, #143832 0%, #1a3830 40%, #0f2e28 100%);
+      border-radius: 30px;
+      padding: 28px;
+      color: rgba(255,255,255,.92);
+    }
+
+    .section-dark .eyebrow {
+      background: rgba(255,255,255,.10);
+      border-color: rgba(255,255,255,.15);
+      color: var(--tropical-green);
+      box-shadow: 0 4px 14px rgba(0,0,0,.15);
+    }
+
+    .section-dark .eyebrow::before {
+      background: linear-gradient(135deg, var(--tropical-green), var(--teal));
+      box-shadow: 0 0 0 5px rgba(52,211,153,.2), 0 0 12px rgba(52,211,153,.3);
+    }
+
+    .section-dark .section-title {
+      color: #fff;
+    }
+
+    .section-dark .section-desc {
+      color: rgba(255,255,255,.65);
+    }
+
+    .section-dark .problem-card,
+    .section-dark .compare-card,
+    .section-dark .compare-featured {
+      background: linear-gradient(135deg,
+        rgba(255,255,255,.10) 0%,
+        rgba(255,255,255,.06) 100%);
+      border: 1.5px solid rgba(255,255,255,.12);
+      box-shadow:
+        0 12px 32px rgba(0,0,0,.18),
+        inset 0 1px 1px rgba(255,255,255,.12);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    .section-dark .problem-card::before,
+    .section-dark .compare-card::before {
+      background: linear-gradient(180deg, rgba(255,255,255,.06), transparent);
+    }
+
+    .section-dark .problem-card:hover,
+    .section-dark .compare-card:hover {
+      border-color: rgba(255,255,255,.20);
+      box-shadow:
+        0 16px 40px rgba(0,0,0,.22),
+        inset 0 1px 1px rgba(255,255,255,.15);
+    }
+
+    .section-dark .problem-card strong,
+    .section-dark .compare-title {
+      color: #fff;
+    }
+
+    .section-dark .problem-card p,
+    .section-dark .compare-list li {
+      color: rgba(255,255,255,.60);
+    }
+
+    .section-dark .problem-index {
+      background: linear-gradient(135deg,
+        rgba(52,211,153,.22) 0%,
+        rgba(13,148,136,.18) 100%);
+      color: var(--tropical-green);
+      border-color: rgba(255,255,255,.12);
+      box-shadow: 0 4px 14px rgba(0,0,0,.2);
+    }
+
+    .section-dark .compare-featured {
+      background: linear-gradient(135deg,
+        rgba(52,211,153,.14) 0%,
+        rgba(13,148,136,.10) 40%,
+        rgba(255,255,255,.08) 100%);
+      border-color: rgba(52,211,153,.25);
+    }
+
+    .section-dark .compare-verdict {
+      border-color: rgba(255,255,255,.10);
+      color: rgba(255,255,255,.50);
+    }
+
+    .section-dark .compare-featured .compare-verdict {
+      color: var(--tropical-green);
+    }
+
+    .section-dark .compare-highlights span {
+      background: rgba(255,255,255,.08);
+      border-color: rgba(255,255,255,.10);
+      color: rgba(255,255,255,.85);
+    }
+
+    .section-dark .compare-bottom {
+      background: rgba(255,255,255,.06);
+      border-color: rgba(255,255,255,.10);
+      color: rgba(255,255,255,.60);
+    }
+
+    .section-dark .compare-bottom strong {
+      color: #fff;
+    }
+
+    .section-dark .glass::before {
+      background: linear-gradient(180deg, rgba(255,255,255,.04), transparent);
+    }
+
+    .section-dark .glass:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,.20);
+      box-shadow:
+        0 16px 40px rgba(0,0,0,.22),
+        inset 0 1px 1px rgba(255,255,255,.15);
+    }
+
+    .section-dark .split-note .half.bad {
+      background: linear-gradient(135deg,
+        rgba(220,38,38,.14) 0%,
+        rgba(255,255,255,.06) 100%);
+      border-color: rgba(220,38,38,.25);
+    }
+
+    .section-dark .split-note .half.good {
+      background: linear-gradient(135deg,
+        rgba(52,211,153,.14) 0%,
+        rgba(255,255,255,.06) 100%);
+      border-color: rgba(52,211,153,.25);
+    }
+
+    .section-dark .half .tag {
+      color: rgba(255,255,255,.8);
+    }
+
+    .section-dark .half.bad .tag {
+      background: rgba(220,38,38,.18);
+      color: #fca5a5;
+    }
+
+    .section-dark .half.good .tag {
+      background: rgba(52,211,153,.18);
+      color: #6ee7b7;
+    }
+
+    .section-dark .half li {
+      color: rgba(255,255,255,.55);
+    }
+
+    .section-dark .chain-content {
+      background: linear-gradient(135deg,
+        rgba(255,255,255,.08) 0%,
+        rgba(255,255,255,.04) 100%) !important;
+      border-color: rgba(255,255,255,.10) !important;
+    }
+
+    .section-dark .chain-content strong {
+      color: #fff;
+    }
+
+    .section-dark .chain-content p {
+      color: rgba(255,255,255,.55);
+    }
+
+    .section-dark .chain-num {
+      background: linear-gradient(135deg, var(--brand), var(--tropical-green));
+      color: #fff;
+    }
+
+    /* ── Form trust strip ─────────────────────────────────── */
+    .form-trust-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 14px;
+    }
+
+    .form-trust-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-dim);
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.5);
+      border: 1px solid rgba(255,255,255,.4);
+    }
+
+    .form-trust-item .ti {
+      font-size: 14px;
+      line-height: 1;
+    }
+
+    /* ── Doc captions ──────────────────────────────────────── */
+    .doc-caption {
+      margin-top: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-dim);
+      text-align: center;
+      letter-spacing: .01em;
+    }
+
+    .feedback-caption {
+      font-size: 12px;
+      color: var(--text-dim);
+      text-align: center;
+      margin-top: 6px;
+      font-weight: 600;
+    }
+
+    .video-caption {
+      font-size: 13px;
+      color: var(--text-dim);
+      text-align: center;
+      margin-top: 10px;
+      font-weight: 600;
+    }
+
     /* ── Comparison section ─────────────────────────────────── */
     .compare-grid {
       display: grid;
@@ -2141,6 +2427,11 @@
       .sticky-copy strong { font-size: 13px; }
       .sticky-copy .mini { font-size: 10px; }
       .comments-scroll { max-height: min(54vh, 360px); }
+      .btn-primary-lg { min-height: 54px; padding: 0 20px; font-size: 15px; }
+      .hero-promo { flex-direction: column; gap: 8px; }
+      .hero-promo-price .now { font-size: 28px; }
+      .section-dark { padding: 18px; border-radius: 24px; }
+      .compare-alts { grid-template-columns: 1fr; }
     }
 
   </style>
@@ -2216,8 +2507,19 @@
                 </div>
               </div>
 
+              <div class="hero-promo glass">
+                <div class="hero-promo-price">
+                  <span class="now">990 ฿</span>
+                  <span class="was">1,990 ฿</span>
+                </div>
+                <div class="hero-promo-meta">
+                  <strong>คอร์สฟื้นฟู 10–14 วัน</strong>
+                  โปรโมชั่นจำกัด · เก็บเงินปลายทาง
+                </div>
+              </div>
+
               <div class="hero-cta">
-                <a class="btn-primary" href="https://vigasil.hegetkaplas.workers.dev/#order-form">รับคำปรึกษาฟรี</a>
+                <a class="btn-primary btn-primary-lg" href="https://vigasil.hegetkaplas.workers.dev/#order-form">สั่งคอร์สฟื้นฟูในราคา 990 ฿</a>
                 <a class="btn-secondary" href="https://vigasil.hegetkaplas.workers.dev/#mechanism">ดูวิธีการทำงาน</a>
               </div>
 
@@ -2292,7 +2594,7 @@
 
     <section class="section">
       <div class="container">
-        <div class="section-card glass-strong">
+        <div class="section-card section-dark">
           <div class="section-header">
             <span class="eyebrow">ปัญหาที่พบได้บ่อย</span>
             <h2 class="section-title">ทำไมอาหารเสริมทั่วไปถึงได้ผลเพียงครึ่งเดียว?</h2>
@@ -2433,7 +2735,7 @@
 
     <section class="section" id="comparison">
       <div class="container">
-        <div class="section-card glass-strong">
+        <div class="section-card section-dark">
           <div class="section-header">
             <span class="eyebrow">เปรียบเทียบทางเลือก</span>
             <h2 class="section-title">ทุกวิธีที่ผู้ชายลองมาแล้ว — อะไรได้ผลจริง?</h2>
@@ -2610,7 +2912,7 @@
                 <div class="offer-row"><span>การปรึกษา</span><span>โทรฟรีจากผู้เชี่ยวชาญ</span></div>
               </div>
               <div class="offer-note">ข้อมูลของคุณจะถูกเก็บเป็นความลับสูงสุด เราจะติดต่อกลับเพื่อยืนยันรายละเอียดการจัดส่งโดยไม่มีคำถามที่ไม่จำเป็น</div>
-              <a class="btn-primary" href="https://vigasil.hegetkaplas.workers.dev/#order-form">สั่งซื้อตอนนี้ในราคาส่วนลด</a>
+              <a class="btn-primary btn-primary-lg" href="https://vigasil.hegetkaplas.workers.dev/#order-form">สั่งคอร์สฟื้นฟูในราคา 990 ฿</a>
             </div>
           </div>
         </div>
@@ -2677,7 +2979,7 @@
           <div class="section-header" style="margin-top:40px;">
             <span class="eyebrow">เอกสารรับรอง</span>
             <h2 class="section-title">ความโปร่งใสในทุกขั้นตอน</h2>
-            <p class="section-desc">เราภูมิใจนำเสนอเอกสารยืนยันคุณภาพและความปลอดภัยของ CBD Vigasil เพื่อความมั่นใจสูงสุดของคุณ</p>
+            <p class="section-desc">เอกสารจริงจาก อย. และโรงงานผลิต — สิ่งที่ผลิตภัณฑ์ทั่วไปไม่มีให้ดู เราเปิดเผยทุกอย่างเพื่อความมั่นใจสูงสุดของคุณ</p>
           </div>
 
           <div class="docs-grid">
@@ -2686,6 +2988,7 @@
               <div class="doc-title">เอกสารรับรองจาก อย.</div>
               <p class="doc-desc">แสดงการอนุมัติและเลขทะเบียนผลิตภัณฑ์อย่างเป็นทางการจากสำนักงานคณะกรรมการอาหารและยา</p>
               <img src="assets/img/documents/CBD Vigasil - FDA.png" alt="CBD Vigasil FDA Document" class="doc-image">
+              <div class="doc-caption">เลขที่ใบจดแจ้ง อย. 11-1-13958-5-0571</div>
               <a href="docs/product/CBD Vigasil - FDA.pdf" download class="doc-download-link">ดาวน์โหลด PDF</a>
             </div>
             <div class="doc-card glass">
@@ -2693,6 +2996,7 @@
               <div class="doc-title">เอกสารข้อมูลผลิตภัณฑ์</div>
               <p class="doc-desc">รายละเอียดทางเทคนิค ส่วนประกอบ และผลการวิจัยทางวิทยาศาสตร์เกี่ยวกับอาหารเสริม Male Enhancement +CBD</p>
               <img src="assets/img/documents/อาหารเสริม Male Enhancement +CBD.png" alt="Male Enhancement +CBD Document" class="doc-image">
+              <div class="doc-caption">ใบรับรอง GMP/GHPs จากโรงงาน Specialty Innovation Co., Ltd.</div>
               <a href="docs/product/อาหารเสริม Male Enhancement +CBD.pdf" download class="doc-download-link">ดาวน์โหลด PDF</a>
             </div>
           </div>
@@ -2715,6 +3019,7 @@
               เบราว์เซอร์ของคุณไม่รองรับการเล่นวิดีโอ
             </video>
           </div>
+          <div class="video-caption">ผู้เชี่ยวชาญอธิบายกลไกการทำงานของ CBD Vigasil</div>
 
           <div class="feedback-grid">
             <div class="feedback-card glass">
@@ -2722,6 +3027,7 @@
               <div class="feedback-content">
                 <div class="feedback-name">ปราย เรืองศักดิ์ <span class="feedback-stars">★★★★★</span></div>
                 <p style="font-size: 13px; color: var(--text-soft);">ลองใช้อาหารเสริมมาแล้วหลายตัวแต่ก็ไม่ได้ผลเลยครับ มาได้ผลลัพธ์จริงจังกับ Vigasil ตัวนี้เท่านั้น</p>
+                <div class="feedback-caption">ใช้ต่อเนื่อง 1 เดือน</div>
               </div>
             </div>
             <div class="feedback-card glass">
@@ -2729,6 +3035,7 @@
               <div class="feedback-content">
                 <div class="feedback-name">ยอด กีรติ <span class="feedback-stars">★★★★★</span></div>
                 <p style="font-size: 13px; color: var(--text-soft);">ไม่คิดว่าจะมีอาหารเสริมที่มีส่วนผสมของ CBD ขายในไทย คุ้มที่สุดในตลาดแล้วครับ</p>
+                <div class="feedback-caption">ใช้ต่อเนื่อง 2 สัปดาห์</div>
               </div>
             </div>
             <div class="feedback-card glass">
@@ -2736,6 +3043,7 @@
               <div class="feedback-content">
                 <div class="feedback-name">ณเดชา เกรศวร <span class="feedback-stars">★★★★★</span></div>
                 <p style="font-size: 13px; color: var(--text-soft);">พอยกคอร์สไปผมรู้สึกถึงการเปลี่ยนแปลงได้อย่างชัดเจนมาก อยากทำการบ้านกับแฟนทุกคืน</p>
+                <div class="feedback-caption">ใช้ครบคอร์ส 14 วัน</div>
               </div>
             </div>
             <div class="feedback-card glass">
@@ -2743,6 +3051,7 @@
               <div class="feedback-content">
                 <div class="feedback-name">นงนุช เศษสมัย <span class="feedback-stars">★★★★★</span></div>
                 <p style="font-size: 13px; color: var(--text-soft);">ซื้อให้สามีทานได้ประมาณ 2 เดือนแล้ว เรื่องบนเตียงของเราสองคนมีความสุขมากขึ้น ขอบคุณมากค่ะ</p>
+                <div class="feedback-caption">ซื้อให้สามี · ใช้ต่อเนื่อง 2 เดือน</div>
               </div>
             </div>
           </div>
@@ -2901,7 +3210,14 @@
                 <label for="phone">เบอร์โทรศัพท์</label>
                 <input id="phone" type="tel" placeholder="0XX-XXX-XXXX">
               </div>
-              <button class="form-submit" onclick="handleOrder(this)">รับสิทธิ์ส่วนลดตอนนี้ →</button>
+              <button class="form-submit" onclick="handleOrder(this)" style="min-height:58px; font-size:17px;">สั่งคอร์สฟื้นฟูในราคา 990 ฿ →</button>
+            </div>
+
+            <div class="form-trust-strip">
+              <span class="form-trust-item"><span class="ti">💳</span> เก็บเงินปลายทาง</span>
+              <span class="form-trust-item"><span class="ti">📦</span> บรรจุภัณฑ์มิดชิด</span>
+              <span class="form-trust-item"><span class="ti">🏛</span> จดทะเบียน อย.</span>
+              <span class="form-trust-item"><span class="ti">🏭</span> GMP/GHPs</span>
             </div>
 
             <div class="form-note">ข้อมูลของคุณจะได้รับการปกป้องอย่างปลอดภัย การกดปุ่มแสดงว่าคุณยินยอมให้เจ้าหน้าที่ติดต่อกลับเพื่อปรึกษาฟรี ชำระเงินปลายทางเท่านั้นเมื่อได้รับสินค้า</div>
@@ -2979,9 +3295,9 @@
   <div class="sticky-bar">
     <div class="sticky-copy">
       <div class="mini">เป็นส่วนตัวสูงสุด · เก็บเงินปลายทาง</div>
-      <strong>โปรโมชั่นฟื้นฟูสมรรถภาพ CBD Vigasil</strong>
+      <strong>CBD Vigasil · <span style="color: var(--brand);">990 ฿</span></strong>
     </div>
-    <a class="sticky-btn" href="https://vigasil.hegetkaplas.workers.dev/#order-form">สั่งซื้อเลย</a>
+    <a class="sticky-btn" href="https://vigasil.hegetkaplas.workers.dev/#order-form">จองโปรโมชั่นตอนนี้</a>
   </div>
   <script id="fix-child">
     window.iFrameResizer = {
