@@ -205,10 +205,20 @@
     );
   }
 
-  function positionModal(triggerEl) {
+  function getPreferredTop(triggerEl) {
+    if (!triggerEl || !triggerEl.closest) return 80;
+
+    if (triggerEl.closest(".hero-shell")) {
+      return Math.max(20, getDocTop(triggerEl) - 40);
+    }
+
     var anchorEl = getModalAnchor(triggerEl);
+    return Math.max(24, getDocTop(anchorEl) + 24);
+  }
+
+  function positionModal(triggerEl) {
     var docHeight = getDocHeight();
-    var preferredTop = Math.max(24, getDocTop(anchorEl) + 24);
+    var preferredTop = getPreferredTop(triggerEl);
     var cardHeight = modalCard ? modalCard.offsetHeight : 0;
     var maxTop = Math.max(24, docHeight - cardHeight - 24);
     var finalTop = Math.min(preferredTop, maxTop);
