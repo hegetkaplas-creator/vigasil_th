@@ -175,16 +175,56 @@
 <script is:inline>
 (function () {
   var overlay = document.getElementById("orderModal");
+  var modalCard = overlay ? overlay.querySelector(".modal-card") : null;
   var openBtn = document.getElementById("openModalBtn");
   var closeBtn = document.getElementById("closeModalBtn");
+  var lastTrigger = null;
   if (!overlay || !openBtn) return;
 
+  function getDocHeight() {
+    return Math.max(
+      document.documentElement.scrollHeight,
+      document.body.scrollHeight,
+      document.documentElement.offsetHeight,
+      document.body.offsetHeight
+    );
+  }
+
+  function getDocTop(el) {
+    if (!el || !el.getBoundingClientRect) return 0;
+    var r = el.getBoundingClientRect();
+    var scrollY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    return r.top + scrollY;
+  }
+
+  function getModalAnchor(triggerEl) {
+    if (!triggerEl || !triggerEl.closest) return triggerEl;
+    return (
+      triggerEl.closest(".offer-card, .hero-shell, .sticky-bar, .section-card, .section") ||
+      triggerEl
+    );
+  }
+
+  function positionModal(triggerEl) {
+    var anchorEl = getModalAnchor(triggerEl);
+    var docHeight = getDocHeight();
+    var preferredTop = Math.max(24, getDocTop(anchorEl) + 24);
+    var cardHeight = modalCard ? modalCard.offsetHeight : 0;
+    var maxTop = Math.max(24, docHeight - cardHeight - 24);
+    var finalTop = Math.min(preferredTop, maxTop);
+
+    overlay.style.height = docHeight + "px";
+    overlay.style.setProperty("--modal-top", finalTop + "px");
+  }
+
   function openModal(triggerEl) {
-    var top = 80;
-    overlay.style.height = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight) + "px";
-    overlay.style.setProperty("--modal-top", top + "px");
+    lastTrigger = triggerEl || openBtn;
+    positionModal(lastTrigger);
     overlay.classList.add("open");
     overlay.setAttribute("aria-hidden", "false");
+    requestAnimationFrame(function () {
+      if (overlay.classList.contains("open")) positionModal(lastTrigger);
+    });
   }
   function closeModal() {
     if (overlay.contains(document.activeElement)) {
@@ -200,6 +240,9 @@
   closeBtn.addEventListener("click", closeModal);
   overlay.addEventListener("click", function (e) {
     if (e.target === overlay) closeModal();
+  });
+  window.addEventListener("resize", function () {
+    if (overlay.classList.contains("open") && lastTrigger) positionModal(lastTrigger);
   });
 
   document.addEventListener("click", function (e) {
