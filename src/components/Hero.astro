@@ -192,6 +192,11 @@
     overlay.setAttribute("aria-hidden", "false");
   }
   function closeModal() {
+    if (overlay.contains(document.activeElement)) {
+      try {
+        document.activeElement.blur();
+      } catch (_) {}
+    }
     overlay.classList.remove("open");
     overlay.setAttribute("aria-hidden", "true");
   }
@@ -244,9 +249,16 @@
     if (hasError) return;
 
     var cfg = window.FORM_CONFIG || {};
-    var endpoint = cfg.formEndpoint || "";
-    var formId = cfg.formId || "transit";
-    var method = (cfg.formMethod || "POST").toUpperCase();
+    var endpoint =
+      cfg.formEndpoint ||
+      (document.body && document.body.getAttribute("data-form-endpoint")) ||
+      "";
+    var formId = cfg.formId || (document.body && document.body.getAttribute("data-form-id")) || "transit";
+    var method = (
+      cfg.formMethod ||
+      (document.body && document.body.getAttribute("data-form-method")) ||
+      "POST"
+    ).toUpperCase();
     var debug = typeof URLSearchParams !== "undefined" && new URLSearchParams(window.location.search).get("debugForm") === "1";
 
     if (!endpoint) {

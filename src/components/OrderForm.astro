@@ -69,15 +69,20 @@
     } catch (_) { return false; }
   }
 
+  function getFormCfg() {
+    return window.FORM_CONFIG || {};
+  }
+
   async function submitWithFetch(payload) {
-    if (!FORM_CONFIG.formEndpoint) {
+    var cfg = getFormCfg();
+    if (!cfg.formEndpoint) {
       throw new Error("no-endpoint");
     }
     if (isFormDebug()) {
-      console.log("[order-form] fetch POST", FORM_CONFIG.formEndpoint, Object.fromEntries(payload));
+      console.log("[order-form] fetch POST", cfg.formEndpoint, Object.fromEntries(payload));
     }
-    const response = await fetch(FORM_CONFIG.formEndpoint, {
-      method: FORM_CONFIG.formMethod,
+    const response = await fetch(cfg.formEndpoint, {
+      method: cfg.formMethod,
       headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
       body: payload.toString(),
       mode: "cors",
@@ -90,11 +95,12 @@
   }
 
   function submitWithHiddenForm(name, phoneDigits) {
+    var cfg = getFormCfg();
     const fallbackForm = document.getElementById("constructor-fallback-form");
-    if (!fallbackForm || !FORM_CONFIG.formEndpoint) {
+    if (!fallbackForm || !cfg.formEndpoint) {
       throw new Error("fallback-unavailable");
     }
-    fallbackForm.action = FORM_CONFIG.formEndpoint;
+    fallbackForm.action = cfg.formEndpoint;
     const nameInput = fallbackForm.querySelector('input[name="name"]');
     const phoneInput = fallbackForm.querySelector('input[name="phone"]');
     const formIdInput = fallbackForm.querySelector('input[name="form_id"]');
@@ -103,7 +109,7 @@
     }
     nameInput.value = name;
     phoneInput.value = phoneDigits;
-    formIdInput.value = FORM_CONFIG.formId;
+    formIdInput.value = cfg.formId || "transit";
     fallbackForm.submit();
   }
 
@@ -150,7 +156,7 @@
     const payload = new URLSearchParams();
     payload.set("name", name);
     payload.set("phone", phoneDigits);
-    payload.set("form_id", FORM_CONFIG.formId);
+    payload.set("form_id", getFormCfg().formId || "transit");
 
     try {
       await submitWithFetch(payload);
@@ -196,6 +202,8 @@
       this.value = hasPlus ? `+${val}` : val;
     });
   });
+
+  window.handleOrder = handleOrder;
 </script>
 
 <style>
