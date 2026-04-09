@@ -38,7 +38,6 @@ body {
     linear-gradient(180deg, #f0fdf4 0%, #ecfdf5 30%, #d1fae5 100%);
   line-height: 1.6;
   overflow-x: hidden;
-  padding-bottom: 88px;
 }
 
 body::before,

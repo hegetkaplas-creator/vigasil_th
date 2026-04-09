@@ -158,17 +158,22 @@
       }
     }
 
-    triggerBtn.textContent = "สั่งซื้อสำเร็จ ✓";
-    triggerBtn.style.background = "linear-gradient(135deg, var(--ok) 0%, var(--tropical-green) 100%)";
-    triggerBtn.style.opacity = "1";
-    setTimeout(() => {
-      triggerBtn.textContent = originalText;
-      triggerBtn.style.background = "";
-      triggerBtn.disabled = false;
-      nameField.value = "";
-      phoneField.value = "";
-      redirectToSuccessPage();
-    }, 3000);
+    if (typeof fireSuccessPixel === "function") fireSuccessPixel();
+    var formCard = triggerBtn.closest('.form-card');
+    if (formCard) {
+      formCard.innerHTML =
+        '<div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px;padding:20px 0;animation:tyFadeIn .5s ease-out">' +
+          '<div style="width:72px;height:72px;border-radius:50%;display:grid;place-items:center;font-size:32px;font-weight:900;color:#fff;background:linear-gradient(135deg,var(--ok),var(--tropical-green));box-shadow:0 12px 32px rgba(16,185,129,.3)">✓</div>' +
+          '<h2 style="font-size:26px;font-weight:800;letter-spacing:-.04em;margin:0">สั่งซื้อสำเร็จ!</h2>' +
+          '<p style="font-size:15px;color:var(--text-soft);line-height:1.5;margin:0">ขอบคุณที่ไว้วางใจ CBD Vigasil<br>เจ้าหน้าที่จะโทรกลับเพื่อยืนยันภายใน 15 นาที</p>' +
+          '<div style="display:grid;gap:10px;width:100%">' +
+            '<div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:16px;background:rgba(255,255,255,.6);border:1px solid rgba(16,185,129,.12);font-size:14px;font-weight:600"><span style="width:28px;height:28px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,rgba(16,185,129,.16),rgba(52,211,153,.12));color:var(--ok);font-weight:800;font-size:13px;flex-shrink:0;border:1px solid rgba(16,185,129,.18)">1</span>รอรับสายจากเจ้าหน้าที่</div>' +
+            '<div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:16px;background:rgba(255,255,255,.6);border:1px solid rgba(16,185,129,.12);font-size:14px;font-weight:600"><span style="width:28px;height:28px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,rgba(16,185,129,.16),rgba(52,211,153,.12));color:var(--ok);font-weight:800;font-size:13px;flex-shrink:0;border:1px solid rgba(16,185,129,.18)">2</span>ยืนยันที่อยู่จัดส่ง</div>' +
+            '<div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:16px;background:rgba(255,255,255,.6);border:1px solid rgba(16,185,129,.12);font-size:14px;font-weight:600"><span style="width:28px;height:28px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,rgba(16,185,129,.16),rgba(52,211,153,.12));color:var(--ok);font-weight:800;font-size:13px;flex-shrink:0;border:1px solid rgba(16,185,129,.18)">3</span>รับสินค้า · ชำระเงินปลายทาง</div>' +
+          '</div>' +
+          '<div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;font-size:13px;color:var(--text-dim);font-weight:600"><span>📦 บรรจุภัณฑ์มิดชิด</span><span>💳 เก็บเงินปลายทาง</span></div>' +
+        '</div>';
+    }
   }
 
   document.querySelectorAll('input[type="tel"]').forEach(function(phoneInput) {

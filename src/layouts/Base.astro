@@ -45,15 +45,15 @@ const { title } = Astro.props;
       return (value || "").replace(/\D/g, "");
     }
 
-    function redirectToSuccessPage() {
+    function fireSuccessPixel() {
       if (!FORM_CONFIG.successUrl) return;
       try {
-        if (window.top && window.top !== window.self) {
-          window.top.location.href = FORM_CONFIG.successUrl;
-          return;
-        }
+        var pf = document.createElement("iframe");
+        pf.style.cssText = "position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;border:0";
+        pf.src = FORM_CONFIG.successUrl;
+        document.body.appendChild(pf);
+        setTimeout(function () { try { pf.remove(); } catch(_){} }, 15000);
       } catch (_) {}
-      window.location.href = FORM_CONFIG.successUrl;
     }
 
     document.addEventListener("DOMContentLoaded", () => {
