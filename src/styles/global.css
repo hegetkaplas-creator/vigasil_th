@@ -412,18 +412,18 @@ button, input { font: inherit; }
 }
 
 .section-dark .section-title { color: #fff; }
-.section-dark .section-desc { color: rgba(255,255,255,.82); }
+.section-dark .section-desc { color: rgba(244,252,249,.88); }
 
 .section-dark .problem-card,
 .section-dark .compare-card,
 .section-dark .compare-featured {
   background: linear-gradient(135deg,
-    rgba(255,255,255,.14) 0%,
-    rgba(255,255,255,.09) 100%);
-  border: 1.5px solid rgba(255,255,255,.18);
+    rgba(7, 28, 24, .88) 0%,
+    rgba(15, 52, 45, .78) 100%);
+  border: 1.5px solid rgba(255,255,255,.16);
   box-shadow:
-    0 12px 32px rgba(0,0,0,.18),
-    inset 0 1px 1px rgba(255,255,255,.16);
+    0 16px 40px rgba(0,0,0,.28),
+    inset 0 1px 0 rgba(255,255,255,.08);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
@@ -437,15 +437,15 @@ button, input { font: inherit; }
 .section-dark .compare-card:hover {
   border-color: rgba(255,255,255,.26);
   box-shadow:
-    0 16px 40px rgba(0,0,0,.22),
-    inset 0 1px 1px rgba(255,255,255,.20);
+    0 20px 48px rgba(0,0,0,.34),
+    inset 0 1px 0 rgba(255,255,255,.12);
 }
 
 .section-dark .problem-card strong,
 .section-dark .compare-title { color: #fff; }
 
 .section-dark .problem-card p,
-.section-dark .compare-list li { color: rgba(255,255,255,.84); }
+.section-dark .compare-list li { color: rgba(244,252,249,.92); }
 
 .section-dark .problem-index {
   background: linear-gradient(135deg,
@@ -458,15 +458,15 @@ button, input { font: inherit; }
 
 .section-dark .compare-featured {
   background: linear-gradient(135deg,
-    rgba(52,211,153,.14) 0%,
-    rgba(13,148,136,.10) 40%,
-    rgba(255,255,255,.08) 100%);
-  border-color: rgba(52,211,153,.25);
+    rgba(9, 42, 36, .94) 0%,
+    rgba(14, 86, 71, .86) 55%,
+    rgba(7, 28, 24, .92) 100%);
+  border-color: rgba(52,211,153,.34);
 }
 
 .section-dark .compare-verdict {
   border-color: rgba(255,255,255,.10);
-  color: rgba(255,255,255,.76);
+  color: rgba(244,252,249,.82);
 }
 
 .section-dark .compare-featured .compare-verdict { color: var(--tropical-green); }
@@ -478,9 +478,11 @@ button, input { font: inherit; }
 }
 
 .section-dark .compare-bottom {
-  background: rgba(255,255,255,.10);
-  border-color: rgba(255,255,255,.16);
-  color: rgba(255,255,255,.84);
+  background: linear-gradient(135deg,
+    rgba(6, 24, 21, .92) 0%,
+    rgba(14, 48, 41, .84) 100%);
+  border-color: rgba(255,255,255,.14);
+  color: rgba(244,252,249,.9);
 }
 
 .section-dark .compare-bottom strong { color: #fff; }
