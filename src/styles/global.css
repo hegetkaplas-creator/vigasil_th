@@ -396,7 +396,7 @@ button, input { font: inherit; }
     linear-gradient(180deg, #143832 0%, #1a3830 40%, #0f2e28 100%);
   border-radius: 30px;
   padding: 28px;
-  color: rgba(255,255,255,.96);
+  color: rgba(255,255,255,.92);
 }
 
 .section-dark .eyebrow {
@@ -412,18 +412,18 @@ button, input { font: inherit; }
 }
 
 .section-dark .section-title { color: #fff; }
-.section-dark .section-desc { color: rgba(255,255,255,.82); }
+.section-dark .section-desc { color: rgba(255,255,255,.65); }
 
 .section-dark .problem-card,
 .section-dark .compare-card,
 .section-dark .compare-featured {
   background: linear-gradient(135deg,
-    rgba(255,255,255,.14) 0%,
-    rgba(255,255,255,.09) 100%);
-  border: 1.5px solid rgba(255,255,255,.18);
+    rgba(255,255,255,.10) 0%,
+    rgba(255,255,255,.06) 100%);
+  border: 1.5px solid rgba(255,255,255,.12);
   box-shadow:
     0 12px 32px rgba(0,0,0,.18),
-    inset 0 1px 1px rgba(255,255,255,.16);
+    inset 0 1px 1px rgba(255,255,255,.12);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
@@ -435,17 +435,17 @@ button, input { font: inherit; }
 
 .section-dark .problem-card:hover,
 .section-dark .compare-card:hover {
-  border-color: rgba(255,255,255,.26);
+  border-color: rgba(255,255,255,.20);
   box-shadow:
     0 16px 40px rgba(0,0,0,.22),
-    inset 0 1px 1px rgba(255,255,255,.20);
+    inset 0 1px 1px rgba(255,255,255,.15);
 }
 
 .section-dark .problem-card strong,
 .section-dark .compare-title { color: #fff; }
 
 .section-dark .problem-card p,
-.section-dark .compare-list li { color: rgba(255,255,255,.84); }
+.section-dark .compare-list li { color: rgba(255,255,255,.60); }
 
 .section-dark .problem-index {
   background: linear-gradient(135deg,
@@ -466,21 +466,21 @@ button, input { font: inherit; }
 
 .section-dark .compare-verdict {
   border-color: rgba(255,255,255,.10);
-  color: rgba(255,255,255,.76);
+  color: rgba(255,255,255,.50);
 }
 
 .section-dark .compare-featured .compare-verdict { color: var(--tropical-green); }
 
 .section-dark .compare-highlights span {
-  background: rgba(255,255,255,.12);
-  border-color: rgba(255,255,255,.16);
-  color: rgba(255,255,255,.94);
+  background: rgba(255,255,255,.08);
+  border-color: rgba(255,255,255,.10);
+  color: rgba(255,255,255,.85);
 }
 
 .section-dark .compare-bottom {
-  background: rgba(255,255,255,.10);
-  border-color: rgba(255,255,255,.16);
-  color: rgba(255,255,255,.84);
+  background: rgba(255,255,255,.06);
+  border-color: rgba(255,255,255,.10);
+  color: rgba(255,255,255,.60);
 }
 
 .section-dark .compare-bottom strong { color: #fff; }
