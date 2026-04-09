@@ -40,6 +40,7 @@ const { title } = Astro.props;
         successUrl: params.get("successUrl") || body.dataset.successUrl || "",
       };
     })();
+    window.FORM_CONFIG = FORM_CONFIG;
 
     function getDigitsOnly(value) {
       return (value || "").replace(/\D/g, "");
