@@ -12,6 +12,9 @@
           <div class="compare-badge">✅ แนะนำ</div>
           <div class="compare-icon">🧬</div>
           <div class="compare-title">CBD Vigasil — สูตร Double Action</div>
+          <div class="compare-product-shot">
+            <img src="/assets/img/products/Vigasil-th-jar.png" alt="CBD Vigasil jar" class="compare-product-jar">
+          </div>
           <ul class="compare-list">
             <li><span class="icon-mark">💰</span> <strong>ราคา:</strong> 990 ฿ ต่อคอร์ส · เก็บเงินปลายทาง</li>
             <li><span class="icon-mark">✅</span> <strong>ผลลัพธ์:</strong> ร่างกาย (PDE5 + NO) + จิตใจ (CBD ลดกังวล) พร้อมกัน</li>
@@ -101,6 +104,28 @@
   .compare-title { font-size: 17px; font-weight: 800; letter-spacing: -.02em; }
   .compare-featured .compare-icon { font-size: 38px; margin-bottom: 4px; }
   .compare-featured .compare-title { font-size: clamp(32px, 4.2vw, 44px); line-height: .98; margin-bottom: 4px; }
+  .compare-product-shot {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0 14px;
+    position: relative;
+    z-index: 1;
+  }
+  .compare-product-shot::before {
+    content: "";
+    position: absolute;
+    inset: 12% 24%;
+    border-radius: 999px;
+    background: radial-gradient(circle, rgba(157,240,203,.28) 0%, rgba(157,240,203,0) 70%);
+    filter: blur(18px);
+    pointer-events: none;
+  }
+  .compare-product-jar {
+    position: relative;
+    width: min(100%, 190px);
+    height: auto;
+    filter: drop-shadow(0 18px 36px rgba(0,0,0,.32)) drop-shadow(0 0 22px rgba(157,240,203,.16));
+  }
   .compare-featured .compare-list { gap: 12px; }
   .compare-featured .compare-list li { font-size: 17px; line-height: 1.68; }
   .compare-featured .compare-list li .icon-mark { font-size: 18px; line-height: 1.55; }
@@ -160,6 +185,8 @@
   @media (max-width: 960px) { .compare-alts { grid-template-columns: 1fr; } }
   @media (max-width: 720px) {
     .compare-featured { padding: 20px; }
+    .compare-product-shot { margin: 8px 0 12px; }
+    .compare-product-jar { width: min(100%, 150px); }
     .compare-featured .compare-list li { font-size: 15px; }
     .compare-featured .compare-list strong { font-size: 16px; }
     .compare-featured .compare-highlights span { font-size: 13px; padding: 8px 11px; }
