@@ -1,0 +1,44 @@
+<div class="trust-strip">
+  <div class="container">
+    <div class="row">
+      <div class="trust-item glass">
+        <div class="trust-mark">✓</div>
+        <div><strong>ผ่านมาตรฐาน อย.</strong><span>จดทะเบียนถูกต้องในไทย</span></div>
+      </div>
+      <div class="trust-item glass">
+        <div class="trust-mark">01</div>
+        <div><strong>สำหรับชายวัย 35+</strong><span>ก้าวข้ามขีดจำกัดเรื่องวัย</span></div>
+      </div>
+      <div class="trust-item glass">
+        <div class="trust-mark">02</div>
+        <div><strong>สูบฉีดเลือดเต็มสูบ</strong><span>ด้วยการยับยั้ง PDE5</span></div>
+      </div>
+      <div class="trust-item glass">
+        <div class="trust-mark">03</div>
+        <div><strong>เป็นส่วนตัว 100%</strong><span>ส่งของไม่ระบุชื่อสินค้าหน้ากล่อง</span></div>
+      </div>
+      <div class="trust-item glass">
+        <div class="trust-mark">04</div>
+        <div><strong>ผลลัพธ์ต่อเนื่อง</strong><span>ฟื้นฟูระบบภายใน 10–14 วัน</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .trust-strip { padding: 8px 0 18px; }
+  .trust-strip .row { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+  .trust-item { border-radius: 18px; padding: 14px 16px; display: flex; align-items: center; gap: 10px; min-width: 0; }
+  .trust-mark {
+    width: 36px; height: 36px; border-radius: 12px;
+    display: grid; place-items: center;
+    background: linear-gradient(135deg, rgba(13,148,136,.18) 0%, rgba(52,211,153,.15) 100%);
+    color: var(--brand); font-weight: 800; flex-shrink: 0;
+    border: 1px solid rgba(255,255,255,.5);
+    box-shadow: 0 3px 10px rgba(13,148,136,.12), inset 0 1px 0 rgba(255,255,255,.8);
+  }
+  .trust-item strong { display: block; font-size: 14px; line-height: 1.2; letter-spacing: -.02em; }
+  .trust-item span { display: block; margin-top: 2px; color: var(--text-dim); font-size: 12px; line-height: 1.4; }
+
+  @media (max-width: 960px) { .trust-strip .row { grid-template-columns: 1fr; } }
+</style>

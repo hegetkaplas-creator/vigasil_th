@@ -5,9 +5,10 @@
 - Focus: trust-first tone, "Double Action" positioning (physical support + calm/confidence), and high-converting CTA flow.
 
 ## Stack and Structure
-- Static stack only: `HTML + CSS + vanilla JS` in one main file: `index.html`.
+- **Astro** (static output) — components in `src/components/*.astro`, layout in `src/layouts/Base.astro`.
 - Primary visual style: glassmorphism (`.glass`, `.glass-strong`) and tokenized colors in `:root`.
 - Main sections are vertical blocks with IDs used for CTA anchors (e.g. `#mechanism`, `#order-form`).
+- Build produces `dist/index.html` with inlined CSS and compressed HTML.
 
 ## Iframe Embedding
 - The page is embedded inside an iframe on the parent domain (`sabai.wrldtops.site`).
@@ -26,10 +27,12 @@
 - Runtime comments appended by `addRandomComment`; oldest removed when over `MAX_VISIBLE_COMMENTS`.
 
 ## Assets
-- Images: `assets/img/` (logo, product photos, FDA documents, feedback photos)
-- Video: `assets/video/`
+- Images: `public/assets/img/` (logo, product photos, FDA documents, feedback photos)
+- Video: `public/assets/video/`
 - Only web-optimised files belong in git — no `.psd`, `.mov`, raw footage, or design source files.
 
-## Deploy
-- Cloudflare Workers via `wrangler.jsonc` (static asset serving).
+## Build & Deploy
+- Dev: `npm run dev`
+- Build: `npm run build` (output in `dist/`)
+- Cloudflare Workers via `wrangler.jsonc` (serves `dist/` as static assets).
 - Push to `main` triggers CI deploy (GitHub Actions).

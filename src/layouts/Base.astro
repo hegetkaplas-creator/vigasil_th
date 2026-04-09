@@ -1,0 +1,88 @@
+---
+interface Props {
+  title: string;
+}
+const { title } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body
+  data-form-endpoint="https://sabai.wrldtops.site/order"
+  data-form-method="POST"
+  data-form-id="transit"
+  data-success-url="https://sabai.wrldtops.site/success"
+>
+  <slot />
+
+  <script is:inline id="fix-child">
+    window.iFrameResizer = {
+      targetOrigin: '*'
+    };
+  </script>
+  <script is:inline src="https://cdn.jsdelivr.net/npm/@iframe-resizer/child@5.5.9"></script>
+
+  <script is:inline>
+    const FORM_CONFIG = (() => {
+      const params = new URLSearchParams(window.location.search);
+      const body = document.body;
+      return {
+        formEndpoint: params.get("formEndpoint") || body.dataset.formEndpoint || "",
+        formMethod: (params.get("formMethod") || body.dataset.formMethod || "POST").toUpperCase(),
+        formId: params.get("formId") || body.dataset.formId || "transit",
+        successUrl: params.get("successUrl") || body.dataset.successUrl || "",
+      };
+    })();
+
+    function getDigitsOnly(value) {
+      return (value || "").replace(/\D/g, "");
+    }
+
+    function redirectToSuccessPage() {
+      if (!FORM_CONFIG.successUrl) return;
+      try {
+        if (window.top && window.top !== window.self) {
+          window.top.location.href = FORM_CONFIG.successUrl;
+          return;
+        }
+      } catch (_) {}
+      window.location.href = FORM_CONFIG.successUrl;
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const fallbackForm = document.getElementById("constructor-fallback-form");
+      if (fallbackForm) {
+        fallbackForm.action = FORM_CONFIG.formEndpoint || "";
+        fallbackForm.method = FORM_CONFIG.formMethod;
+        const formIdInput = fallbackForm.querySelector('input[name="form_id"]');
+        if (formIdInput) formIdInput.value = FORM_CONFIG.formId;
+      }
+
+      const foldH = window.innerHeight;
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0, rootMargin: "0px 0px 80px 0px" });
+
+      document.querySelectorAll(".glass, .glass-strong").forEach(el => {
+        if (el.closest(".topline") || el.closest(".hero-shell") || el.classList.contains('faq-item')) return;
+        const rect = el.getBoundingClientRect();
+        if (rect.bottom < foldH) { el.classList.add('revealed'); return; }
+        el.classList.add('will-reveal');
+        observer.observe(el);
+      });
+    });
+  </script>
+</body>
+</html>

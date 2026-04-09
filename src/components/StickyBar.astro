@@ -1,0 +1,57 @@
+<div class="sticky-bar">
+  <div class="sticky-copy">
+    <div class="mini">เป็นส่วนตัวสูงสุด · เก็บเงินปลายทาง</div>
+    <strong>CBD Vigasil · <span style="color: var(--brand);">990 ฿</span></strong>
+  </div>
+  <a class="sticky-btn" href="https://vigasil.hegetkaplas.workers.dev/#order-form">จองโปรโมชั่นตอนนี้</a>
+</div>
+
+<style>
+  .sticky-bar {
+    position: fixed; left: 14px; right: 14px; bottom: 14px; z-index: 30;
+    border-radius: 24px; padding: 10px 12px;
+    display: flex; align-items: center; gap: 12px;
+    backdrop-filter: blur(32px) saturate(180%);
+    -webkit-backdrop-filter: blur(32px) saturate(180%);
+    background: linear-gradient(135deg, rgba(255,255,255,.90) 0%, rgba(240,253,250,.85) 50%, rgba(255,255,255,.88) 100%);
+    border: 2px solid rgba(255,255,255,.85);
+    box-shadow: 0 25px 60px rgba(13,148,136,.20), 0 10px 30px rgba(245,158,11,.12), inset 0 2px 4px rgba(255,255,255,.95), inset 0 -2px 4px rgba(52,211,153,.08);
+    animation: slideUp 0.5s ease-out;
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(100px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .sticky-copy { min-width: 0; flex: 1; }
+  .sticky-copy .mini { font-size: 11px; color: var(--text-dim); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 2px; }
+  .sticky-copy strong { display: block; font-size: 15px; letter-spacing: -.02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  .sticky-btn {
+    border: 0; cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center; text-decoration: none;
+    min-height: 48px; padding: 0 18px; border-radius: 16px;
+    color: white; font-weight: 800;
+    background: linear-gradient(135deg, var(--brand) 0%, var(--tropical-green) 50%, var(--teal) 100%);
+    box-shadow: 0 16px 35px rgba(13,148,136,.24), 0 6px 18px rgba(52,211,153,.18), inset 0 1px 2px rgba(255,255,255,.25);
+    transition: transform .16s ease; white-space: nowrap;
+    position: relative; overflow: hidden;
+  }
+
+  .sticky-btn::after {
+    content: ""; position: absolute; top: 50%; left: 50%; width: 0; height: 0;
+    border-radius: 50%; background: rgba(255,255,255,.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+  }
+
+  .sticky-btn:hover::after { width: 300px; height: 300px; }
+
+  @media (max-width: 720px) {
+    .sticky-bar { left: 8px; right: 8px; bottom: 8px; padding: 8px 10px; }
+    .sticky-btn { min-height: 40px; padding: 0 16px; font-size: 13px; border-radius: 14px; }
+    .sticky-copy strong { font-size: 13px; }
+    .sticky-copy .mini { font-size: 10px; }
+  }
+</style>

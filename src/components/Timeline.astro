@@ -1,0 +1,49 @@
+<section class="section">
+  <div class="container">
+    <div class="section-card glass-strong">
+      <div class="section-header">
+        <span class="eyebrow">ไทม์ไลน์การทำงาน</span>
+        <h2 class="section-title">จะเกิดอะไรขึ้นหลังจากรับประทานแคปซูล</h2>
+        <p class="section-desc">อ้างอิงข้อมูลทางคลินิกเกี่ยวกับอัตราการดูดซึมสารสกัดในร่างกายเพศชาย</p>
+      </div>
+      <div class="timeline">
+        <div class="timeline-card glass">
+          <div class="timeline-time"><span class="small">ขั้นตอนที่ 1</span><strong>0–30 นาที</strong></div>
+          <div class="timeline-main"><strong>การละลายและการผ่อนคลาย</strong><p>เปลือกแคปซูลละลาย สารสกัด CBD จะเข้าสู่กระแสเลือดเป็นลำดับแรก ช่วยลดระดับคอร์ติซอลและขจัดความกังวลก่อนเริ่มกิจกรรม</p></div>
+        </div>
+        <div class="timeline-card glass">
+          <div class="timeline-time"><span class="small">ขั้นตอนที่ 2</span><strong>45–60 นาที</strong></div>
+          <div class="timeline-main"><strong>คลายอาการหดเกร็งของหลอดเลือด</strong><p>สารฟลาโวนจากกระชายดำเข้ายับยั้งเอนไซม์ PDE5 หลอดเลือดบริเวณเชิงกรานขยายตัว L-Arginine เริ่มสร้างไนตริกออกไซด์ คุณจะเริ่มรู้สึกถึงความแข็งแกร่งที่มั่นคง</p></div>
+        </div>
+        <div class="timeline-card glass">
+          <div class="timeline-time"><span class="small">ขั้นตอนที่ 3</span><strong>1.5–3 ชม.</strong></div>
+          <div class="timeline-main"><strong>ช่วงพีค (ศักยภาพ 100%)</strong><p>สารสกัดทั้ง 8 ชนิดมีความเข้มข้นสูงสุดในกระแสเลือด การแข็งตัวบรรลุขีดสุดทางชีวภาพทั้งด้านความยาวและความหนาแน่น โดยไม่มีความเสี่ยงต่ออาการอ่อนตัวกะทันหัน</p></div>
+        </div>
+        <div class="timeline-card glass">
+          <div class="timeline-time"><span class="small">ขั้นตอนที่ 4</span><strong>10–14 วัน</strong></div>
+          <div class="timeline-main"><strong>การฟื้นฟูระบบอย่างต่อเนื่องและถาวร</strong><p>ระดับเทสโทสเตอโรนอิสระเริ่มคงที่ อาการแข็งตัวตอนเช้ากลับมาเป็นปกติ และความต้องการทางเพศตามธรรมชาติจะถูกฟื้นฟูอย่างยั่งยืนเพื่อผลลัพธ์ที่คงทนตลอดไป</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .timeline { display: grid; gap: 12px; margin-top: 10px; }
+  .timeline-card { display: grid; grid-template-columns: 120px 1fr; gap: 16px; align-items: center; }
+  .timeline-time {
+    border-radius: 18px; padding: 16px 14px; text-align: center; color: white;
+    background: linear-gradient(135deg, var(--brand) 0%, var(--tropical-green) 50%, var(--teal) 100%);
+    box-shadow: 0 12px 30px rgba(13,148,136,.25), 0 4px 15px rgba(52,211,153,.2), inset 0 1px 2px rgba(255,255,255,.3), inset 0 -1px 2px rgba(0,0,0,.15);
+    position: relative; overflow: hidden;
+  }
+  .timeline-time::before { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,.2), transparent 40%); animation: shimmer 8s ease-in-out infinite; }
+  .timeline-time .small { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; opacity: .82; margin-bottom: 4px; }
+  .timeline-time strong { display: block; font-size: 20px; line-height: 1; letter-spacing: -.04em; }
+  .timeline-main { min-width: 0; }
+
+  @media (max-width: 960px) {
+    .timeline-card { grid-template-columns: 1fr; }
+    .timeline-time { max-width: 160px; }
+  }
+</style>

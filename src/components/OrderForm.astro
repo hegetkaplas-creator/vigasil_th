@@ -1,0 +1,220 @@
+<section class="section" id="order-form">
+  <div class="container">
+    <div class="section-card glass-strong">
+      <div class="form-wrap">
+        <div class="summary-card glass-strong">
+        <span class="eyebrow">ลงทะเบียนรับคำปรึกษา</span>
+        <h2 class="section-title" style="font-size:clamp(28px,4vw,42px); margin-top:14px;">พร้อมคืนความมั่นใจ 100% บนเตียงหรือยัง?</h2>
+        <p class="section-desc" style="margin-top:10px;">กรอกข้อมูลด้านล่าง แล้วผู้เชี่ยวชาญจะโทรกลับเพื่อยืนยันและจัดส่งอย่างเป็นส่วนตัว — ชำระเงินเมื่อได้รับของเท่านั้น</p>
+
+        <div class="summary-list">
+          <div class="summary-item"><div class="dot">1</div><div><strong>กรอกข้อมูลการติดต่อ</strong><span>แจ้งชื่อและเบอร์โทรศัพท์ ข้อมูลของคุณจะถูกเก็บเป็นความลับสูงสุด</span></div></div>
+          <div class="summary-item"><div class="dot">2</div><div><strong>รอรับสายจากเรา</strong><span>เจ้าหน้าที่โทรกลับเพื่อยืนยันคำสั่งซื้อและที่อยู่จัดส่ง</span></div></div>
+          <div class="summary-item"><div class="dot">3</div><div><strong>รับพัสดุและชำระเงิน</strong><span>ชำระเงินสดตอนรับสินค้าหน้าบ้าน บรรจุในกล่องมิดชิดไม่ระบุชื่อสินค้า</span></div></div>
+        </div>
+        </div>
+
+        <div class="form-card glass-strong">
+        <div class="form-top-note">สินค้าล็อตจำกัด · โปรโมชั่นเฉพาะวันนี้เท่านั้น</div>
+        <h2 class="section-title" style="font-size:clamp(28px,4vw,42px); margin-top:0;">ยืนยันคำสั่งซื้อ</h2>
+        <p class="section-desc" style="font-size:16px; max-width:none;">กรอกแบบฟอร์มด้านล่างเพื่อจองสิทธิ์รับ CBD Vigasil ในราคาพิเศษ</p>
+        <div class="form-price-box">
+          <div class="form-price-head">ราคาพิเศษสำหรับลูกค้าใหม่</div>
+          <div class="form-price-row">
+            <div class="form-price-current">990 ฿</div>
+            <div class="form-price-old">1,990 ฿</div>
+          </div>
+          <div class="form-urgency">
+            <div>ส่วนลดนี้สงวนสิทธิ์ตามจำนวนสต็อกของวันนี้เท่านั้น</div>
+            <div>หากเลื่อนการสั่งซื้อ ราคาอาจกลับสู่เรทราคาปกติทันทีในล็อตถัดไป</div>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="name">ชื่อของคุณ</label>
+            <input id="name" type="text" placeholder="ตัวอย่าง: คุณสมชาย">
+          </div>
+          <div class="field">
+            <label for="phone">เบอร์โทรศัพท์</label>
+            <input id="phone" type="tel" placeholder="0XX-XXX-XXXX">
+          </div>
+          <button class="form-submit" onclick="handleOrder(this)" style="min-height:58px; font-size:17px;">สั่งคอร์สฟื้นฟูในราคา 990 ฿ →</button>
+        </div>
+
+        <div class="form-trust-strip">
+          <span class="form-trust-item"><span class="ti">💳</span> เก็บเงินปลายทาง</span>
+          <span class="form-trust-item"><span class="ti">📦</span> บรรจุภัณฑ์มิดชิด</span>
+          <span class="form-trust-item"><span class="ti">🏛</span> จดทะเบียน อย.</span>
+          <span class="form-trust-item"><span class="ti">🏭</span> GMP/GHPs</span>
+        </div>
+
+        <div class="form-note">ข้อมูลของคุณจะได้รับการปกป้องอย่างปลอดภัย การกดปุ่มแสดงว่าคุณยินยอมให้เจ้าหน้าที่ติดต่อกลับเพื่อปรึกษาฟรี ชำระเงินปลายทางเท่านั้นเมื่อได้รับสินค้า</div>
+        <iframe name="constructor-submit-frame" style="display:none;" aria-hidden="true"></iframe>
+        <form id="constructor-fallback-form" style="display:none;" method="POST" target="constructor-submit-frame">
+          <input type="hidden" name="name" value="">
+          <input type="hidden" name="phone" value="">
+          <input type="hidden" name="form_id" value="transit">
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  async function submitWithFetch(payload) {
+    if (!FORM_CONFIG.formEndpoint) {
+      throw new Error("no-endpoint");
+    }
+    const response = await fetch(FORM_CONFIG.formEndpoint, {
+      method: FORM_CONFIG.formMethod,
+      headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+      body: payload.toString(),
+      mode: "cors",
+      credentials: "omit"
+    });
+    if (!response.ok) {
+      throw new Error(`submit-failed-${response.status}`);
+    }
+  }
+
+  function submitWithHiddenForm(name, phoneDigits) {
+    const fallbackForm = document.getElementById("constructor-fallback-form");
+    if (!fallbackForm || !FORM_CONFIG.formEndpoint) {
+      throw new Error("fallback-unavailable");
+    }
+    fallbackForm.action = FORM_CONFIG.formEndpoint;
+    const nameInput = fallbackForm.querySelector('input[name="name"]');
+    const phoneInput = fallbackForm.querySelector('input[name="phone"]');
+    const formIdInput = fallbackForm.querySelector('input[name="form_id"]');
+    if (!nameInput || !phoneInput || !formIdInput) {
+      throw new Error("fallback-fields-missing");
+    }
+    nameInput.value = name;
+    phoneInput.value = phoneDigits;
+    formIdInput.value = FORM_CONFIG.formId;
+    fallbackForm.submit();
+  }
+
+  async function handleOrder(triggerBtn) {
+    const formCard = triggerBtn.closest('.form-card');
+    const nameField = formCard.querySelector('input[type="text"]');
+    const phoneField = formCard.querySelector('input[type="tel"]');
+    const name = nameField.value.trim();
+    const phone = phoneField.value.trim();
+    const phoneDigits = getDigitsOnly(phone);
+    let hasError = false;
+
+    if (!name) {
+      nameField.style.borderColor = "var(--danger)";
+      nameField.style.backgroundColor = "rgba(220,38,38,.05)";
+      hasError = true;
+    } else {
+      nameField.style.borderColor = "";
+      nameField.style.backgroundColor = "";
+    }
+
+    if (!phoneDigits || phoneDigits.length < 9 || phoneDigits.length > 15) {
+      phoneField.style.borderColor = "var(--danger)";
+      phoneField.style.backgroundColor = "rgba(220,38,38,.05)";
+      hasError = true;
+    } else {
+      phoneField.style.borderColor = "";
+      phoneField.style.backgroundColor = "";
+    }
+
+    if (hasError) {
+      formCard.style.transform = "translateX(5px)";
+      setTimeout(() => formCard.style.transform = "translateX(-5px)", 100);
+      setTimeout(() => formCard.style.transform = "translateX(5px)", 200);
+      setTimeout(() => formCard.style.transform = "translateY(0)", 300);
+      return;
+    }
+
+    const originalText = triggerBtn.textContent;
+    triggerBtn.textContent = "กำลังส่ง...";
+    triggerBtn.style.opacity = "0.8";
+    triggerBtn.disabled = true;
+
+    const payload = new URLSearchParams();
+    payload.set("name", name);
+    payload.set("phone", phoneDigits);
+    payload.set("form_id", FORM_CONFIG.formId);
+
+    try {
+      await submitWithFetch(payload);
+    } catch (_) {
+      try {
+        submitWithHiddenForm(name, phoneDigits);
+      } catch (__fallbackError) {
+        triggerBtn.textContent = "ส่งไม่สำเร็จ ลองใหม่อีกครั้ง";
+        triggerBtn.style.opacity = "1";
+        triggerBtn.disabled = false;
+        setTimeout(() => {
+          triggerBtn.textContent = originalText;
+        }, 2000);
+        return;
+      }
+    }
+
+    triggerBtn.textContent = "สั่งซื้อสำเร็จ ✓";
+    triggerBtn.style.background = "linear-gradient(135deg, var(--ok) 0%, var(--tropical-green) 100%)";
+    triggerBtn.style.opacity = "1";
+    setTimeout(() => {
+      triggerBtn.textContent = originalText;
+      triggerBtn.style.background = "";
+      triggerBtn.disabled = false;
+      nameField.value = "";
+      phoneField.value = "";
+      redirectToSuccessPage();
+    }, 3000);
+  }
+
+  document.querySelectorAll('input[type="tel"]').forEach(function(phoneInput) {
+    phoneInput.addEventListener('input', function() {
+      const hasPlus = this.value.startsWith("+");
+      let val = this.value.replace(/\D/g, '');
+      if (val.length > 15) val = val.slice(0, 15);
+      this.value = hasPlus ? `+${val}` : val;
+    });
+  });
+</script>
+
+<style>
+  .form-wrap { display: grid; grid-template-columns: .95fr 1.05fr; gap: 16px; align-items: start; }
+  .form-card, .summary-card { border-radius: 30px; padding: 24px; }
+  .summary-list { display: grid; gap: 12px; margin-top: 16px; }
+  .summary-item { display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border-radius: 18px; background: rgba(255,255,255,.62); border: 1px solid rgba(17,32,51,.06); }
+  .summary-item .dot { width: 30px; height: 30px; border-radius: 10px; display: grid; place-items: center; background: linear-gradient(135deg, rgba(13,148,136,.16) 0%, rgba(52,211,153,.14) 100%); color: var(--brand); font-weight: 800; flex-shrink: 0; border: 1px solid rgba(13,148,136,.15); box-shadow: 0 3px 10px rgba(13,148,136,.1), inset 0 1px 1px rgba(255,255,255,.7); }
+  .summary-item strong { display: block; font-size: 14px; margin-bottom: 2px; }
+  .summary-item span { font-size: 13px; color: var(--text-soft); line-height: 1.45; }
+
+  .form-top-note { display: inline-flex; align-items: center; gap: 8px; padding: 10px 12px; border-radius: 999px; font-size: 12px; font-weight: 800; color: var(--warning); background: linear-gradient(135deg, rgba(245,158,11,.14) 0%, rgba(251,191,36,.12) 100%); border: 1.5px solid rgba(245,158,11,.2); box-shadow: 0 4px 12px rgba(245,158,11,.1), inset 0 1px 2px rgba(255,255,255,.7); margin-bottom: 12px; animation: pulse 2s ease-in-out infinite; }
+  .form-grid { display: grid; gap: 14px; margin-top: 18px; }
+  .form-price-box { margin-top: 14px; padding: 14px 16px; border-radius: 18px; border: 1.5px solid rgba(245,158,11,.26); background: linear-gradient(135deg, rgba(255,255,255,.86) 0%, rgba(255,251,235,.82) 100%); box-shadow: 0 10px 24px rgba(245,158,11,.12), inset 0 1px 1px rgba(255,255,255,.8); display: grid; gap: 8px; }
+  .form-price-head { font-size: 12px; font-weight: 800; color: var(--warning); letter-spacing: .04em; text-transform: uppercase; }
+  .form-price-row { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .form-price-current { font-size: clamp(28px, 5vw, 38px); line-height: 1; font-weight: 900; color: var(--text); }
+  .form-price-old { font-size: 17px; color: var(--text-dim); text-decoration: line-through; font-weight: 700; }
+  .form-urgency { display: grid; gap: 6px; font-size: 13px; color: var(--text-soft); line-height: 1.45; }
+
+  .field { display: grid; gap: 8px; }
+  .field label { font-size: 13px; color: var(--text-dim); font-weight: 700; }
+  .field input { width: 100%; min-height: 56px; padding: 0 18px; border-radius: 18px; border: 1.5px solid rgba(13,148,136,.12); background: linear-gradient(135deg, rgba(255,255,255,.78) 0%, rgba(240,253,250,.75) 100%); color: var(--text); outline: none; box-shadow: 0 4px 12px rgba(13,148,136,.06), inset 0 1px 2px rgba(255,255,255,.85); backdrop-filter: blur(20px) saturate(150%); transition: all 0.3s ease; }
+  .field input:focus { border-color: rgba(13,148,136,.3); background: linear-gradient(135deg, rgba(255,255,255,.88) 0%, rgba(240,253,250,.85) 100%); box-shadow: 0 0 0 4px rgba(13,148,136,.12), 0 6px 18px rgba(13,148,136,.1), inset 0 1px 2px rgba(255,255,255,.9); transform: translateY(-1px); }
+
+  .form-submit { width: 100%; min-height: 58px; border-radius: 18px; border: 0; cursor: pointer; color: white; font-size: 16px; font-weight: 800; letter-spacing: -.01em; background: linear-gradient(135deg, var(--brand) 0%, var(--tropical-green) 50%, var(--teal) 100%); box-shadow: 0 18px 40px rgba(13,148,136,.26), 0 8px 20px rgba(52,211,153,.2), inset 0 1px 2px rgba(255,255,255,.3); position: relative; overflow: hidden; transition: all 0.3s ease; }
+  .form-submit::before { content: ""; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,.3), transparent); transition: left 0.5s ease; animation: form-glare 4s infinite; animation-delay: 2s; }
+  @keyframes form-glare { 0%, 80% { left: -100%; } 100% { left: 100%; } }
+  .form-submit:hover { transform: translateY(-2px); box-shadow: 0 22px 50px rgba(13,148,136,.32), 0 10px 25px rgba(52,211,153,.25); }
+  .form-submit:hover::before { left: 100%; animation: none; }
+  .form-note { margin-top: 12px; font-size: 12px; color: var(--text-dim); line-height: 1.6; }
+
+  .form-trust-strip { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 14px; }
+  .form-trust-item { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--text-dim); padding: 6px 10px; border-radius: 999px; background: rgba(255,255,255,.5); border: 1px solid rgba(255,255,255,.4); }
+  .form-trust-item .ti { font-size: 14px; line-height: 1; }
+
+  @media (max-width: 960px) { .form-wrap { grid-template-columns: 1fr; } }
+  @media (max-width: 720px) { .form-card, .summary-card { padding: 18px; border-radius: 24px; } }
+</style>

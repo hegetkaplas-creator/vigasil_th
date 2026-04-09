@@ -1,0 +1,75 @@
+<section class="section">
+  <div class="container">
+    <div class="section-card glass-strong">
+      <div class="section-header">
+        <span class="eyebrow">การจัดส่งและการรับประกัน</span>
+        <h2 class="section-title">เป็นส่วนตัว 100% ไร้ความเสี่ยง</h2>
+        <p class="section-desc">เราเคารพความเป็นส่วนตัวของคุณในทุกขั้นตอน ตั้งแต่การสั่งซื้อจนถึงการรับพัสดุ</p>
+      </div>
+
+      <div class="delivery-grid">
+        <div class="delivery-card glass">
+          <div class="delivery-icon">📦</div>
+          <div><strong>บรรจุภัณฑ์มิดชิด</strong><p>กล่องพัสดุไม่ระบุชื่อสินค้าหรือโลโก้ ทั้งพนักงานส่งของและเพื่อนบ้านจะไม่มีทางรู้ว่าข้างในคืออะไร</p></div>
+        </div>
+        <div class="delivery-card glass">
+          <div class="delivery-icon">💳</div>
+          <div><strong>เก็บเงินปลายทาง</strong><p>ไม่ต้องโอนเงินก่อน ลดความเสี่ยง ชำระเงินเมื่อสินค้าถึงมือคุณแล้วเท่านั้น</p></div>
+        </div>
+        <div class="delivery-card glass">
+          <div class="delivery-icon">📞</div>
+          <div><strong>ปรึกษาผู้เชี่ยวชาญ</strong><p>เจ้าหน้าที่ของเราจะโทรกลับเพื่อยืนยันที่อยู่และตอบข้อสงสัยอย่างสุภาพและเป็นส่วนตัว</p></div>
+        </div>
+        <div class="delivery-card glass">
+          <div class="delivery-icon">🚚</div>
+          <div><strong>จัดส่งรวดเร็ว</strong><p>จัดส่งสินค้าด่วนโดยตรงจากคลังสินค้าของผู้ผลิตเพื่อให้คุณได้รับของเร็วที่สุด</p></div>
+        </div>
+      </div>
+
+      <div class="faq-list" style="margin-top:16px;">
+        <div class="faq-item glass open">
+          <button class="faq-q" onclick="toggleFaq(this)">ทานแล้วขนาดจะเปลี่ยนแปลงจริงไหม?<span class="faq-arrow">+</span></button>
+          <div class="faq-a">ได้ครับ ขนาดสามารถเพิ่มขึ้นได้ถึง 120% ในช่วงที่แข็งตัวเต็มที่ และเมื่อใช้ต่อเนื่อง ขนาดในสภาวะปกติจะเพิ่มขึ้นอย่างถาวร +5–6 ซม. เพราะเนื้อเยื่อส่วนปลายได้รับการหล่อเลี้ยงจากเลือดได้เต็มที่ตลอดเวลา</div>
+        </div>
+        <div class="faq-item glass">
+          <button class="faq-q" onclick="toggleFaq(this)">มีเคล็ดลับการทานเพื่อให้ได้ผลสูงสุดไหม?<span class="faq-arrow">+</span></button>
+          <div class="faq-a">มีครับ สารสกัด CBD จะถูกดูดซึมได้ดีที่สุดเมื่อทานพร้อมกับไขมัน เราแนะนำให้รับประทานแคปซูลหลังมื้ออาหารที่มีไขมันดี (เช่น ถั่ว อะโวคาโด หรือชีส) ซึ่งจะช่วยเพิ่มการดูดซึมสารสำคัญได้มากขึ้น 3-5 เท่า</div>
+        </div>
+        <div class="faq-item glass">
+          <button class="faq-q" onclick="toggleFaq(this)">จะมีการเสพติดเหมือนยาเม็ดฟ้าไหม?<span class="faq-arrow">+</span></button>
+          <div class="faq-a">ไม่ครับ ยาสังเคราะห์จะบังคับการไหลเวียนเลือดอย่างรุนแรงและอาจทำให้เกิดการพึ่งพาทางเคมี แต่ CBD Vigasil ประกอบด้วยสารสกัดธรรมชาติ 8 ชนิด ไม่ทำให้เกิดการเสพติด ไม่เป็นภาระต่อหัวใจ และมุ่งเน้นที่การฟื้นฟูระบบภายในให้ทำงานได้เองตามธรรมชาติ</div>
+        </div>
+        <div class="faq-item glass">
+          <button class="faq-q" onclick="toggleFaq(this)">CBD ช่วยเรื่องการแข็งตัวได้อย่างไร?<span class="faq-arrow">+</span></button>
+          <div class="faq-a">อุปสรรคทางจิตใจ (ความกังวลว่าจะทำได้ไม่ดี) จะกระตุ้นการหลั่งอะดรีนาลีนซึ่งทำให้หลอดเลือดหดตัวทันที สาร CBD จะช่วยลดระดับคอร์ติซอลและบล็อกความกังวลในสมอง ทำให้คุณผ่อนคลายและมีความมั่นใจ ส่งผลให้การแข็งตัวไม่ "อ่อนตัว" ลงเพราะความคิดฟุ้งซ่าน</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  function toggleFaq(btn) {
+    const item = btn.closest(".faq-item");
+    const isOpen = item.classList.contains("open");
+    document.querySelectorAll(".faq-item.open").forEach(el => {
+      if(el !== item) el.classList.remove("open");
+    });
+    if (!isOpen) { item.classList.add("open"); }
+    else { item.classList.remove("open"); }
+  }
+</script>
+
+<style>
+  .delivery-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+  .faq-list { margin-top: 10px; display: grid; gap: 14px; }
+  .faq-item { padding: 0; overflow: hidden; }
+  .faq-q { width: 100%; border: 0; background: transparent; cursor: pointer; padding: 18px 20px; display: flex; justify-content: space-between; gap: 14px; text-align: left; font-size: 16px; font-weight: 700; color: var(--text); }
+  .faq-arrow { flex-shrink: 0; width: 28px; height: 28px; border-radius: 10px; display: grid; place-items: center; color: var(--brand); background: linear-gradient(135deg, rgba(13,148,136,.12) 0%, rgba(52,211,153,.10) 100%); border: 1px solid rgba(13,148,136,.15); box-shadow: 0 2px 8px rgba(13,148,136,.08), inset 0 1px 1px rgba(255,255,255,.6); transition: all .3s cubic-bezier(0.4, 0, 0.2, 1); }
+  .faq-item.open .faq-arrow { background: linear-gradient(135deg, var(--brand) 0%, var(--tropical-green) 100%); color: white; box-shadow: 0 4px 12px rgba(13,148,136,.2), inset 0 1px 2px rgba(255,255,255,.25); }
+  .faq-a { max-height: 0; opacity: 0; overflow: hidden; padding: 0 20px; color: var(--text-soft); font-size: 14px; line-height: 1.7; transition: max-height 0.4s ease, opacity 0.4s ease, padding 0.4s ease, margin 0.4s ease; }
+  .faq-item.open .faq-a { max-height: 500px; opacity: 1; padding-bottom: 18px; padding-top: 14px; margin-top: 2px; border-top: 1px solid rgba(17,32,51,.06); }
+  .faq-item.open .faq-arrow { transform: rotate(45deg); }
+
+  @media (max-width: 960px) { .delivery-grid { grid-template-columns: 1fr; } }
+</style>

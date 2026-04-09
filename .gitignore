@@ -9,32 +9,33 @@ Thumbs.db
 .cline/
 .windsurf/
 
-# ── Cloudflare / Wrangler (managed manually per project) ──────────────
+# ── Cloudflare / Wrangler ────────────────────────────────────────────
 .wrangler/
-wrangler.toml
-src/
-.github/
 
 # ── Node ──────────────────────────────────────────────────────────────
 node_modules/
 package-lock.json
+
+# ── Astro build output ───────────────────────────────────────────────
+dist/
+.astro/
+
+# ── Legacy asset path (now in public/assets/) ────────────────────────
+/assets/
 
 # ── QA artifacts ──────────────────────────────────────────────────────
 .playwright-mcp/
 *-smoke-*.png
 
 # ── Design source files (for dev context only, not deployed) ──────────
-# Photoshop, Illustrator, Sketch, Figma exports, XD
 **/*.psd
 **/*.ai
 **/*.sketch
 **/*.fig
 **/*.xd
-# Raw video from phone / footage (not the optimised web video)
 **/*.mov
 **/*.MOV
 **/*.avi
-# Packaging fonts (not web fonts — web fonts go in assets/fonts/)
 assets/Packaging/
 
 # ── Product / internal docs (for dev context only, not deployed) ───────
