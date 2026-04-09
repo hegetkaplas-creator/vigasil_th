@@ -179,7 +179,15 @@
   var closeBtn = document.getElementById("closeModalBtn");
   if (!overlay || !openBtn) return;
 
-  function openModal() {
+  function openModal(triggerEl) {
+    var top = 80;
+    if (triggerEl && triggerEl.getBoundingClientRect) {
+      var r = triggerEl.getBoundingClientRect();
+      var scrollY = window.pageYOffset || document.documentElement.scrollTop;
+      top = Math.max(20, r.top + scrollY - 40);
+    }
+    overlay.style.height = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight) + "px";
+    overlay.style.setProperty("--modal-top", top + "px");
     overlay.classList.add("open");
     overlay.setAttribute("aria-hidden", "false");
   }
@@ -188,14 +196,14 @@
     overlay.setAttribute("aria-hidden", "true");
   }
 
-  openBtn.addEventListener("click", openModal);
+  openBtn.addEventListener("click", function () { openModal(openBtn); });
   closeBtn.addEventListener("click", closeModal);
   overlay.addEventListener("click", function (e) {
     if (e.target === overlay) closeModal();
   });
 
   document.querySelectorAll('a[href="#order-form"], button[data-open-modal]').forEach(function (el) {
-    el.addEventListener("click", function (e) { e.preventDefault(); openModal(); });
+    el.addEventListener("click", function (e) { e.preventDefault(); openModal(el); });
   });
 
   var nameF = document.getElementById("modal-name");
@@ -271,9 +279,10 @@
 
 <style>
   .modal-overlay {
-    position: fixed; inset: 0; z-index: 50;
-    display: flex; align-items: center; justify-content: center;
-    padding: 16px;
+    position: absolute; top: 0; left: 0; width: 100%;
+    min-height: 100%; z-index: 50;
+    display: flex; align-items: flex-start; justify-content: center;
+    padding: 16px; padding-top: var(--modal-top, 80px);
     background: rgba(26,56,48,.55);
     backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
     opacity: 0; pointer-events: none;
@@ -287,6 +296,7 @@
     position: relative;
     transform: translateY(20px) scale(.97);
     transition: transform .3s ease;
+    flex-shrink: 0;
   }
   .modal-overlay.open .modal-card { transform: translateY(0) scale(1); }
 
