@@ -181,11 +181,6 @@
 
   function openModal(triggerEl) {
     var top = 80;
-    if (triggerEl && triggerEl.getBoundingClientRect) {
-      var r = triggerEl.getBoundingClientRect();
-      var scrollY = window.pageYOffset || document.documentElement.scrollTop;
-      top = Math.max(20, r.top + scrollY - 40);
-    }
     overlay.style.height = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight) + "px";
     overlay.style.setProperty("--modal-top", top + "px");
     overlay.classList.add("open");
