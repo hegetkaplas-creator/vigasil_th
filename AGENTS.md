@@ -80,7 +80,6 @@ Understanding this is critical for any UI/scroll/CTA work.
 - **Build:** `npm run build` (outputs to `dist/`)
 - **Deploy:** Push to `main` triggers CI (`.github/workflows/deploy-worker.yml`): `npm ci → npm run build → npm run deploy` (Wrangler is a pinned `devDependency`; `package-lock.json` is committed for reproducible installs)
 - Do not hardcode Cloudflare account IDs or API tokens in repo files.
-- **Raster/video under `public/assets/`** (png, jpg, webp, gif, mp4, webm) are **`.gitignore`d** — they stay on your machine only. GitHub Actions builds **without** those binaries unless you add another step (e.g. download from R2, `actions/download-artifact`, or stop ignoring for CI-only). For a full prod deploy from CI, either commit those assets again, host them on a CDN and change URLs, or inject them in the workflow.
 
 # Boundaries
 - MUST: confirm asset paths exist before referencing them (under `public/assets/`).

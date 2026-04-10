@@ -22,17 +22,6 @@ dist/
 # ── Legacy asset path (now in public/assets/) ────────────────────────
 /assets/
 
-# ── Local-only media (raster + video) — not versioned ────────────────
-# Clone / CI will not have these files; add them locally or host via CDN/R2.
-# SVG is not listed so small vector icons can still be committed if needed.
-public/assets/**/*.png
-public/assets/**/*.jpg
-public/assets/**/*.jpeg
-public/assets/**/*.webp
-public/assets/**/*.gif
-public/assets/**/*.mp4
-public/assets/**/*.webm
-
 # ── QA artifacts ──────────────────────────────────────────────────────
 .playwright-mcp/
 *-smoke-*.png
