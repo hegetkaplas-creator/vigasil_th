@@ -10,6 +10,7 @@ src/
   components/
     Topline.astro         ← logo bar + FDA line
     Hero.astro            ← headline, proof cards, promo price, CTAs, product images
+    BlackGalangalResearch.astro ← post-hero evidence section with Kaempferia parviflora study links
     TrustStrip.astro      ← trust badge row
     Problems.astro        ← "ปัญหาที่พบได้บ่อย" section (dark)
     Mechanism.astro       ← #mechanism double-action chain

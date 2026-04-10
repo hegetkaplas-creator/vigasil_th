@@ -11,7 +11,7 @@
         <div class="fact-card glass">
           <div class="fact-icon">⏱</div>
           <div>
-            <div class="fact-value">45<small>นาที</small></div>
+            <div class="fact-value">30–45<small>นาที</small></div>
             <strong>เริ่มออกฤทธิ์ภายใน</strong>
             <p>เปลือกแคปซูลละลายและสารสกัดออกฤทธิ์ เพื่อเพิ่มความมั่นใจในการทำกิจกรรม</p>
           </div>
@@ -35,10 +35,14 @@
       </div>
 
       <div class="ingredients">
-        <div class="ingredient glass"><strong>กระชายดำ</strong><span class="dose">100 มก.</span><p>ยับยั้ง PDE5 ช่วยคลายการหดเกร็งของหลอดเลือดบริเวณอุ้งเชิงกราน</p></div>
-        <div class="ingredient glass"><strong>โสม</strong><span class="dose">80 มก.</span><p>ปลุกเร้าความต้องการทางเพศและกระตุ้นการสร้างไนตริกออกไซด์</p></div>
-        <div class="ingredient glass"><strong>L-Arginine</strong><span class="dose">75 มก.</span><p>สารตั้งต้นสำคัญในการขยายหลอดเลือด เพื่อการแข็งตัวที่สมบูรณ์และยาวนาน</p></div>
-        <div class="ingredient glass"><strong>สังกะสี</strong><span class="dose">75 มก.</span><p>จำเป็นต่อการสังเคราะห์ฮอร์โมนเทสโทสเตอโรนอิสระในเพศชาย</p></div>
+        <div class="ingredient glass"><strong>กระชายดำ</strong><span class="dose">100 มก.</span><p>สารสกัดหลักที่ถูกศึกษามากที่สุดในสูตร ช่วยสนับสนุนการยับยั้ง PDE5 และการไหลเวียนเลือด</p></div>
+        <div class="ingredient glass"><strong>โสมเกาหลี</strong><span class="dose">80 มก.</span><p>ช่วยหนุนความต้องการทางเพศและการสร้างไนตริกออกไซด์</p></div>
+        <div class="ingredient glass"><strong>L-Arginine</strong><span class="dose">75 มก.</span><p>สารตั้งต้นสำคัญของ NO เพื่อการแข็งตัวที่มั่นคงและต่อเนื่อง</p></div>
+        <div class="ingredient glass"><strong>ซิงก์อะมิโนแอซิดคีเลต</strong><span class="dose">75 มก.</span><p>ช่วยสนับสนุนการสังเคราะห์ฮอร์โมนเพศชายและการฟื้นตัว</p></div>
+        <div class="ingredient glass"><strong>ใบแปะก๊วย</strong><span class="dose">50 มก.</span><p>ช่วยการไหลเวียนเลือดส่วนปลายและการตอบสนองที่สม่ำเสมอ</p></div>
+        <div class="ingredient glass"><strong>ไลโคปีน</strong><span class="dose">50 มก.</span><p>ช่วยดูแลต่อมลูกหมากและลด oxidative stress ในระบบสืบพันธุ์</p></div>
+        <div class="ingredient glass"><strong>บรอกโคลี</strong><span class="dose">50 มก.</span><p>ช่วยสมดุลการเผาผลาญฮอร์โมนและสนับสนุนสุขภาพชายระยะยาว</p></div>
+        <div class="ingredient glass"><strong>CBD จากกัญชง</strong><span class="dose">0.15 มก.</span><p>ช่วยลดความกังวลและทำให้การตอบสนองทางเพศนิ่งขึ้น</p></div>
       </div>
 
       <div class="course-wrap" style="margin-top:16px;">
@@ -49,7 +53,7 @@
           </div>
           <div class="course-rows">
             <div class="course-row"><span>วิธีรับประทาน</span><span>วันละ 1 แคปซูล</span></div>
-            <div class="course-row"><span>เริ่มออกฤทธิ์</span><span>ภายใน 45-60 นาที</span></div>
+            <div class="course-row"><span>เริ่มออกฤทธิ์</span><span>ภายใน 30–45 นาที</span></div>
             <div class="course-row"><span>ระยะเวลาออกฤทธิ์</span><span>4 ถึง 8 ชั่วโมง</span></div>
             <div class="course-row"><span>คอร์สขั้นต่ำ</span><span>10-14 วัน</span></div>
             <div class="course-row"><span>รูปแบบผลิตภัณฑ์</span><span>15 แคปซูล (600 มก.)</span></div>
@@ -112,9 +116,16 @@
   .offer-price .old { font-size: 18px; color: var(--text-dim); text-decoration: line-through; font-weight: 700; margin-bottom: 6px; }
   .offer-note { font-size: 13px; color: var(--text-dim); }
 
+  @media (max-width: 1080px) {
+    .ingredients { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
   @media (max-width: 960px) {
     .facts-grid { grid-template-columns: 1fr; }
-    .ingredients { grid-template-columns: 1fr; }
     .course-wrap { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 640px) {
+    .ingredients { grid-template-columns: 1fr; }
   }
 </style>
