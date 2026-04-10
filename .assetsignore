@@ -1,0 +1,4 @@
+# Paths are relative to wrangler "assets.directory" (./dist)
+# https://developers.cloudflare.com/workers/static-assets/binding/
+*.map
+.DS_Store

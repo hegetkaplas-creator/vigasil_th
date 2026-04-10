@@ -78,7 +78,7 @@ Understanding this is critical for any UI/scroll/CTA work.
 # Build & Deploy
 - **Dev:** `npm run dev` (Astro dev server with HMR)
 - **Build:** `npm run build` (outputs to `dist/`)
-- **Deploy:** Push to `main` triggers CI (`.github/workflows/deploy-worker.yml`): `npm ci → npm run build → wrangler deploy`
+- **Deploy:** Push to `main` triggers CI (`.github/workflows/deploy-worker.yml`): `npm ci → npm run build → npm run deploy` (Wrangler is a pinned `devDependency`; `package-lock.json` is committed for reproducible installs)
 - Do not hardcode Cloudflare account IDs or API tokens in repo files.
 
 # Boundaries
