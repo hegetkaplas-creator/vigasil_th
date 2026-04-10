@@ -1,0 +1,579 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+
+const resultRoot = path.join(process.cwd(), 'public', 'assets', 'result');
+const mediaExtensions = new Set(['.jpg', '.jpeg', '.png', '.webp', '.mp4', '.webm', '.mov']);
+const videoExtensions = new Set(['.mp4', '.webm', '.mov']);
+
+function compareNames(a, b) {
+  return a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' });
+}
+
+function toPublicUrl(absPath) {
+  const publicRoot = path.join(process.cwd(), 'public');
+  const relativePath = path.relative(publicRoot, absPath).split(path.sep).join('/');
+  return `/${relativePath}`;
+}
+
+function detectRole(fileName) {
+  const lower = fileName.toLowerCase();
+  if (lower.includes('before')) return 'ก่อนใช้';
+  if (lower.includes('after')) return 'หลังใช้';
+  return '';
+}
+
+function detectType(fileName) {
+  return videoExtensions.has(path.extname(fileName).toLowerCase()) ? 'video' : 'image';
+}
+
+function collectCase(dirPath, label) {
+  const items = fs.readdirSync(dirPath, { withFileTypes: true })
+    .filter((entry) => entry.isFile() && mediaExtensions.has(path.extname(entry.name).toLowerCase()))
+    .sort((a, b) => compareNames(a.name, b.name))
+    .map((entry) => {
+      const absPath = path.join(dirPath, entry.name);
+      return {
+        src: toPublicUrl(absPath),
+        type: detectType(entry.name),
+        role: detectRole(entry.name),
+        fileName: entry.name
+      };
+    });
+
+  if (!items.length) return null;
+
+  const hasPair = items.some((item) => item.role === 'ก่อนใช้') && items.some((item) => item.role === 'หลังใช้');
+  const summary = hasPair
+    ? 'ก่อนใช้ / หลังใช้'
+    : items.length > 1
+      ? 'ผลลัพธ์หลายมุม'
+      : items[0].type === 'video'
+        ? 'วิดีโอจากลูกค้าจริง'
+        : 'ภาพผลลัพธ์จากลูกค้าจริง';
+
+  return {
+    id: label,
+    title: `ผลลัพธ์เคส ${label}`,
+    summary,
+    media: items
+  };
+}
+
+let cases = [];
+
+if (fs.existsSync(resultRoot)) {
+  const entries = fs.readdirSync(resultRoot, { withFileTypes: true }).sort((a, b) => compareNames(a.name, b.name));
+
+  for (const entry of entries) {
+    if (entry.isDirectory()) {
+      const caseItem = collectCase(path.join(resultRoot, entry.name), entry.name);
+      if (caseItem) cases.push(caseItem);
+      continue;
+    }
+
+    if (entry.isFile() && mediaExtensions.has(path.extname(entry.name).toLowerCase())) {
+      const absPath = path.join(resultRoot, entry.name);
+      cases.push({
+        id: path.parse(entry.name).name,
+        title: `ผลลัพธ์เคส ${cases.length + 1}`,
+        summary: detectType(entry.name) === 'video' ? 'วิดีโอจากลูกค้าจริง' : 'ภาพผลลัพธ์จากลูกค้าจริง',
+        media: [{
+          src: toPublicUrl(absPath),
+          type: detectType(entry.name),
+          role: detectRole(entry.name),
+          fileName: entry.name
+        }]
+      });
+    }
+  }
+}
+---
+
+{cases.length > 0 && (
+  <section class="section results-section" id="client-results">
+    <div class="container">
+      <div class="section-card glass-strong results-shell">
+        <div class="section-header">
+          <span class="eyebrow">ผลลัพธ์จากลูกค้าจริง</span>
+          <h2 class="section-title">คลังภาพและวิดีโอผลลัพธ์แบบส่วนตัว</h2>
+          <p class="section-desc">เคสจริงจากลูกค้าที่ส่งภาพและวิดีโอมาให้เราโดยตรง บางเคสเป็น before/after และบางเคสเป็นวิดีโอเดี่ยวเพื่อยืนยันผลลัพธ์จริงหลังใช้อย่างต่อเนื่อง</p>
+        </div>
+
+        <div class="results-headline">
+          <div class="results-copy">
+            <strong>สไลด์ด้านข้าง · ดูได้หลังยืนยันอายุ 21+</strong>
+            <p>แตะปุ่มเพื่อปลดล็อกภาพจริงทั้งหมด การปลดล็อกนี้จะถือว่าคุณยืนยันว่ามีอายุ 21 ปีขึ้นไปและยินยอมดูเนื้อหาผลลัพธ์สำหรับผู้ใหญ่</p>
+          </div>
+          <div class="results-meta">
+            <span class="results-pill">{cases.length} เคสจริง</span>
+            <span class="results-pill">รูป + วิดีโอ</span>
+            <span class="results-pill">Private Archive</span>
+          </div>
+        </div>
+
+        <div class="results-stage" id="resultsVault" data-results-stage>
+          <div class="results-gate" data-results-gate>
+            <div class="results-gate-card">
+              <div class="results-gate-kicker">21+ Private Access</div>
+              <h3>เนื้อหานี้ถูกซ่อนแบบเบลอไว้ก่อน</h3>
+              <p>กดดูผลลัพธ์เพื่อปลดล็อกคลังภาพและวิดีโอ และยืนยันอัตโนมัติว่าคุณมีอายุ 21 ปีขึ้นไป</p>
+              <button class="btn-primary btn-primary-lg" type="button" data-results-unlock>ดูผลลัพธ์จริง</button>
+            </div>
+          </div>
+
+          <div class="results-toolbar">
+            <button class="results-nav" type="button" data-results-prev aria-label="Previous results">←</button>
+            <div class="results-toolbar-text">เลื่อนดูเคสทางซ้ายและขวา</div>
+            <button class="results-nav" type="button" data-results-next aria-label="Next results">→</button>
+          </div>
+
+          <div class="results-track" data-results-track>
+            {cases.map((item) => (
+              <article class="result-slide glass" data-result-slide>
+                <div class="result-slide-head">
+                  <div>
+                    <div class="result-case-id">Case {item.id}</div>
+                    <h3>{item.title}</h3>
+                  </div>
+                  <div class="result-summary">{item.summary}</div>
+                </div>
+
+                <div class={`result-media-grid ${item.media.length > 1 ? 'is-multi' : 'is-single'}`}>
+                  {item.media.map((media) => (
+                    <figure class="result-media-card">
+                      <div class="result-media-frame">
+                        {media.type === 'video' ? (
+                          <video controls playsinline preload="metadata">
+                            <source src={media.src} type={`video/${path.extname(media.fileName).slice(1).toLowerCase() === 'mov' ? 'mp4' : path.extname(media.fileName).slice(1).toLowerCase()}`} />
+                            เบราว์เซอร์ของคุณไม่รองรับวิดีโอ
+                          </video>
+                        ) : (
+                          <img src={media.src} alt={`${item.title} ${media.role || 'result'}`} loading="lazy" />
+                        )}
+                      </div>
+                      <figcaption>{media.role || (media.type === 'video' ? 'วิดีโอผลลัพธ์' : 'ภาพผลลัพธ์')}</figcaption>
+                    </figure>
+                  ))}
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+)}
+
+<script is:inline>
+  (function () {
+    var vault = document.getElementById('resultsVault');
+    if (!vault) return;
+
+    var gate = vault.querySelector('[data-results-gate]');
+    var unlockButtons = vault.querySelectorAll('[data-results-unlock]');
+    var track = vault.querySelector('[data-results-track]');
+    var prevBtn = vault.querySelector('[data-results-prev]');
+    var nextBtn = vault.querySelector('[data-results-next]');
+    var storageKey = 'vigasil-results-21plus';
+
+    function unlock() {
+      vault.classList.add('is-unlocked');
+      if (gate) gate.setAttribute('aria-hidden', 'true');
+      try { window.sessionStorage.setItem(storageKey, '1'); } catch (_) {}
+    }
+
+    function maybeRestoreUnlock() {
+      try {
+        if (window.sessionStorage.getItem(storageKey) === '1') unlock();
+      } catch (_) {}
+    }
+
+    function getStep() {
+      var firstSlide = track ? track.querySelector('[data-result-slide]') : null;
+      if (!firstSlide) return 360;
+      var styles = window.getComputedStyle(track);
+      var gap = parseFloat(styles.columnGap || styles.gap || '0') || 0;
+      return firstSlide.getBoundingClientRect().width + gap;
+    }
+
+    function updateNavState() {
+      if (!track || !prevBtn || !nextBtn) return;
+      var maxScroll = track.scrollWidth - track.clientWidth - 2;
+      prevBtn.disabled = track.scrollLeft <= 2;
+      nextBtn.disabled = track.scrollLeft >= maxScroll;
+    }
+
+    unlockButtons.forEach(function (button) {
+      button.addEventListener('click', unlock);
+    });
+
+    if (prevBtn && track) {
+      prevBtn.addEventListener('click', function () {
+        track.scrollBy({ left: -getStep(), behavior: 'smooth' });
+      });
+    }
+
+    if (nextBtn && track) {
+      nextBtn.addEventListener('click', function () {
+        track.scrollBy({ left: getStep(), behavior: 'smooth' });
+      });
+    }
+
+    if (track) {
+      track.addEventListener('scroll', updateNavState, { passive: true });
+      window.addEventListener('resize', updateNavState);
+      requestAnimationFrame(updateNavState);
+    }
+
+    maybeRestoreUnlock();
+  })();
+</script>
+
+<style>
+  .results-section {
+    padding-top: 10px;
+  }
+
+  .results-shell {
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 22px;
+  }
+
+  .results-shell::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 0% 0%, rgba(13,148,136,.16), transparent 28%),
+      radial-gradient(circle at 100% 20%, rgba(245,158,11,.14), transparent 26%),
+      linear-gradient(180deg, rgba(255,255,255,.16), transparent 35%);
+    pointer-events: none;
+  }
+
+  .results-headline {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1.1fr .9fr;
+    gap: 18px;
+    align-items: end;
+    margin-bottom: 16px;
+  }
+
+  .results-copy strong {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 18px;
+    letter-spacing: -.03em;
+    color: var(--text);
+  }
+
+  .results-copy p {
+    margin: 0;
+    color: var(--text-soft);
+    font-size: 14px;
+    line-height: 1.6;
+    max-width: 60ch;
+  }
+
+  .results-meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+
+  .results-pill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 38px;
+    padding: 0 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--text);
+    background: rgba(255,255,255,.78);
+    border: 1px solid rgba(17,32,51,.08);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.92);
+  }
+
+  .results-stage {
+    position: relative;
+    z-index: 1;
+  }
+
+  .results-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .results-toolbar-text {
+    color: var(--text-dim);
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center;
+    flex: 1;
+  }
+
+  .results-nav {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    border: 1px solid rgba(17,32,51,.08);
+    background: rgba(255,255,255,.76);
+    color: var(--text);
+    font-size: 18px;
+    font-weight: 900;
+    box-shadow: 0 10px 24px rgba(17,32,51,.08), inset 0 1px 0 rgba(255,255,255,.92);
+    cursor: pointer;
+    transition: transform .2s ease, opacity .2s ease;
+  }
+
+  .results-nav:hover:not(:disabled) {
+    transform: translateY(-1px);
+  }
+
+  .results-nav:disabled {
+    opacity: .4;
+    cursor: default;
+  }
+
+  .results-track {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(540px, 72%);
+    gap: 16px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+  }
+
+  .results-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .result-slide {
+    scroll-snap-align: start;
+    border-radius: 28px;
+    padding: 18px;
+    display: grid;
+    gap: 16px;
+    min-width: 0;
+  }
+
+  .result-slide-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .result-case-id {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--brand);
+    margin-bottom: 6px;
+  }
+
+  .result-slide h3 {
+    margin: 0;
+    font-size: 26px;
+    line-height: .98;
+    letter-spacing: -.05em;
+    color: var(--text);
+  }
+
+  .result-summary {
+    align-self: center;
+    padding: 10px 12px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, rgba(13,148,136,.12), rgba(245,158,11,.1));
+    border: 1px solid rgba(13,148,136,.16);
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--text);
+    white-space: nowrap;
+  }
+
+  .result-media-grid {
+    display: grid;
+    gap: 12px;
+  }
+
+  .result-media-grid.is-single {
+    grid-template-columns: 1fr;
+  }
+
+  .result-media-grid.is-multi {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .result-media-card {
+    margin: 0;
+    display: grid;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .result-media-frame {
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    background: #09120f;
+    aspect-ratio: 4 / 5;
+    box-shadow: 0 18px 42px rgba(17,32,51,.18);
+  }
+
+  .result-media-frame::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  .result-media-frame img,
+  .result-media-frame video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    background: #09120f;
+  }
+
+  .result-media-card figcaption {
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .results-gate {
+    position: absolute;
+    inset: 56px 0 0;
+    z-index: 3;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+    background: linear-gradient(180deg, rgba(8,12,16,.12), rgba(8,12,16,.28));
+    transition: opacity .35s ease, visibility .35s ease;
+  }
+
+  .results-gate-card {
+    width: min(100%, 520px);
+    padding: 28px;
+    border-radius: 28px;
+    text-align: center;
+    background: rgba(247,250,249,.82);
+    border: 1px solid rgba(255,255,255,.64);
+    box-shadow: 0 24px 60px rgba(17,32,51,.16), inset 0 1px 0 rgba(255,255,255,.92);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+
+  .results-gate-kicker {
+    display: inline-flex;
+    min-height: 34px;
+    align-items: center;
+    padding: 0 12px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--danger);
+    background: rgba(220,38,38,.08);
+    border: 1px solid rgba(220,38,38,.12);
+    margin-bottom: 10px;
+  }
+
+  .results-gate-card h3 {
+    margin: 0 0 8px;
+    font-size: clamp(28px, 4vw, 42px);
+    line-height: .94;
+    letter-spacing: -.06em;
+    color: var(--text);
+  }
+
+  .results-gate-card p {
+    margin: 0 0 18px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text-soft);
+  }
+
+  .results-stage .results-track,
+  .results-stage .results-toolbar {
+    filter: blur(20px);
+    transform: scale(.985);
+    transform-origin: center;
+    pointer-events: none;
+    user-select: none;
+    transition: filter .35s ease, transform .35s ease, opacity .35s ease;
+  }
+
+  .results-stage.is-unlocked .results-track,
+  .results-stage.is-unlocked .results-toolbar {
+    filter: none;
+    transform: none;
+    pointer-events: auto;
+    user-select: auto;
+  }
+
+  .results-stage.is-unlocked .results-gate {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  @media (max-width: 960px) {
+    .results-headline {
+      grid-template-columns: 1fr;
+    }
+
+    .results-meta {
+      justify-content: flex-start;
+    }
+
+    .results-track {
+      grid-auto-columns: 88%;
+    }
+
+    .result-media-grid.is-multi {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .results-gate {
+      inset: 58px 0 0;
+      padding: 12px;
+    }
+
+    .results-gate-card {
+      padding: 22px 18px;
+    }
+
+    .results-toolbar-text {
+      font-size: 12px;
+    }
+
+    .result-slide {
+      padding: 16px;
+    }
+
+    .result-slide h3 {
+      font-size: 22px;
+    }
+  }
+</style>

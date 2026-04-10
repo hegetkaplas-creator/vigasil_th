@@ -20,6 +20,7 @@ src/
     Timeline.astro        ← timeline section
     Regulatory.astro      ← อย. cards + document cards
     VideoFeedback.astro   ← video block + photo feedback
+    ClientResults.astro   ← gated results vault after video feedback, auto-loads media from public/assets/result
     Comments.astro        ← #real-comments + comment simulator script
     OrderForm.astro       ← #order-form lead form + fallback form + handleOrder script
     DeliveryFaq.astro     ← delivery grid + FAQ + toggleFaq script
