@@ -54,7 +54,7 @@ function collectCase(dirPath, label) {
 
   return {
     id: label,
-    title: `ผลลัพธ์เคส ${label}`,
+    title: `ผลลัพธ์ ${label}`,
     summary,
     media: items
   };
@@ -76,7 +76,7 @@ if (fs.existsSync(resultRoot)) {
       const absPath = path.join(resultRoot, entry.name);
       cases.push({
         id: path.parse(entry.name).name,
-        title: `ผลลัพธ์เคส ${cases.length + 1}`,
+        title: `ผลลัพธ์ ${cases.length + 1}`,
         summary: detectType(entry.name) === 'video' ? 'วิดีโอจากลูกค้าจริง' : 'ภาพผลลัพธ์จากลูกค้าจริง',
         media: [{
           src: toPublicUrl(absPath),
@@ -133,7 +133,7 @@ if (fs.existsSync(resultRoot)) {
               <article class="result-slide glass" data-result-slide>
                 <div class="result-slide-head">
                   <div>
-                    <div class="result-case-id">Case {item.id}</div>
+                    <div class="result-case-id">ผลลัพธ์ {item.id}</div>
                     <h3>{item.title}</h3>
                   </div>
                   <div class="result-summary">{item.summary}</div>
