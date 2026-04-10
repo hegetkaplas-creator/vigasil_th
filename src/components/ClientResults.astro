@@ -23,6 +23,13 @@ function detectRole(fileName) {
   return '';
 }
 
+function roleOrder(fileName) {
+  const lower = fileName.toLowerCase();
+  if (lower.includes('before')) return 0;
+  if (lower.includes('after')) return 1;
+  return 2;
+}
+
 function detectType(fileName) {
   return videoExtensions.has(path.extname(fileName).toLowerCase()) ? 'video' : 'image';
 }
@@ -30,7 +37,11 @@ function detectType(fileName) {
 function collectCase(dirPath, label) {
   const items = fs.readdirSync(dirPath, { withFileTypes: true })
     .filter((entry) => entry.isFile() && mediaExtensions.has(path.extname(entry.name).toLowerCase()))
-    .sort((a, b) => compareNames(a.name, b.name))
+    .sort((a, b) => {
+      const roleDiff = roleOrder(a.name) - roleOrder(b.name);
+      if (roleDiff !== 0) return roleDiff;
+      return compareNames(a.name, b.name);
+    })
     .map((entry) => {
       const absPath = path.join(dirPath, entry.name);
       return {
