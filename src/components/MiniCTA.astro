@@ -1,0 +1,86 @@
+<section class="mini-cta" aria-label="สั่งซื้อด่วน">
+  <div class="container">
+    <div class="mini-cta-inner glass">
+      <div class="mini-cta-prices">
+        <span class="mini-cta-now">990 ฿</span>
+        <span class="mini-cta-was">1,990 ฿</span>
+      </div>
+      <button type="button" class="mini-cta-btn" data-scroll-to-hero-order>
+        สั่งซื้อเลย
+      </button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .mini-cta {
+    padding: 10px 0;
+  }
+
+  .mini-cta-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    border-radius: 22px;
+    padding: 14px 18px;
+  }
+
+  .mini-cta-prices {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    min-width: 0;
+  }
+
+  .mini-cta-now {
+    font-size: clamp(22px, 4vw, 28px);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: var(--text);
+  }
+
+  .mini-cta-was {
+    font-size: 16px;
+    color: var(--text-dim);
+    text-decoration: line-through;
+    font-weight: 600;
+  }
+
+  .mini-cta-btn {
+    border: 0;
+    cursor: pointer;
+    font-weight: 800;
+    font-size: 15px;
+    padding: 0 22px;
+    min-height: 48px;
+    border-radius: 16px;
+    color: #fff;
+    background: linear-gradient(135deg, var(--brand) 0%, var(--tropical-green) 55%, var(--teal) 100%);
+    box-shadow: 0 12px 28px rgba(13, 148, 136, 0.22);
+    transition: transform 0.16s ease, box-shadow 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .mini-cta-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 36px rgba(13, 148, 136, 0.28);
+  }
+
+  @media (max-width: 520px) {
+    .mini-cta-inner {
+      flex-direction: column;
+      align-items: stretch;
+      text-align: center;
+    }
+
+    .mini-cta-prices {
+      justify-content: center;
+    }
+
+    .mini-cta-btn {
+      width: 100%;
+    }
+  }
+</style>

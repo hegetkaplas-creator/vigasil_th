@@ -1,0 +1,111 @@
+<div class="sticky-cta-anchor">
+  <div class="sticky-cta-bar glass-strong">
+    <div class="sticky-cta-prices">
+      <span class="sticky-cta-now">990 ฿</span>
+      <span class="sticky-cta-was">1,990 ฿</span>
+    </div>
+    <button type="button" class="sticky-cta-btn" data-scroll-to-hero-order>
+      สั่งซื้อเลย
+    </button>
+  </div>
+</div>
+
+<style>
+  .sticky-cta-anchor {
+    position: sticky;
+    bottom: 0;
+    z-index: 18;
+    padding: 12px 0 16px;
+    margin-top: 8px;
+    pointer-events: none;
+  }
+
+  .sticky-cta-bar {
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    flex-wrap: wrap;
+    border-radius: 24px;
+    padding: 12px 16px;
+    max-width: var(--container);
+    margin: 0 auto;
+    width: min(var(--container), calc(100% - 28px));
+    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    border: 2px solid rgba(255, 255, 255, 0.85);
+    box-shadow:
+      0 18px 48px rgba(13, 148, 136, 0.16),
+      0 8px 22px rgba(245, 158, 11, 0.1),
+      inset 0 1px 2px rgba(255, 255, 255, 0.95);
+    animation: stickyCtaIn 0.45s ease-out;
+  }
+
+  @keyframes stickyCtaIn {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .sticky-cta-prices {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  .sticky-cta-now {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--text);
+  }
+
+  .sticky-cta-was {
+    font-size: 15px;
+    color: var(--text-dim);
+    text-decoration: line-through;
+    font-weight: 600;
+  }
+
+  .sticky-cta-btn {
+    border: 0;
+    cursor: pointer;
+    font-weight: 800;
+    font-size: 14px;
+    padding: 0 20px;
+    min-height: 46px;
+    border-radius: 16px;
+    color: #fff;
+    background: linear-gradient(135deg, var(--brand) 0%, var(--tropical-green) 50%, var(--teal) 100%);
+    box-shadow: 0 12px 28px rgba(13, 148, 136, 0.22);
+    transition: transform 0.16s ease;
+    white-space: nowrap;
+  }
+
+  .sticky-cta-btn:hover {
+    transform: translateY(-1px);
+  }
+
+  @media (max-width: 520px) {
+    .sticky-cta-bar {
+      flex-direction: column;
+      align-items: stretch;
+      text-align: center;
+    }
+
+    .sticky-cta-prices {
+      justify-content: center;
+    }
+
+    .sticky-cta-btn {
+      width: 100%;
+    }
+  }
+</style>

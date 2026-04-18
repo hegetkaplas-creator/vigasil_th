@@ -3,8 +3,8 @@
     <div class="hero-shell glass-strong">
       <div class="hero-grid">
         <div class="hero-copy">
-          <span class="eyebrow">ขีดสุดแห่งสมรรถภาพชาย</span>
-          <h1 class="hero-title">ปลุกพลังความเป็นชาย <span class="accent">แข็งแกร่งเต็มพิกัด</span> ลดความกังวลในทุกภารกิจ</h1>
+          <span class="eyebrow">⚡ ใช้แล้วได้ผลจริง · เก็บเงินปลายทาง · ส่งฟรีทั่วไทย</span>
+          <h1 class="hero-title">หมดแรงก่อนวัย? <span class="accent">กระชายดำ + CBD</span> ฟื้นฟูสมรรถภาพใน 7 วัน</h1>
           <p class="hero-desc">ดึงศักยภาพร่างกายของคุณออกมาเต็ม 100% ด้วยสูตรยับยั้ง PDE5 เพื่อการสูบฉีดเลือดขั้นสุด พร้อม CBD คลายความเครียดและเพิ่มความมั่นใจบนเตียง</p>
 
           <div class="hero-proof">
@@ -55,8 +55,60 @@
             </div>
           </div>
 
-          <div class="hero-cta">
-            <button class="btn-primary btn-primary-lg" type="button" id="openModalBtn">สั่งคอร์สฟื้นฟูในราคา 990 ฿</button>
+          <div class="hero-inline-order glass" id="hero-inline-order" tabindex="-1">
+            <div class="hero-inline-form-wrap" id="heroInlineFormWrap">
+              <p class="hero-inline-lead">สินค้าล็อตจำกัด · โปรโมชั่นเฉพาะวันนี้เท่านั้น</p>
+              <div class="form-grid hero-inline-grid">
+                <div class="field">
+                  <label for="hero-inline-name">ชื่อของคุณ</label>
+                  <input id="hero-inline-name" type="text" name="name" autocomplete="name" placeholder="ตัวอย่าง: คุณสมชาย" />
+                </div>
+                <div class="field">
+                  <label for="hero-inline-phone">เบอร์โทรศัพท์</label>
+                  <input id="hero-inline-phone" type="tel" name="phone" autocomplete="tel" placeholder="0XX-XXX-XXXX" />
+                </div>
+                <button class="hero-inline-submit" type="button" id="heroInlineSubmitBtn">
+                  รับสินค้า 990 ฿ — ส่งฟรีถึงบ้าน 🚚
+                </button>
+              </div>
+              <div class="hero-inline-trust">
+                <span><span class="ti">💳</span> เก็บเงินปลายทาง</span>
+                <span><span class="ti">📦</span> บรรจุภัณฑ์มิดชิด</span>
+                <span><span class="ti">🏛</span> จดทะเบียน อย.</span>
+              </div>
+              <p class="hero-inline-note">ข้อมูลของคุณจะได้รับการปกป้องอย่างปลอดภัย</p>
+
+              <iframe name="hero-order-submit-frame" class="hero-inline-frame" title="submit" aria-hidden="true"></iframe>
+              <form id="hero-fallback-form" class="hero-inline-hidden-form" method="POST" target="hero-order-submit-frame">
+                <input type="hidden" name="name" value="" />
+                <input type="hidden" name="phone" value="" />
+                <input type="hidden" name="form_id" value="transit" />
+              </form>
+            </div>
+
+            <div id="heroInlineThankYou" class="hero-ty-screen" hidden>
+              <div class="hero-ty-icon">✓</div>
+              <h2 class="hero-ty-title">สั่งซื้อสำเร็จ!</h2>
+              <p class="hero-ty-desc">ขอบคุณที่ไว้วางใจ CBD Vigasil<br />เจ้าหน้าที่จะโทรกลับเพื่อยืนยันภายใน 15 นาที</p>
+              <div class="hero-ty-steps">
+                <div class="hero-ty-step">
+                  <span class="hero-ty-num">1</span>
+                  <span>รอรับสายจากเจ้าหน้าที่</span>
+                </div>
+                <div class="hero-ty-step">
+                  <span class="hero-ty-num">2</span>
+                  <span>ยืนยันที่อยู่จัดส่ง</span>
+                </div>
+                <div class="hero-ty-step">
+                  <span class="hero-ty-num">3</span>
+                  <span>รับสินค้า · ชำระเงินปลายทาง</span>
+                </div>
+              </div>
+              <div class="hero-ty-trust">
+                <span>📦 บรรจุภัณฑ์มิดชิด</span>
+                <span>💳 เก็บเงินปลายทาง</span>
+              </div>
+            </div>
           </div>
 
           <div class="hero-micro">
@@ -73,8 +125,8 @@
               <span class="stamp note">Dual Action Formula</span>
             </div>
             <div class="bottle-wrap">
-              <img src="/assets/img/products/Vigasil-th-box.png" alt="CBD Vigasil box" class="product-img-box">
-              <img src="/assets/img/products/Vigasil-th-jar.png" alt="CBD Vigasil jar" class="product-img-jar">
+              <img src="/assets/img/products/Vigasil-th-box.png" alt="CBD Vigasil box" class="product-img-box" />
+              <img src="/assets/img/products/Vigasil-th-jar.png" alt="CBD Vigasil jar" class="product-img-jar" />
             </div>
           </div>
 
@@ -101,360 +153,338 @@
   </div>
 </section>
 
-<!-- Order modal -->
-<div class="modal-overlay" id="orderModal" aria-hidden="true">
-  <div class="modal-card glass-strong">
-    <button class="modal-close" type="button" id="closeModalBtn" aria-label="Close">✕</button>
-    <div class="form-top-note" style="margin-bottom:12px">สินค้าล็อตจำกัด · โปรโมชั่นเฉพาะวันนี้เท่านั้น</div>
-    <h2 class="section-title" style="font-size:clamp(24px,4vw,34px);margin:0 0 6px">ยืนยันคำสั่งซื้อ</h2>
-    <p class="section-desc" style="font-size:15px;margin-top:0">กรอกข้อมูลด้านล่าง — ชำระเงินเมื่อได้รับของเท่านั้น</p>
-
-    <div class="modal-price-box">
-      <div class="form-price-row">
-        <div class="form-price-current" style="font-size:28px;font-weight:900">990 ฿</div>
-        <div class="form-price-old" style="font-size:16px;color:var(--text-dim);text-decoration:line-through">1,990 ฿</div>
-      </div>
-    </div>
-
-    <div class="form-grid" style="margin-top:14px">
-      <div class="field">
-        <label for="modal-name">ชื่อของคุณ</label>
-        <input id="modal-name" type="text" placeholder="ตัวอย่าง: คุณสมชาย" />
-      </div>
-      <div class="field">
-        <label for="modal-phone">เบอร์โทรศัพท์</label>
-        <input id="modal-phone" type="tel" placeholder="0XX-XXX-XXXX" />
-      </div>
-      <button class="form-submit" type="button" id="modalSubmitBtn" style="min-height:56px;font-size:16px">
-        สั่งคอร์สฟื้นฟูในราคา 990 ฿ →
-      </button>
-    </div>
-
-    <div class="form-trust-strip" style="margin-top:12px">
-      <span class="form-trust-item"><span class="ti">💳</span> เก็บเงินปลายทาง</span>
-      <span class="form-trust-item"><span class="ti">📦</span> บรรจุภัณฑ์มิดชิด</span>
-      <span class="form-trust-item"><span class="ti">🏛</span> จดทะเบียน อย.</span>
-    </div>
-
-    <div class="form-note" style="text-align:center;margin-top:10px">ข้อมูลของคุณจะได้รับการปกป้องอย่างปลอดภัย</div>
-
-    <iframe name="modal-submit-frame" style="display:none" aria-hidden="true"></iframe>
-    <form id="modal-fallback-form" style="display:none" method="POST" target="modal-submit-frame">
-      <input type="hidden" name="name" value="">
-      <input type="hidden" name="phone" value="">
-      <input type="hidden" name="form_id" value="transit">
-    </form>
-
-    <!-- Thank-you state (hidden until submit) -->
-    <div id="modalThankYou" class="ty-screen">
-      <div class="ty-icon">✓</div>
-      <h2 class="ty-title">สั่งซื้อสำเร็จ!</h2>
-      <p class="ty-desc">ขอบคุณที่ไว้วางใจ CBD Vigasil<br>เจ้าหน้าที่จะโทรกลับเพื่อยืนยันภายใน 15 นาที</p>
-      <div class="ty-steps">
-        <div class="ty-step">
-          <span class="ty-num">1</span>
-          <span>รอรับสายจากเจ้าหน้าที่</span>
-        </div>
-        <div class="ty-step">
-          <span class="ty-num">2</span>
-          <span>ยืนยันที่อยู่จัดส่ง</span>
-        </div>
-        <div class="ty-step">
-          <span class="ty-num">3</span>
-          <span>รับสินค้า · ชำระเงินปลายทาง</span>
-        </div>
-      </div>
-      <div class="ty-trust">
-        <span>📦 บรรจุภัณฑ์มิดชิด</span>
-        <span>💳 เก็บเงินปลายทาง</span>
-      </div>
-    </div>
-  </div>
-</div>
-
 <script is:inline>
-(function () {
-  var overlay = document.getElementById("orderModal");
-  var modalCard = overlay ? overlay.querySelector(".modal-card") : null;
-  var openBtn = document.getElementById("openModalBtn");
-  var closeBtn = document.getElementById("closeModalBtn");
-  var lastTrigger = null;
-  if (!overlay || !openBtn) return;
-
-  function getDocHeight() {
-    return Math.max(
-      document.documentElement.scrollHeight,
-      document.body.scrollHeight,
-      document.documentElement.offsetHeight,
-      document.body.offsetHeight
-    );
-  }
-
-  function getDocTop(el) {
-    if (!el || !el.getBoundingClientRect) return 0;
-    var r = el.getBoundingClientRect();
-    var scrollY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-    return r.top + scrollY;
-  }
-
-  function getModalAnchor(triggerEl) {
-    if (!triggerEl || !triggerEl.closest) return triggerEl;
-    return (
-      triggerEl.closest(".offer-card, .hero-shell, .sticky-bar, .section-card, .section") ||
-      triggerEl
-    );
-  }
-
-  function getPreferredTop(triggerEl) {
-    if (!triggerEl || !triggerEl.closest) return 80;
-
-    if (triggerEl.closest(".hero-shell")) {
-      return Math.max(20, getDocTop(triggerEl) - 40);
+  (function () {
+    function scrollToHeroOrder(e) {
+      if (e && typeof e.preventDefault === "function") e.preventDefault();
+      var el = document.getElementById("hero-inline-order");
+      if (!el) return;
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
     }
 
-    var anchorEl = getModalAnchor(triggerEl);
-    return Math.max(24, getDocTop(anchorEl) + 24);
-  }
+    document.addEventListener("click", function (e) {
+      var scrollEl = e.target && e.target.closest && e.target.closest("[data-scroll-to-hero-order]");
+      if (scrollEl) {
+        scrollToHeroOrder(e);
+        return;
+      }
 
-  function positionModal(triggerEl) {
-    var docHeight = getDocHeight();
-    var preferredTop = getPreferredTop(triggerEl);
-    var cardHeight = modalCard ? modalCard.offsetHeight : 0;
-    var maxTop = Math.max(24, docHeight - cardHeight - 24);
-    var finalTop = Math.min(preferredTop, maxTop);
+      var trigger =
+        e.target && e.target.closest
+          ? e.target.closest(
+              'a[data-open-modal], button[data-open-modal], a[href="#order-form"], a[href="#hero-inline-order"], a[href*="#order-form"], a[href*="#hero-inline-order"]'
+            )
+          : null;
+      if (!trigger) return;
 
-    overlay.style.height = docHeight + "px";
-    overlay.style.setProperty("--modal-top", finalTop + "px");
-  }
+      var href = trigger.getAttribute("href");
+      if (href && href !== "#" && href.indexOf("javascript:") === 0) return;
 
-  function openModal(triggerEl) {
-    lastTrigger = triggerEl || openBtn;
-    positionModal(lastTrigger);
-    overlay.classList.add("open");
-    overlay.setAttribute("aria-hidden", "false");
-    requestAnimationFrame(function () {
-      if (overlay.classList.contains("open")) positionModal(lastTrigger);
+      if (
+        trigger.hasAttribute("data-open-modal") ||
+        href === "#order-form" ||
+        href === "#hero-inline-order" ||
+        (href && (href.indexOf("#order-form") !== -1 || href.indexOf("#hero-inline-order") !== -1))
+      ) {
+        e.preventDefault();
+        scrollToHeroOrder();
+      }
     });
-  }
-  function closeModal() {
-    if (overlay.contains(document.activeElement)) {
-      try {
-        document.activeElement.blur();
-      } catch (_) {}
-    }
-    overlay.classList.remove("open");
-    overlay.setAttribute("aria-hidden", "true");
-  }
 
-  openBtn.addEventListener("click", function () { openModal(openBtn); });
-  closeBtn.addEventListener("click", closeModal);
-  overlay.addEventListener("click", function (e) {
-    if (e.target === overlay) closeModal();
-  });
-  window.addEventListener("resize", function () {
-    if (overlay.classList.contains("open") && lastTrigger) positionModal(lastTrigger);
-  });
+    var nameF = document.getElementById("hero-inline-name");
+    var phoneF = document.getElementById("hero-inline-phone");
+    var submitBtn = document.getElementById("heroInlineSubmitBtn");
+    var formWrap = document.getElementById("heroInlineFormWrap");
+    var thankYou = document.getElementById("heroInlineThankYou");
 
-  document.addEventListener("click", function (e) {
-    var trigger = e.target && e.target.closest
-      ? e.target.closest('a[data-open-modal], button[data-open-modal], a[href="#order-form"]')
-      : null;
-    if (!trigger) return;
-    e.preventDefault();
-    openModal(trigger);
-  });
+    if (!nameF || !phoneF || !submitBtn || !formWrap || !thankYou) return;
 
-  var nameF = document.getElementById("modal-name");
-  var phoneF = document.getElementById("modal-phone");
-  var submitBtn = document.getElementById("modalSubmitBtn");
+    phoneF.addEventListener("input", function () {
+      var hasPlus = this.value.startsWith("+");
+      var val = this.value.replace(/\D/g, "");
+      if (val.length > 15) val = val.slice(0, 15);
+      this.value = hasPlus ? "+" + val : val;
+    });
 
-  phoneF.addEventListener("input", function () {
-    var hasPlus = this.value.startsWith("+");
-    var val = this.value.replace(/\D/g, "");
-    if (val.length > 15) val = val.slice(0, 15);
-    this.value = hasPlus ? "+" + val : val;
-  });
-
-  function showModalThankYou() {
-    var card = document.querySelector(".modal-card");
-    var ty = document.getElementById("modalThankYou");
-    if (card && ty) {
-      Array.from(card.children).forEach(function (ch) {
-        if (ch.id !== "modalThankYou" && !ch.classList.contains("modal-close"))
-          ch.style.display = "none";
-      });
-      ty.style.display = "flex";
-    }
-  }
-
-  submitBtn.addEventListener("click", function () {
-    var name = nameF.value.trim();
-    var phone = phoneF.value.trim();
-    var digits = (typeof getDigitsOnly === "function") ? getDigitsOnly(phone) : phone.replace(/\D/g, "");
-    var hasError = false;
-
-    if (!name) { nameF.style.borderColor = "var(--danger)"; hasError = true; }
-    else { nameF.style.borderColor = ""; }
-
-    if (!digits || digits.length < 9 || digits.length > 15) { phoneF.style.borderColor = "var(--danger)"; hasError = true; }
-    else { phoneF.style.borderColor = ""; }
-
-    if (hasError) return;
-
-    var cfg = window.FORM_CONFIG || {};
-    var endpoint =
-      cfg.formEndpoint ||
-      (document.body && document.body.getAttribute("data-form-endpoint")) ||
-      "";
-    var formId = cfg.formId || (document.body && document.body.getAttribute("data-form-id")) || "transit";
-    var method = (
-      cfg.formMethod ||
-      (document.body && document.body.getAttribute("data-form-method")) ||
-      "POST"
-    ).toUpperCase();
-    var debug = typeof URLSearchParams !== "undefined" && new URLSearchParams(window.location.search).get("debugForm") === "1";
-
-    if (!endpoint) {
-      console.error("[order-modal] FORM_CONFIG.formEndpoint is empty — check data-form-endpoint on <body>");
-      return;
+    function showHeroThankYou() {
+      formWrap.setAttribute("hidden", "");
+      thankYou.removeAttribute("hidden");
     }
 
-    var original = submitBtn.textContent;
-    submitBtn.textContent = "กำลังส่ง...";
-    submitBtn.disabled = true;
+    submitBtn.addEventListener("click", function () {
+      var name = nameF.value.trim();
+      var phone = phoneF.value.trim();
+      var digits =
+        typeof getDigitsOnly === "function" ? getDigitsOnly(phone) : phone.replace(/\D/g, "");
+      var hasError = false;
 
-    var payload = new URLSearchParams();
-    payload.set("name", name);
-    payload.set("phone", digits);
-    payload.set("form_id", formId);
+      if (!name) {
+        nameF.style.borderColor = "var(--danger)";
+        hasError = true;
+      } else {
+        nameF.style.borderColor = "";
+      }
 
-    if (debug) console.log("[order-modal] POST", endpoint, { name: name, phone: digits, form_id: formId });
+      if (!digits || digits.length < 9 || digits.length > 15) {
+        phoneF.style.borderColor = "var(--danger)";
+        hasError = true;
+      } else {
+        phoneF.style.borderColor = "";
+      }
 
-    function onLeadSentOk() {
-      if (typeof fireSuccessPixel === "function") fireSuccessPixel();
-      showModalThankYou();
-    }
+      if (hasError) return;
 
-    fetch(endpoint, {
-      method: method,
-      headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
-      body: payload.toString(),
-      mode: "cors",
-      credentials: "omit"
-    })
-      .then(function (r) {
-        if (debug) console.log("[order-modal] fetch status", r.status, r.ok);
-        if (!r.ok) throw new Error("http-" + r.status);
-        onLeadSentOk();
+      var cfg = window.FORM_CONFIG || {};
+      var endpoint =
+        cfg.formEndpoint || (document.body && document.body.getAttribute("data-form-endpoint")) || "";
+      var formId = cfg.formId || (document.body && document.body.getAttribute("data-form-id")) || "transit";
+      var method = (
+        cfg.formMethod ||
+        (document.body && document.body.getAttribute("data-form-method")) ||
+        "POST"
+      ).toUpperCase();
+      var debug =
+        typeof URLSearchParams !== "undefined" &&
+        new URLSearchParams(window.location.search).get("debugForm") === "1";
+
+      if (!endpoint) {
+        console.error("[hero-inline-form] FORM_CONFIG.formEndpoint is empty — check data-form-endpoint on <body>");
+        return;
+      }
+
+      var original = submitBtn.textContent;
+      submitBtn.textContent = "กำลังส่ง...";
+      submitBtn.disabled = true;
+
+      var payload = new URLSearchParams();
+      payload.set("name", name);
+      payload.set("phone", digits);
+      payload.set("form_id", formId);
+
+      if (debug) console.log("[hero-inline-form] POST", endpoint, { name: name, phone: digits, form_id: formId });
+
+      function onLeadSentOk() {
+        if (typeof fireSuccessPixel === "function") fireSuccessPixel();
+        showHeroThankYou();
+      }
+
+      fetch(endpoint, {
+        method: method,
+        headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+        body: payload.toString(),
+        mode: "cors",
+        credentials: "omit",
       })
-      .catch(function (err) {
-        if (debug) console.warn("[order-modal] fetch failed, trying iframe fallback", err && err.message);
-        var fb = document.getElementById("modal-fallback-form");
-        if (fb && endpoint) {
-          fb.method = method;
-          fb.action = endpoint;
-          fb.querySelector('[name="name"]').value = name;
-          fb.querySelector('[name="phone"]').value = digits;
-          fb.querySelector('[name="form_id"]').value = formId;
-          fb.submit();
+        .then(function (r) {
+          if (debug) console.log("[hero-inline-form] fetch status", r.status, r.ok);
+          if (!r.ok) throw new Error("http-" + r.status);
           onLeadSentOk();
-        } else {
-          submitBtn.textContent = "ส่งไม่สำเร็จ ลองใหม่อีกครั้ง";
-          submitBtn.disabled = false;
-          setTimeout(function () { submitBtn.textContent = original; }, 2500);
-        }
-      });
-  });
-})();
+        })
+        .catch(function (err) {
+          if (debug) console.warn("[hero-inline-form] fetch failed, trying iframe fallback", err && err.message);
+          var fb = document.getElementById("hero-fallback-form");
+          if (fb && endpoint) {
+            fb.method = method;
+            fb.action = endpoint;
+            fb.querySelector('[name="name"]').value = name;
+            fb.querySelector('[name="phone"]').value = digits;
+            fb.querySelector('[name="form_id"]').value = formId;
+            fb.submit();
+            onLeadSentOk();
+          } else {
+            submitBtn.textContent = "ส่งไม่สำเร็จ ลองใหม่อีกครั้ง";
+            submitBtn.disabled = false;
+            setTimeout(function () {
+              submitBtn.textContent = original;
+            }, 2500);
+          }
+        });
+    });
+  })();
 </script>
 
 <style>
-  .modal-overlay {
-    position: absolute; top: 0; left: 0; width: 100%;
-    min-height: 100%; z-index: 50;
-    display: flex; align-items: flex-start; justify-content: center;
-    padding: 16px; padding-top: var(--modal-top, 80px);
-    background: rgba(26,56,48,.55);
-    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-    opacity: 0; pointer-events: none;
-    transition: opacity .3s ease;
-  }
-  .modal-overlay.open { opacity: 1; pointer-events: auto; }
-
-  .modal-card {
-    width: 100%; max-width: 440px;
-    border-radius: 30px; padding: 28px;
+  .hero-inline-order {
+    border-radius: 22px;
+    padding: 20px 20px 18px;
     position: relative;
-    transform: translateY(20px) scale(.97);
-    transition: transform .3s ease;
-    flex-shrink: 0;
-  }
-  .modal-overlay.open .modal-card { transform: translateY(0) scale(1); }
-
-  .modal-close {
-    position: absolute; top: 14px; right: 14px;
-    width: 36px; height: 36px; border-radius: 12px;
-    border: 1.5px solid rgba(26,56,48,.08);
-    background: rgba(255,255,255,.7);
-    display: grid; place-items: center;
-    cursor: pointer; font-size: 16px; color: var(--text-dim);
-    transition: all .2s ease;
-  }
-  .modal-close:hover { background: rgba(255,255,255,.95); color: var(--text); }
-
-  .modal-price-box {
-    margin-top: 10px; padding: 10px 14px; border-radius: 14px;
-    border: 1.5px solid rgba(245,158,11,.22);
-    background: linear-gradient(135deg, rgba(255,255,255,.85), rgba(255,251,235,.8));
-    box-shadow: 0 6px 16px rgba(245,158,11,.1);
-    display: inline-flex;
+    overflow: hidden;
   }
 
-  .ty-screen {
+  .hero-inline-lead {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-dim);
+    letter-spacing: 0.04em;
+    margin: 0 0 12px;
+  }
+
+  .hero-inline-grid {
+    margin-top: 0;
+  }
+
+  .hero-inline-submit {
+    min-height: 56px;
+    font-size: 15px;
+    font-weight: 800;
+    border: 0;
+    border-radius: 16px;
+    cursor: pointer;
+    color: #fff;
+    background: #ff6b00;
+    box-shadow: 0 14px 32px rgba(255, 107, 0, 0.28);
+    transition: transform 0.16s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  }
+
+  .hero-inline-submit:hover:not(:disabled) {
+    transform: translateY(-1px);
+    filter: brightness(1.03);
+    box-shadow: 0 18px 40px rgba(255, 107, 0, 0.32);
+  }
+
+  .hero-inline-submit:disabled {
+    opacity: 0.85;
+    cursor: wait;
+  }
+
+  .hero-inline-trust {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 16px;
+    margin-top: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-soft);
+  }
+
+  .hero-inline-trust .ti {
+    margin-right: 4px;
+  }
+
+  .hero-inline-note {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-dim);
+    margin: 10px 0 0;
+  }
+
+  .hero-inline-frame {
     display: none;
-    flex-direction: column; align-items: center; text-align: center;
-    gap: 16px; padding: 10px 0;
-    animation: tyFadeIn .5s ease-out;
+    width: 0;
+    height: 0;
+    border: 0;
   }
-  @keyframes tyFadeIn { from { opacity: 0; transform: scale(.92); } to { opacity: 1; transform: scale(1); } }
 
-  .ty-icon {
-    width: 72px; height: 72px; border-radius: 50%;
-    display: grid; place-items: center;
-    font-size: 32px; font-weight: 900; color: #fff;
+  .hero-inline-hidden-form {
+    display: none;
+  }
+
+  .hero-ty-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 14px;
+    padding: 8px 0 4px;
+    animation: heroTyFadeIn 0.5s ease-out;
+  }
+
+  @keyframes heroTyFadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .hero-ty-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 28px;
+    font-weight: 900;
+    color: #fff;
     background: linear-gradient(135deg, var(--ok), var(--tropical-green));
-    box-shadow: 0 12px 32px rgba(16,185,129,.3), 0 4px 12px rgba(52,211,153,.2);
-    animation: tyPop .5s cubic-bezier(.17,.67,.35,1.4) .15s both;
-  }
-  @keyframes tyPop { from { transform: scale(0); } to { transform: scale(1); } }
-
-  .ty-title {
-    font-size: 26px; font-weight: 800; letter-spacing: -.04em;
-    color: var(--text); margin: 0;
-  }
-  .ty-desc { font-size: 15px; color: var(--text-soft); line-height: 1.5; margin: 0; }
-
-  .ty-steps { display: grid; gap: 10px; width: 100%; }
-  .ty-step {
-    display: flex; align-items: center; gap: 12px;
-    padding: 12px 16px; border-radius: 16px;
-    background: rgba(255,255,255,.6); border: 1px solid rgba(16,185,129,.12);
-    font-size: 14px; color: var(--text); font-weight: 600;
-  }
-  .ty-num {
-    width: 28px; height: 28px; border-radius: 10px;
-    display: grid; place-items: center;
-    background: linear-gradient(135deg, rgba(16,185,129,.16), rgba(52,211,153,.12));
-    color: var(--ok); font-weight: 800; font-size: 13px; flex-shrink: 0;
-    border: 1px solid rgba(16,185,129,.18);
+    box-shadow: 0 10px 28px rgba(16, 185, 129, 0.28);
+    animation: heroTyPop 0.45s cubic-bezier(0.17, 0.67, 0.35, 1.35) 0.1s both;
   }
 
-  .ty-trust {
-    display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;
-    font-size: 13px; color: var(--text-dim); font-weight: 600;
+  @keyframes heroTyPop {
+    from {
+      transform: scale(0);
+    }
+    to {
+      transform: scale(1);
+    }
   }
 
-  .hero { padding: 12px 0 12px; }
+  .hero-ty-title {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: var(--text);
+    margin: 0;
+  }
+
+  .hero-ty-desc {
+    font-size: 14px;
+    color: var(--text-soft);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .hero-ty-steps {
+    display: grid;
+    gap: 8px;
+    width: 100%;
+    max-width: 360px;
+  }
+
+  .hero-ty-step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.55);
+    border: 1px solid rgba(16, 185, 129, 0.12);
+    font-size: 13px;
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .hero-ty-num {
+    width: 26px;
+    height: 26px;
+    border-radius: 9px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.16), rgba(52, 211, 153, 0.12));
+    color: var(--ok);
+    font-weight: 800;
+    font-size: 12px;
+    flex-shrink: 0;
+    border: 1px solid rgba(16, 185, 129, 0.18);
+  }
+
+  .hero-ty-trust {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    font-size: 12px;
+    color: var(--text-dim);
+    font-weight: 600;
+  }
+
+  .hero {
+    padding: 12px 0 12px;
+  }
 
   .hero-shell {
     border-radius: 34px;
@@ -468,21 +498,26 @@
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(circle at 15% 0%, rgba(13,148,136,.16), transparent 35%),
-      radial-gradient(circle at 85% 0%, rgba(245,158,11,.14), transparent 35%),
-      radial-gradient(circle at 50% 100%, rgba(52,211,153,.12), transparent 40%);
+      radial-gradient(circle at 15% 0%, rgba(13, 148, 136, 0.16), transparent 35%),
+      radial-gradient(circle at 85% 0%, rgba(245, 158, 11, 0.14), transparent 35%),
+      radial-gradient(circle at 50% 100%, rgba(52, 211, 153, 0.12), transparent 40%);
     pointer-events: none;
     animation: breathe 8s ease-in-out infinite;
   }
 
   @keyframes breathe {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.7; }
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.7;
+    }
   }
 
   .hero-grid {
     display: grid;
-    grid-template-columns: 1.1fr .9fr;
+    grid-template-columns: 1.1fr 0.9fr;
     gap: 22px;
     align-items: stretch;
     position: relative;
@@ -498,17 +533,14 @@
 
   .hero-title {
     font-size: clamp(36px, 6vw, 64px);
-    line-height: .95;
-    letter-spacing: -.06em;
+    line-height: 0.95;
+    letter-spacing: -0.06em;
     font-weight: 800;
     max-width: 720px;
   }
 
   .hero-title .accent {
-    background: linear-gradient(135deg,
-      var(--brand) 0%,
-      var(--tropical-green) 50%,
-      var(--thai-gold) 100%);
+    background: linear-gradient(135deg, var(--brand) 0%, var(--tropical-green) 50%, var(--thai-gold) 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -523,8 +555,7 @@
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg,
-      transparent, var(--tropical-green) 20%, var(--thai-gold) 80%, transparent);
+    background: linear-gradient(90deg, transparent, var(--tropical-green) 20%, var(--thai-gold) 80%, transparent);
     opacity: 0.4;
     border-radius: 2px;
   }
@@ -541,10 +572,31 @@
     gap: 12px;
   }
 
-  .proof-card { border-radius: 22px; padding: 16px; min-width: 0; }
-  .proof-kicker { color: var(--text-dim); font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 6px; }
-  .proof-value { font-size: 18px; font-weight: 800; letter-spacing: -.03em; color: var(--text); margin-bottom: 4px; }
-  .proof-note { font-size: 13px; color: var(--text-soft); line-height: 1.45; }
+  .proof-card {
+    border-radius: 22px;
+    padding: 16px;
+    min-width: 0;
+  }
+  .proof-kicker {
+    color: var(--text-dim);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .proof-value {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .proof-note {
+    font-size: 13px;
+    color: var(--text-soft);
+    line-height: 1.45;
+  }
 
   .hero-bullets {
     display: grid;
@@ -564,34 +616,60 @@
     width: 34px;
     height: 34px;
     border-radius: 12px;
-    background: linear-gradient(135deg, rgba(13,148,136,.18) 0%, rgba(52,211,153,.16) 100%);
+    background: linear-gradient(135deg, rgba(13, 148, 136, 0.18) 0%, rgba(52, 211, 153, 0.16) 100%);
     display: grid;
     place-items: center;
     color: var(--brand);
     font-weight: 800;
     flex-shrink: 0;
-    box-shadow: 0 4px 12px rgba(13,148,136,.12), inset 0 1px 0 rgba(255,255,255,.85), inset 0 -1px 0 rgba(13,148,136,.1);
-    border: 1px solid rgba(255,255,255,.5);
+    box-shadow:
+      0 4px 12px rgba(13, 148, 136, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.85),
+      inset 0 -1px 0 rgba(13, 148, 136, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.5);
   }
 
-  .hero-bullet strong { display: block; font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
-  .hero-bullet span { font-size: 13px; color: var(--text-soft); line-height: 1.5; }
+  .hero-bullet strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+  .hero-bullet span {
+    font-size: 13px;
+    color: var(--text-soft);
+    line-height: 1.5;
+  }
 
-  .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
-
-  .hero-micro { display: flex; flex-wrap: wrap; gap: 12px 18px; color: var(--text-dim); font-size: 13px; }
-  .hero-micro span { display: inline-flex; align-items: center; gap: 8px; }
+  .hero-micro {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 18px;
+    color: var(--text-dim);
+    font-size: 13px;
+  }
+  .hero-micro span {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
   .hero-micro span::before {
     content: "";
     width: 8px;
     height: 8px;
     border-radius: 50%;
     background: linear-gradient(135deg, var(--brand), var(--tropical-green));
-    box-shadow: 0 0 0 5px rgba(13,148,136,.1), 0 0 10px rgba(52,211,153,.15);
+    box-shadow: 0 0 0 5px rgba(13, 148, 136, 0.1), 0 0 10px rgba(52, 211, 153, 0.15);
     animation: pulse 2.5s ease-in-out infinite;
   }
 
-  .hero-visual { display: flex; flex-direction: column; gap: 14px; align-self: start; }
+  .hero-visual {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-self: start;
+  }
 
   .product-card {
     border-radius: 30px;
@@ -609,14 +687,21 @@
     position: absolute;
     inset: 0;
     background:
-      linear-gradient(180deg, rgba(255,255,255,.32), transparent 38%),
-      radial-gradient(circle at 30% 0%, rgba(13,148,136,.14), transparent 45%),
-      radial-gradient(circle at 70% 100%, rgba(245,158,11,.12), transparent 40%);
+      linear-gradient(180deg, rgba(255, 255, 255, 0.32), transparent 38%),
+      radial-gradient(circle at 30% 0%, rgba(13, 148, 136, 0.14), transparent 45%),
+      radial-gradient(circle at 70% 100%, rgba(245, 158, 11, 0.12), transparent 40%);
     pointer-events: none;
     animation: breathe 10s ease-in-out infinite;
   }
 
-  .product-top { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; position: relative; z-index: 1; }
+  .product-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: flex-start;
+    position: relative;
+    z-index: 1;
+  }
 
   .stamp {
     display: inline-flex;
@@ -626,83 +711,180 @@
     border-radius: 999px;
     font-size: 12px;
     font-weight: 700;
-    background: rgba(255,255,255,.78);
-    border: 1.5px solid rgba(255,255,255,.65);
-    box-shadow: 0 4px 12px rgba(13,148,136,.1), inset 0 1px 2px rgba(255,255,255,.85);
+    background: rgba(255, 255, 255, 0.78);
+    border: 1.5px solid rgba(255, 255, 255, 0.65);
+    box-shadow: 0 4px 12px rgba(13, 148, 136, 0.1), inset 0 1px 2px rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(12px);
   }
 
   .stamp.ok {
     color: var(--ok);
-    background: linear-gradient(135deg, rgba(16,185,129,.12), rgba(52,211,153,.1));
-    border-color: rgba(16,185,129,.2);
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(52, 211, 153, 0.1));
+    border-color: rgba(16, 185, 129, 0.2);
   }
 
   .stamp.note {
     color: var(--brand);
-    background: linear-gradient(135deg, rgba(13,148,136,.12), rgba(6,182,212,.1));
-    border-color: rgba(13,148,136,.2);
+    background: linear-gradient(135deg, rgba(13, 148, 136, 0.12), rgba(6, 182, 212, 0.1));
+    border-color: rgba(13, 148, 136, 0.2);
   }
 
-  .bottle-wrap { position: relative; z-index: 1; padding: 0; display: flex; justify-content: center; align-items: flex-end; }
+  .bottle-wrap {
+    position: relative;
+    z-index: 1;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+  }
 
   .product-img-box {
-    width: 45%; height: auto; margin-right: -15%; z-index: 1;
+    width: 45%;
+    height: auto;
+    margin-right: -15%;
+    z-index: 1;
     filter: drop-shadow(0 15px 35px rgba(13, 148, 136, 0.2));
     animation: float-bottle 6s ease-in-out infinite;
   }
 
   .product-img-jar {
-    width: 55%; height: auto; z-index: 2;
+    width: 55%;
+    height: auto;
+    z-index: 2;
     filter: drop-shadow(0 20px 50px rgba(13, 148, 136, 0.25));
     animation: float-bottle 6s ease-in-out infinite reverse;
   }
 
   @keyframes float-bottle {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    50% { transform: translateY(-10px) rotate(1deg); }
+    0%,
+    100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-10px) rotate(1deg);
+    }
   }
 
-  .bottle-wrap:hover .product-img-box { transform: translateX(-10px) rotate(-2deg); }
-  .bottle-wrap:hover .product-img-jar { transform: scale(1.05) rotate(2deg); }
+  .bottle-wrap:hover .product-img-box {
+    transform: translateX(-10px) rotate(-2deg);
+  }
+  .bottle-wrap:hover .product-img-jar {
+    transform: scale(1.05) rotate(2deg);
+  }
 
-  .hero-side-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-  .hero-side-card { border-radius: 20px; padding: 16px; }
-  .hero-side-card .cap { font-size: 11px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 6px; }
-  .hero-side-card strong { display: block; font-size: 18px; line-height: 1.1; letter-spacing: -.03em; margin-bottom: 4px; }
-  .hero-side-card p { font-size: 13px; color: var(--text-soft); line-height: 1.5; }
-  .hero-side-card.full { grid-column: 1 / -1; }
+  .hero-side-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .hero-side-card {
+    border-radius: 20px;
+    padding: 16px;
+  }
+  .hero-side-card .cap {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+  .hero-side-card strong {
+    display: block;
+    font-size: 18px;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 4px;
+  }
+  .hero-side-card p {
+    font-size: 13px;
+    color: var(--text-soft);
+    line-height: 1.5;
+  }
+  .hero-side-card.full {
+    grid-column: 1 / -1;
+  }
 
   .hero-promo {
     border-radius: 20px;
     padding: 16px 18px;
-    background: linear-gradient(135deg, rgba(13,148,136,.08) 0%, rgba(52,211,153,.06) 50%, rgba(245,158,11,.06) 100%);
-    border: 1.5px solid rgba(13,148,136,.18);
-    box-shadow: 0 8px 24px rgba(13,148,136,.10), inset 0 1px 2px rgba(255,255,255,.9);
+    background: linear-gradient(
+      135deg,
+      rgba(13, 148, 136, 0.08) 0%,
+      rgba(52, 211, 153, 0.06) 50%,
+      rgba(245, 158, 11, 0.06) 100%
+    );
+    border: 1.5px solid rgba(13, 148, 136, 0.18);
+    box-shadow: 0 8px 24px rgba(13, 148, 136, 0.1), inset 0 1px 2px rgba(255, 255, 255, 0.9);
     display: flex;
     align-items: center;
     gap: 14px;
     flex-wrap: wrap;
   }
 
-  .hero-promo-price { display: flex; align-items: baseline; gap: 10px; }
-  .hero-promo-price .now { font-size: 32px; font-weight: 800; letter-spacing: -.04em; background: linear-gradient(135deg, var(--brand), var(--tropical-green)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .hero-promo-price .was { font-size: 16px; color: var(--text-dim); text-decoration: line-through; }
-  .hero-promo-meta { font-size: 13px; color: var(--text-soft); line-height: 1.4; }
-  .hero-promo-meta strong { display: block; font-size: 14px; color: var(--text); }
+  .hero-promo-price {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .hero-promo-price .now {
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    background: linear-gradient(135deg, var(--brand), var(--tropical-green));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero-promo-price .was {
+    font-size: 16px;
+    color: var(--text-dim);
+    text-decoration: line-through;
+  }
+  .hero-promo-meta {
+    font-size: 13px;
+    color: var(--text-soft);
+    line-height: 1.4;
+  }
+  .hero-promo-meta strong {
+    display: block;
+    font-size: 14px;
+    color: var(--text);
+  }
 
   @media (max-width: 960px) {
-    .hero-grid { grid-template-columns: 1fr; }
-    .hero-visual { align-self: stretch; }
-    .hero-proof { grid-template-columns: 1fr; }
-    .hero-bullets, .hero-side-grid { grid-template-columns: 1fr; }
+    .hero-grid {
+      grid-template-columns: 1fr;
+    }
+    .hero-visual {
+      align-self: stretch;
+    }
+    .hero-proof {
+      grid-template-columns: 1fr;
+    }
+    .hero-bullets,
+    .hero-side-grid {
+      grid-template-columns: 1fr;
+    }
   }
 
   @media (max-width: 720px) {
-    .hero-shell { padding: 18px; border-radius: 24px; }
-    .hero-title { font-size: 38px; }
-    .hero-desc { font-size: 16px; }
-    .hero-promo { flex-direction: column; gap: 8px; }
-    .hero-promo-price .now { font-size: 28px; }
+    .hero-shell {
+      padding: 18px;
+      border-radius: 24px;
+    }
+    .hero-title {
+      font-size: 38px;
+    }
+    .hero-desc {
+      font-size: 16px;
+    }
+    .hero-promo {
+      flex-direction: column;
+      gap: 8px;
+    }
+    .hero-promo-price .now {
+      font-size: 28px;
+    }
   }
 </style>

@@ -9,7 +9,7 @@ src/
     Base.astro            ← html/head/body shell, fonts, global scripts (FORM_CONFIG, observer, iframe-resizer)
   components/
     Topline.astro         ← logo bar + FDA line
-    Hero.astro            ← headline, proof cards, promo price, CTAs, product images
+    Hero.astro            ← headline, proof cards, promo price, inline lead form (#hero-inline-order), product images
     BlackGalangalResearch.astro ← post-hero evidence section with Kaempferia parviflora study links
     TrustStrip.astro      ← trust badge row
     Problems.astro        ← "ปัญหาที่พบได้บ่อย" section (dark)
@@ -25,9 +25,11 @@ src/
     OrderForm.astro       ← #order-form lead form + fallback form + handleOrder script
     DeliveryFaq.astro     ← delivery grid + FAQ + toggleFaq script
     Footer.astro          ← minimal footer
-    StickyBar.astro       ← fixed bottom CTA
+    MiniCTA.astro         ← compact price + scroll-to-hero CTA strip
+    StickyCTA.astro       ← bottom sticky CTA (position: sticky, iframe-safe)
+    StickyBar.astro       ← legacy sticky CTA wrapper (sticky, not fixed)
   pages/
-    index.astro           ← imports Base layout + all components in order
+    index.astro           ← imports Base layout + all components in order (see file for current section order)
   styles/
     global.css            ← :root tokens, body bg, glass classes, keyframes, shared utilities
 public/
@@ -71,9 +73,8 @@ Understanding this is critical for any UI/scroll/CTA work.
 - **Parent site:** `sabai.wrldtops.site` (Vite SPA). Loads `@iframe-resizer/parent` with `inPageLinks: false`.
 - **This page (child):** loads `@iframe-resizer/child@5.5.9` for automatic height sync.
 - iframe-resizer stretches the iframe to full content height — no scrollbar inside the iframe. All scrolling happens on the parent page.
-- **Known limitation:** `<a href="#order-form">` and `scrollIntoView()` do NOT visually scroll the page when viewed inside the iframe.
-- CTA buttons currently use plain `<a href="#section">` anchors. They work in standalone mode but **do not scroll in iframe mode** until the parent enables `inPageLinks: true`.
-- Do not attempt to fix iframe scrolling purely from the child side — it requires parent-side changes.
+- **Scrolling / CTAs:** primary lead capture is the inline form in `Hero.astro` (`#hero-inline-order`). Global click delegation scrolls `#hero-inline-order` via `scrollIntoView({ behavior: "smooth" })` for `data-scroll-to-hero-order`, `data-open-modal`, and `#order-form` / `#hero-inline-order` links. **In iframe mode this may still not move the parent viewport** (same class of limitation as plain hash links); full fix may require parent `inPageLinks: true` or postMessage.
+- **Layout:** do not use `position: fixed` in this project (broken or invisible inside the embedded iframe). Prefer `position: sticky` in document flow or repeated in-content CTAs (`MiniCTA.astro`).
 
 # Build & Deploy
 - **Dev:** `npm run dev` (Astro dev server with HMR)
@@ -87,7 +88,7 @@ Understanding this is critical for any UI/scroll/CTA work.
 - MUST: update this AGENTS.md when changing project structure.
 - MUST NOT: add runtime libraries (jQuery, Bootstrap, React, etc.) as client-side dependencies.
 - MUST NOT: commit `.cursor/`, `.playwright-mcp/`, `node_modules/`, `dist/`, `.astro/`, or QA screenshots.
-- MUST NOT: add JS-based scroll-to-section logic for CTA buttons (proven unreliable in iframe context).
+- MUST NOT: use `position: fixed` for chrome, modals, or sticky bars (iframe context).
 - MUST NOT: modify form endpoint URLs without explicit instruction.
 - ASK: before removing or restructuring existing components.
 - ASK: before changing claims copy or regulatory information.
