@@ -7,14 +7,12 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "capture:mobile-full": "node scripts/capture-mobile-fullpage.mjs http://127.0.0.1:4325/ mobile-landing-390-full.png",
     "deploy": "wrangler deploy"
   },
   "dependencies": {
     "astro": "^6.1.5"
   },
   "devDependencies": {
-    "playwright": "^1.49.1",
     "wrangler": "^4.81.1"
   }
 }
