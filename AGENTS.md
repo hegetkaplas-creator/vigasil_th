@@ -26,7 +26,7 @@ src/
     DeliveryFaq.astro     ← delivery grid + FAQ + toggleFaq script
     Footer.astro          ← minimal footer
     MiniCTA.astro         ← compact price + scroll-to-hero CTA strip
-    StickyCTA.astro       ← bottom sticky CTA (position: sticky, iframe-safe)
+    StickyCTA.astro       ← optional bottom sticky CTA (not mounted on index by default)
     StickyBar.astro       ← legacy sticky CTA wrapper (sticky, not fixed)
   pages/
     index.astro           ← imports Base layout + all components in order (see file for current section order)

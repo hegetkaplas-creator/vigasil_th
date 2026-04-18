@@ -155,10 +155,44 @@
 
 <script is:inline>
   (function () {
+    function isInIframe() {
+      try {
+        return window.self !== window.top;
+      } catch (err) {
+        return true;
+      }
+    }
+
     function scrollToHeroOrder(e) {
       if (e && typeof e.preventDefault === "function") e.preventDefault();
       var el = document.getElementById("hero-inline-order");
       if (!el) return;
+
+      if (isInIframe()) {
+        try {
+          el.focus({ preventScroll: true });
+        } catch (err) {
+          try {
+            el.focus();
+          } catch (err2) {}
+        }
+        el.classList.remove("hero-inline-order--flash");
+        void el.offsetWidth;
+        el.classList.add("hero-inline-order--flash");
+        window.setTimeout(function () {
+          el.classList.remove("hero-inline-order--flash");
+        }, 2400);
+        try {
+          if (window.parent && window.parent !== window) {
+            window.parent.postMessage(
+              { source: "vigasil-landing", type: "scroll-to", hash: "#hero-inline-order" },
+              "*"
+            );
+          }
+        } catch (err) {}
+        return;
+      }
+
       el.scrollIntoView({ behavior: "smooth", block: "center" });
     }
 
@@ -309,6 +343,28 @@
     padding: 20px 20px 18px;
     position: relative;
     overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    transition:
+      box-shadow 0.35s ease,
+      border-color 0.35s ease,
+      transform 0.35s ease;
+  }
+
+  .hero-inline-order.hero-inline-order--flash {
+    border-color: rgba(13, 148, 136, 0.45);
+    box-shadow:
+      0 0 0 3px rgba(13, 148, 136, 0.2),
+      0 16px 40px rgba(13, 148, 136, 0.18);
+    transform: scale(1.01);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-inline-order.hero-inline-order--flash {
+      transform: none;
+    }
   }
 
   .hero-inline-lead {
@@ -321,6 +377,12 @@
 
   .hero-inline-grid {
     margin-top: 0;
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+
+  .hero-inline-grid .hero-inline-submit {
+    width: 100%;
   }
 
   .hero-inline-submit {
@@ -379,7 +441,7 @@
     display: none;
   }
 
-  .hero-ty-screen {
+  .hero-ty-screen:not([hidden]) {
     display: flex;
     flex-direction: column;
     align-items: center;
