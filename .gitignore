@@ -25,6 +25,7 @@ dist/
 # ── QA artifacts ──────────────────────────────────────────────────────
 .playwright-mcp/
 *-smoke-*.png
+mobile-landing-*.png
 
 # ── Design source files (for dev context only, not deployed) ──────────
 **/*.psd
