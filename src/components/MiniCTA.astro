@@ -1,16 +1,167 @@
-<section class="mini-cta" aria-label="สั่งซื้อด่วน">
+---
+interface Props {
+  /** Уникальный суффикс для id/name iframe — на странице два блока MiniCTA */
+  instance?: string;
+}
+const { instance = "1" } = Astro.props;
+const frameName = `mini-order-${instance}`;
+const fbId = `mini-fallback-${instance}`;
+const nameId = `mini-name-${instance}`;
+const phoneId = `mini-phone-${instance}`;
+---
+
+<section class="mini-cta" aria-label="สั่งซื้อด่วน" data-mini-instance={instance}>
   <div class="container">
     <div class="mini-cta-inner glass">
       <div class="mini-cta-prices">
         <span class="mini-cta-now">990 ฿</span>
         <span class="mini-cta-was">1,990 ฿</span>
       </div>
-      <button type="button" class="mini-cta-btn" data-scroll-to-hero-order>
-        สั่งซื้อเลย
-      </button>
+
+      <div class="mini-cta-side">
+        <div class="mini-cta-fields">
+          <div class="mini-cta-inputs">
+            <div class="field mini-cta-field">
+              <label for={nameId}>ชื่อ</label>
+              <input id={nameId} class="mini-cta-name" type="text" autocomplete="name" placeholder="ชื่อของคุณ" />
+            </div>
+            <div class="field mini-cta-field">
+              <label for={phoneId}>โทรศัพท์</label>
+              <input id={phoneId} class="mini-cta-phone" type="tel" autocomplete="tel" placeholder="0XXXXXXXXX" />
+            </div>
+          </div>
+          <button type="button" class="mini-cta-submit">
+            รับสินค้า 990 ฿ — ส่งฟรี 🚚
+          </button>
+          <iframe name={frameName} class="mini-cta-frame" title="submit" aria-hidden="true"></iframe>
+          <form id={fbId} class="mini-cta-hidden-fb" method="POST" target={frameName}>
+            <input type="hidden" name="name" value="" />
+            <input type="hidden" name="phone" value="" />
+            <input type="hidden" name="form_id" value="transit" />
+          </form>
+        </div>
+
+        <div class="mini-cta-ty" hidden>
+          <span class="mini-ty-mark">✓</span>
+          <p class="mini-ty-text"><strong>สั่งซื้อสำเร็จ!</strong> เจ้าหน้าที่จะโทรกลับเพื่อยืนยัน</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
+
+<script is:inline>
+  (function () {
+    if (window.__miniCtaLeadInit) return;
+    window.__miniCtaLeadInit = true;
+
+    function digitsOnly(v) {
+      return (v || "").replace(/\D/g, "");
+    }
+
+    document.addEventListener("input", function (e) {
+      var el = e.target;
+      if (!el || !el.classList || !el.classList.contains("mini-cta-phone")) return;
+      var hasPlus = el.value.startsWith("+");
+      var val = el.value.replace(/\D/g, "");
+      if (val.length > 15) val = val.slice(0, 15);
+      el.value = hasPlus ? "+" + val : val;
+    });
+
+    document.addEventListener("click", function (e) {
+      var btn = e.target && e.target.closest && e.target.closest(".mini-cta-submit");
+      if (!btn) return;
+      var section = btn.closest(".mini-cta");
+      if (!section) return;
+
+      var nameF = section.querySelector(".mini-cta-name");
+      var phoneF = section.querySelector(".mini-cta-phone");
+      var fields = section.querySelector(".mini-cta-fields");
+      var thankYou = section.querySelector(".mini-cta-ty");
+      var fb = section.querySelector(".mini-cta-hidden-fb");
+      if (!nameF || !phoneF || !fields || !thankYou || !fb) return;
+
+      var name = nameF.value.trim();
+      var phone = phoneF.value.trim();
+      var digits =
+        typeof getDigitsOnly === "function" ? getDigitsOnly(phone) : digitsOnly(phone);
+      var err = false;
+      if (!name) {
+        nameF.style.borderColor = "var(--danger)";
+        err = true;
+      } else nameF.style.borderColor = "";
+      if (!digits || digits.length < 9 || digits.length > 15) {
+        phoneF.style.borderColor = "var(--danger)";
+        err = true;
+      } else phoneF.style.borderColor = "";
+      if (err) return;
+
+      var cfg = window.FORM_CONFIG || {};
+      var endpoint =
+        cfg.formEndpoint || (document.body && document.body.getAttribute("data-form-endpoint")) || "";
+      var formId = cfg.formId || (document.body && document.body.getAttribute("data-form-id")) || "transit";
+      var method = (
+        cfg.formMethod ||
+        (document.body && document.body.getAttribute("data-form-method")) ||
+        "POST"
+      ).toUpperCase();
+      var debug =
+        typeof URLSearchParams !== "undefined" &&
+        new URLSearchParams(window.location.search).get("debugForm") === "1";
+
+      if (!endpoint) {
+        console.error("[mini-cta] formEndpoint empty");
+        return;
+      }
+
+      var original = btn.textContent;
+      btn.textContent = "กำลังส่ง...";
+      btn.disabled = true;
+
+      var payload = new URLSearchParams();
+      payload.set("name", name);
+      payload.set("phone", digits);
+      payload.set("form_id", formId);
+
+      function ok() {
+        if (typeof fireSuccessPixel === "function") fireSuccessPixel();
+        fields.setAttribute("hidden", "");
+        thankYou.removeAttribute("hidden");
+      }
+
+      fetch(endpoint, {
+        method: method,
+        headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+        body: payload.toString(),
+        mode: "cors",
+        credentials: "omit",
+      })
+        .then(function (r) {
+          if (debug) console.log("[mini-cta] fetch", r.status, r.ok);
+          if (!r.ok) throw new Error("http-" + r.status);
+          ok();
+        })
+        .catch(function (err) {
+          if (debug) console.warn("[mini-cta] fetch fail, iframe fallback", err && err.message);
+          if (fb && endpoint) {
+            fb.method = method;
+            fb.action = endpoint;
+            fb.querySelector('[name="name"]').value = name;
+            fb.querySelector('[name="phone"]').value = digits;
+            fb.querySelector('[name="form_id"]').value = formId;
+            fb.submit();
+            ok();
+          } else {
+            btn.textContent = "ส่งไม่สำเร็จ";
+            btn.disabled = false;
+            window.setTimeout(function () {
+              btn.textContent = original;
+            }, 2200);
+          }
+        });
+    });
+  })();
+</script>
 
 <style>
   .mini-cta {
@@ -18,20 +169,24 @@
   }
 
   .mini-cta-inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
+    gap: 18px 20px;
     border-radius: 22px;
-    padding: 14px 18px;
+    padding: 16px 18px;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
   }
 
   .mini-cta-prices {
     display: flex;
     align-items: baseline;
-    gap: 12px;
-    min-width: 0;
+    gap: 10px;
+    padding-top: 4px;
+    flex-shrink: 0;
   }
 
   .mini-cta-now {
@@ -42,45 +197,112 @@
   }
 
   .mini-cta-was {
-    font-size: 16px;
+    font-size: 15px;
     color: var(--text-dim);
     text-decoration: line-through;
     font-weight: 600;
   }
 
-  .mini-cta-btn {
+  .mini-cta-side {
+    min-width: 0;
+  }
+
+  .mini-cta-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .mini-cta-field label {
+    font-size: 12px;
+  }
+
+  .mini-cta-field input {
+    min-height: 44px;
+    font-size: 15px;
+  }
+
+  .mini-cta-submit {
+    width: 100%;
     border: 0;
     cursor: pointer;
     font-weight: 800;
-    font-size: 15px;
-    padding: 0 22px;
+    font-size: 14px;
+    padding: 0 16px;
     min-height: 48px;
-    border-radius: 16px;
+    border-radius: 14px;
     color: #fff;
-    background: linear-gradient(135deg, var(--brand) 0%, var(--tropical-green) 55%, var(--teal) 100%);
-    box-shadow: 0 12px 28px rgba(13, 148, 136, 0.22);
-    transition: transform 0.16s ease, box-shadow 0.2s ease;
-    white-space: nowrap;
+    background: #ff6b00;
+    box-shadow: 0 10px 26px rgba(255, 107, 0, 0.22);
+    transition: transform 0.15s ease, filter 0.15s ease;
   }
 
-  .mini-cta-btn:hover {
+  .mini-cta-submit:hover:not(:disabled) {
     transform: translateY(-1px);
-    box-shadow: 0 16px 36px rgba(13, 148, 136, 0.28);
+    filter: brightness(1.03);
   }
 
-  @media (max-width: 520px) {
+  .mini-cta-submit:disabled {
+    opacity: 0.88;
+    cursor: wait;
+  }
+
+  .mini-cta-frame {
+    display: none;
+    width: 0;
+    height: 0;
+    border: 0;
+  }
+
+  .mini-cta-hidden-fb {
+    display: none;
+  }
+
+  .mini-cta-ty {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+  }
+
+  .mini-ty-mark {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 20px;
+    font-weight: 900;
+    color: #fff;
+    background: linear-gradient(135deg, var(--ok), var(--tropical-green));
+  }
+
+  .mini-ty-text {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--text-soft);
+  }
+
+  .mini-ty-text strong {
+    color: var(--text);
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  @media (max-width: 720px) {
     .mini-cta-inner {
-      flex-direction: column;
-      align-items: stretch;
-      text-align: center;
+      grid-template-columns: 1fr;
     }
 
     .mini-cta-prices {
       justify-content: center;
     }
 
-    .mini-cta-btn {
-      width: 100%;
+    .mini-cta-inputs {
+      grid-template-columns: 1fr;
     }
   }
 </style>

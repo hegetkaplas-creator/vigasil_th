@@ -25,7 +25,7 @@ src/
     OrderForm.astro       ← #order-form lead form + fallback form + handleOrder script
     DeliveryFaq.astro     ← delivery grid + FAQ + toggleFaq script
     Footer.astro          ← minimal footer
-    MiniCTA.astro         ← compact price + scroll-to-hero CTA strip
+    MiniCTA.astro         ← compact price + inline lead form (prop `instance` for unique ids)
     StickyCTA.astro       ← optional bottom sticky CTA (not mounted on index by default)
     StickyBar.astro       ← legacy sticky CTA wrapper (sticky, not fixed)
   pages/
