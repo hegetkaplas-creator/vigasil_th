@@ -73,8 +73,18 @@ Understanding this is critical for any UI/scroll/CTA work.
 - **Parent site:** `sabai.wrldtops.site` (Vite SPA). Loads `@iframe-resizer/parent` with `inPageLinks: false`.
 - **This page (child):** loads `@iframe-resizer/child@5.5.9` for automatic height sync.
 - iframe-resizer stretches the iframe to full content height — no scrollbar inside the iframe. All scrolling happens on the parent page.
-- **Scrolling / CTAs:** primary lead capture is the inline form in `Hero.astro` (`#hero-inline-order`). Global click delegation scrolls `#hero-inline-order` via `scrollIntoView({ behavior: "smooth" })` for `data-scroll-to-hero-order`, `data-open-modal`, and `#order-form` / `#hero-inline-order` links. **In iframe mode this may still not move the parent viewport** (same class of limitation as plain hash links); full fix may require parent `inPageLinks: true` or postMessage.
+- **Scrolling / CTAs:** primary lead capture is the inline form in `Hero.astro` (`#hero-inline-order`). Additional leads use full `OrderForm.astro` section(s) and compact **`MiniCTA.astro`** blocks (prop `instance` for unique field ids; `embed` for in-card / sticky strips). There is **no** global “scroll to form” click handler in Hero — repeated CTAs are real mini-forms, not anchor buttons. **In iframe mode** parent viewport scrolling for in-iframe hash links is still limited unless the parent coordinates (`inPageLinks`, postMessage, etc.).
 - **Layout:** do not use `position: fixed` in this project (broken or invisible inside the embedded iframe). Prefer `position: sticky` in document flow or repeated in-content CTAs (`MiniCTA.astro`).
+
+# Git workflow — section order experiments
+When exploring **different orders of page blocks** (or multiple layout ideas), use **one Git branch per variant** instead of mixing experiments on `main`.
+
+- **Naming:** e.g. `layout/order-v2`, `layout/reorder-2026-04` — readable and grep-friendly.
+- **What changes:** usually **`src/pages/index.astro`** only (reorder `<Component />` lines). Update **`PAGE_STRUCTURE.md`** in the same branch so it matches the DOM.
+- **Shipping:** merge **one** chosen branch into `main` when you decide which version goes live; delete or keep other branches as archive.
+- **CI:** push to `main` deploys production; other branches are safe sandboxes unless you add preview deploys for them.
+
+The AI assistant should treat **layout reorder tasks** as “work on a dedicated branch, then merge to `main`”, not as silent edits on `main` unless you explicitly ask for that.
 
 # Build & Deploy
 - **Dev:** `npm run dev` (Astro dev server with HMR)
