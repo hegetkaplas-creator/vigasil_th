@@ -2,53 +2,100 @@
 interface Props {
   /** Уникальный суффикс для id/name iframe — на странице два блока MiniCTA */
   instance?: string;
+  /** Вставка внутрь карточки / sticky — без .container и без вертикальных отступов секции */
+  embed?: boolean;
 }
-const { instance = "1" } = Astro.props;
+const { instance = "1", embed = false } = Astro.props;
 const frameName = `mini-order-${instance}`;
 const fbId = `mini-fallback-${instance}`;
 const nameId = `mini-name-${instance}`;
 const phoneId = `mini-phone-${instance}`;
 ---
 
-<section class="mini-cta" aria-label="สั่งซื้อด่วน" data-mini-instance={instance}>
-  <div class="container">
-    <div class="mini-cta-inner glass">
-      <div class="mini-cta-prices">
-        <span class="mini-cta-now">990 ฿</span>
-        <span class="mini-cta-was">1,990 ฿</span>
-      </div>
+<div
+  class:list={["mini-cta", { "mini-cta--embed": embed }]}
+  data-mini-instance={instance}
+  role="region"
+  aria-label="สั่งซื้อด่วน"
+>
+  {
+    embed ? (
+      <div class="mini-cta-inner glass">
+        <div class="mini-cta-prices">
+          <span class="mini-cta-now">990 ฿</span>
+          <span class="mini-cta-was">1,990 ฿</span>
+        </div>
 
-      <div class="mini-cta-side">
-        <div class="mini-cta-fields">
-          <div class="mini-cta-inputs">
-            <div class="field mini-cta-field">
-              <label for={nameId}>ชื่อ</label>
-              <input id={nameId} class="mini-cta-name" type="text" autocomplete="name" placeholder="ชื่อของคุณ" />
+        <div class="mini-cta-side">
+          <div class="mini-cta-fields">
+            <div class="mini-cta-inputs">
+              <div class="field mini-cta-field">
+                <label for={nameId}>ชื่อ</label>
+                <input id={nameId} class="mini-cta-name" type="text" autocomplete="name" placeholder="ชื่อของคุณ" />
+              </div>
+              <div class="field mini-cta-field">
+                <label for={phoneId}>โทรศัพท์</label>
+                <input id={phoneId} class="mini-cta-phone" type="tel" autocomplete="tel" placeholder="0XXXXXXXXX" />
+              </div>
             </div>
-            <div class="field mini-cta-field">
-              <label for={phoneId}>โทรศัพท์</label>
-              <input id={phoneId} class="mini-cta-phone" type="tel" autocomplete="tel" placeholder="0XXXXXXXXX" />
+            <button type="button" class="mini-cta-submit">
+              รับสินค้า 990 ฿ — ส่งฟรี 🚚
+            </button>
+            <iframe name={frameName} class="mini-cta-frame" title="submit" aria-hidden="true"></iframe>
+            <form id={fbId} class="mini-cta-hidden-fb" method="POST" target={frameName}>
+              <input type="hidden" name="name" value="" />
+              <input type="hidden" name="phone" value="" />
+              <input type="hidden" name="form_id" value="transit" />
+            </form>
+          </div>
+
+          <div class="mini-cta-ty" hidden>
+            <span class="mini-ty-mark">✓</span>
+            <p class="mini-ty-text"><strong>สั่งซื้อสำเร็จ!</strong> เจ้าหน้าที่จะโทรกลับเพื่อยืนยัน</p>
+          </div>
+        </div>
+      </div>
+    ) : (
+      <div class="container">
+        <div class="mini-cta-inner glass">
+          <div class="mini-cta-prices">
+            <span class="mini-cta-now">990 ฿</span>
+            <span class="mini-cta-was">1,990 ฿</span>
+          </div>
+
+          <div class="mini-cta-side">
+            <div class="mini-cta-fields">
+              <div class="mini-cta-inputs">
+                <div class="field mini-cta-field">
+                  <label for={nameId}>ชื่อ</label>
+                  <input id={nameId} class="mini-cta-name" type="text" autocomplete="name" placeholder="ชื่อของคุณ" />
+                </div>
+                <div class="field mini-cta-field">
+                  <label for={phoneId}>โทรศัพท์</label>
+                  <input id={phoneId} class="mini-cta-phone" type="tel" autocomplete="tel" placeholder="0XXXXXXXXX" />
+                </div>
+              </div>
+              <button type="button" class="mini-cta-submit">
+                รับสินค้า 990 ฿ — ส่งฟรี 🚚
+              </button>
+              <iframe name={frameName} class="mini-cta-frame" title="submit" aria-hidden="true"></iframe>
+              <form id={fbId} class="mini-cta-hidden-fb" method="POST" target={frameName}>
+                <input type="hidden" name="name" value="" />
+                <input type="hidden" name="phone" value="" />
+                <input type="hidden" name="form_id" value="transit" />
+              </form>
+            </div>
+
+            <div class="mini-cta-ty" hidden>
+              <span class="mini-ty-mark">✓</span>
+              <p class="mini-ty-text"><strong>สั่งซื้อสำเร็จ!</strong> เจ้าหน้าที่จะโทรกลับเพื่อยืนยัน</p>
             </div>
           </div>
-          <button type="button" class="mini-cta-submit">
-            รับสินค้า 990 ฿ — ส่งฟรี 🚚
-          </button>
-          <iframe name={frameName} class="mini-cta-frame" title="submit" aria-hidden="true"></iframe>
-          <form id={fbId} class="mini-cta-hidden-fb" method="POST" target={frameName}>
-            <input type="hidden" name="name" value="" />
-            <input type="hidden" name="phone" value="" />
-            <input type="hidden" name="form_id" value="transit" />
-          </form>
-        </div>
-
-        <div class="mini-cta-ty" hidden>
-          <span class="mini-ty-mark">✓</span>
-          <p class="mini-ty-text"><strong>สั่งซื้อสำเร็จ!</strong> เจ้าหน้าที่จะโทรกลับเพื่อยืนยัน</p>
         </div>
       </div>
-    </div>
-  </div>
-</section>
+    )
+  }
+</div>
 
 <script is:inline>
   (function () {
@@ -166,6 +213,12 @@ const phoneId = `mini-phone-${instance}`;
 <style>
   .mini-cta {
     padding: 10px 0;
+  }
+
+  .mini-cta--embed {
+    padding: 0;
+    width: 100%;
+    min-width: 0;
   }
 
   .mini-cta-inner {

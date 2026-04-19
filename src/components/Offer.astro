@@ -1,3 +1,7 @@
+---
+import MiniCTA from "./MiniCTA.astro";
+---
+
 <section class="section" id="offer">
   <div class="container">
     <div class="section-card glass-strong">
@@ -80,7 +84,7 @@
             <div class="offer-row"><span>การปรึกษา</span><span>โทรฟรีจากผู้เชี่ยวชาญ</span></div>
           </div>
           <div class="offer-note">ข้อมูลของคุณจะถูกเก็บเป็นความลับสูงสุด เราจะติดต่อกลับเพื่อยืนยันรายละเอียดการจัดส่งโดยไม่มีคำถามที่ไม่จำเป็น</div>
-          <a class="btn-primary btn-primary-lg" href="#hero-inline-order">สั่งคอร์สฟื้นฟูในราคา 990 ฿</a>
+          <MiniCTA instance="offer" embed />
         </div>
       </div>
     </div>
@@ -115,6 +119,11 @@
   .offer-price .current { font-size: 44px; line-height: .9; font-weight: 800; letter-spacing: -.06em; color: var(--text); }
   .offer-price .old { font-size: 18px; color: var(--text-dim); text-decoration: line-through; font-weight: 700; margin-bottom: 6px; }
   .offer-note { font-size: 13px; color: var(--text-dim); }
+
+  .offer-card :global(.mini-cta) {
+    margin-top: 12px;
+    width: 100%;
+  }
 
   @media (max-width: 1080px) {
     .ingredients { grid-template-columns: repeat(2, minmax(0, 1fr)); }
